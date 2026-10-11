@@ -1,0 +1,155 @@
+{
+  "id": "bad-clustered-answers",
+  "version": 1,
+  "active": true,
+  "title": "Invalid fixture",
+  "description": "Breaks exactly one rule from PLAN §4.",
+  "language": "en",
+  "createdAt": "2026-10-11",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Question q1?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Because option a matches the source text."
+    },
+    {
+      "id": "q2",
+      "text": "Question q2?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Because option a matches the source text."
+    },
+    {
+      "id": "q3",
+      "text": "Question q3?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Because option a matches the source text."
+    },
+    {
+      "id": "q4",
+      "text": "Question q4?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Because option a matches the source text."
+    },
+    {
+      "id": "q5",
+      "text": "Question q5?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Because option b matches the source text."
+    },
+    {
+      "id": "q6",
+      "text": "Question q6?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "c",
+      "explanation": "Because option c matches the source text."
+    }
+  ]
+}

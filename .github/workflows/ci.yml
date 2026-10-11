@@ -18,6 +18,17 @@ jobs:
           node-version: 20
           cache: npm
 
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Cache Firebase emulators
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/firebase/emulators
+          key: firebase-emulators-${{ hashFiles('package-lock.json') }}
+
       - run: npm ci
 
       - name: Lint
@@ -28,6 +39,9 @@ jobs:
 
       - name: Unit tests with coverage
         run: npm run test:coverage
+
+      - name: Firestore security rules tests (emulator)
+        run: npm run test:rules
 
       - name: Build
         run: npm run build
