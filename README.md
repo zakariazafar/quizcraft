@@ -21,8 +21,9 @@ _Screenshots: coming in phase 7._
 - A progress bar shows how many questions are answered. Submitting with gaps shows which questions are unanswered and asks to go back or submit anyway (unanswered counts as wrong).
 - The result screen shows the score (e.g. “18 out of 20 (90%)”) and, for every wrong or unanswered question, your answer, the correct answer and why it is correct. A perfect score gets a short congratulation. “Take the quiz again” starts over with the same name and email.
 - Clear messages for a mistyped link (“Quiz not found”), a closed quiz, or a loading problem.
+- Every submission is saved to Firestore as one JSON record. A line under the score says “Your result has been saved.” If the taker is offline, the attempt is kept in the browser and sent automatically next time a quiz page opens; the result screen never waits for saving.
 
-_Saving attempts (phase 3), dashboard (phase 4) and exports (phase 5) are coming._
+_Dashboard (phase 4) and exports (phase 5) are coming._
 
 ## 3. How it works
 
@@ -99,7 +100,45 @@ To edit a quiz people have already taken, increase `version`. To close a quiz, s
 
 ## 7. Attempt record format
 
-_(coming in phase 3; see `docs/PLAN.md` §5)_
+Each submission is one Firestore document at `attempts/<random-id>`:
+
+```json
+{
+  "quizId": "ism-four-properties",
+  "quizVersion": 1,
+  "quizTitle": "The 4 Properties of an اِسْم (Ism)",
+  "takerName": "Zakaria",
+  "takerEmail": "someone@example.com",
+  "takerEmailLower": "someone@example.com",
+  "answers": [
+    { "questionId": "q1", "selected": "a", "correct": true },
+    { "questionId": "q2", "selected": null, "correct": false }
+  ],
+  "score": 18,
+  "total": 20,
+  "percent": 90,
+  "startedAt": "2026-10-12T09:01:12.000Z",
+  "submittedAt": "<server timestamp>",
+  "clientId": "random id per browser",
+  "userAgent": "browser string (max 200 chars)"
+}
+```
+
+- The document id is a random id made in the browser before saving, so retrying a save can never create a duplicate.
+- `submittedAt` is set by Firestore's clock, not the browser's.
+- `selected: null` means the question was left unanswered.
+- Saving: `src/lib/attempts.js` (record builder, local retry queue with back-off) and `src/lib/firebase.js` (Firestore Lite writer).
+
+**Who can do what** (`firestore.rules`):
+
+| Action                      | Allowed for                                                                                                                                                                     |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Create an attempt           | Anyone, only if every field has the right type and size, there are no extra fields, `score ≤ total`, the number of answers equals `total`, and `submittedAt` is the server time |
+| Read attempts               | Only the dashboard account (its UID replaces `DASHBOARD_UID_PLACEHOLDER` at deploy)                                                                                             |
+| Change or delete an attempt | Nobody (from the site)                                                                                                                                                          |
+| Anything else               | Nobody                                                                                                                                                                          |
+
+Rules cannot check each answer against the quiz, so the dashboard re‑scores every attempt from its answers (phase 4).
 
 ## 8. Dashboard guide
 
@@ -130,7 +169,14 @@ npm run dev          # http://localhost:5173
 
 Open a quiz at `http://localhost:5173/q/<quiz-id>` (the dev server rewrites `/q/*` to `quiz.html`, like Render will).
 
-The Firebase emulators are added in phase 3.
+**Saving attempts locally** uses the Firebase Emulator Suite (needs Java 21+). No Firebase account is needed: the project id `demo-quizcraft` is emulator‑only.
+
+```bash
+npm run emulators    # terminal 1: Firestore on :8080, Auth on :9099
+npm run dev          # terminal 2, with VITE_USE_EMULATORS=true in .env
+```
+
+Without emulators or Firebase settings the quiz still works; results show but aren't saved (“Results are not being saved on this site”).
 
 ## 12. Environment variables
 
@@ -146,6 +192,7 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 | `VITE_RECAPTCHA_SITE_KEY`   | no       | Enables Firebase App Check                            |
 | `VITE_SITE_URL`             | no       | Base URL for share links (defaults to current origin) |
 | `VITE_USE_EMULATORS`        | no       | `true` to use local Firebase emulators                |
+| `VITE_EMULATOR_HOST`        | no       | Emulator host (default `127.0.0.1`)                   |
 
 ## 13. Testing
 
@@ -166,11 +213,11 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 
 Test fixtures (an Arabic quiz with diacritics, an English quiz, and a copy of the mixed Ism quiz) live in `tests/fixtures/`.
 
-Firestore rules tests and Playwright end‑to‑end tests are added in phases 3 and 7.
+Playwright end‑to‑end tests are added in phase 7.
 
 ## 14. CI pipeline
 
-GitHub Actions (`.github/workflows/ci.yml`) on every push to `main` and every pull request: install → lint → format check → unit tests with coverage gate → build → changelog check.
+GitHub Actions (`.github/workflows/ci.yml`) on every push to `main` and every pull request: install (Node 20 + Java 21, emulator download cached) → lint → format check → unit tests with coverage gate → Firestore rules tests on the emulator → build → changelog check.
 
 ## 15. Deployment
 

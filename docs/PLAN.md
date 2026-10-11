@@ -120,7 +120,7 @@ A build script generates `public/quizzes/index.json` (id, title, language, quest
 
 ## 5. Attempt record (Firestore)
 
-Collection path: `attempts/{autoId}`. One document per submission:
+Collection path: `attempts/{attemptId}`, where `attemptId` is a random id created in the browser before the first save (so a retried save can't create a duplicate). One document per submission:
 
 ```json
 {

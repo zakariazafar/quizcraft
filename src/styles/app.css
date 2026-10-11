@@ -407,3 +407,12 @@ a {
     transition: none;
   }
 }
+
+.save-status[data-state='saved'] {
+  color: var(--right);
+}
+
+.save-status[data-state='failed'],
+.save-status[data-state='rejected'] {
+  color: var(--wrong);
+}

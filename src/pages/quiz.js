@@ -1,4 +1,12 @@
 import '../styles/fonts.js';
+import {
+  SAVE_MESSAGES,
+  buildAttemptRecord,
+  createAttemptSaver,
+  getClientId,
+} from '../lib/attempts.js';
+import { readConfig } from '../lib/config.js';
+import { firestoreAttemptWriter } from '../lib/firebase.js';
 import { loadQuiz, quizIdFromLocation } from '../lib/quizLoader.js';
 import {
   renderIntro,
@@ -9,6 +17,23 @@ import {
 import { scoreQuiz } from '../lib/scoring.js';
 
 const app = /** @type {HTMLElement} */ (document.getElementById('app'));
+const config = readConfig(import.meta.env);
+
+/** @returns {Storage | null} */
+function safeStorage() {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+const storage = safeStorage();
+const saver = config.configured
+  ? createAttemptSaver({ write: firestoreAttemptWriter(config), storage })
+  : null;
+if (!config.configured)
+  console.warn('QuizCraft: Firebase is not configured; attempts are not saved.');
 
 /** @param {HTMLElement} view */
 function show(view) {
@@ -21,7 +46,19 @@ function show(view) {
   }
 }
 
+/** @param {keyof typeof SAVE_MESSAGES} state */
+function setSaveStatus(state) {
+  const el = document.getElementById('save-status');
+  if (el) {
+    el.textContent = SAVE_MESSAGES[state];
+    el.dataset.state = state;
+  }
+}
+
 async function main() {
+  // Send any attempt that could not be saved last time (offline, closed tab, …).
+  saver?.flush().catch(() => {});
+
   const result = await loadQuiz(quizIdFromLocation(window.location), (url) => fetch(url));
   if (result.status === 'not-found') {
     document.title = 'Quiz not found · QuizCraft';
@@ -49,15 +86,34 @@ async function main() {
     show(
       renderIntro(quiz, {
         initial,
-        onStart: (taker) =>
+        onStart: (taker) => {
+          const startedAt = new Date();
           show(
             renderQuestions(quiz, taker, {
               onSubmit: (answers) => {
                 const scored = scoreQuiz(quiz, answers);
                 show(renderResult(quiz, taker, scored, { onRestart: () => start(taker) }));
+                if (!saver) {
+                  setSaveStatus('disabled');
+                  return;
+                }
+                setSaveStatus('saving');
+                const record = buildAttemptRecord({
+                  quiz,
+                  taker,
+                  scored,
+                  startedAt,
+                  clientId: getClientId(storage),
+                  userAgent: navigator.userAgent,
+                });
+                saver
+                  .save(record)
+                  .then(setSaveStatus)
+                  .catch(() => setSaveStatus('failed'));
               },
             }),
-          ),
+          );
+        },
       }),
     );
   start();
