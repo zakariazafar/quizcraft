@@ -15,7 +15,14 @@ _Screenshots: coming in phase 7._
 
 ## 2. Features
 
-_(coming in phases 2–6)_
+**For quiz takers** (`/q/<quiz-id>`)
+
+- Enter name and email, then answer all questions on one page (one choice per question).
+- A progress bar shows how many questions are answered. Submitting with gaps shows which questions are unanswered and asks to go back or submit anyway (unanswered counts as wrong).
+- The result screen shows the score (e.g. “18 out of 20 (90%)”) and, for every wrong or unanswered question, your answer, the correct answer and why it is correct. A perfect score gets a short congratulation. “Take the quiz again” starts over with the same name and email.
+- Clear messages for a mistyped link (“Quiz not found”), a closed quiz, or a loading problem.
+
+_Saving attempts (phase 3), dashboard (phase 4) and exports (phase 5) are coming._
 
 ## 3. How it works
 
@@ -30,7 +37,7 @@ Full design: [`docs/PLAN.md`](docs/PLAN.md).
 | URL            | Purpose                       |
 | -------------- | ----------------------------- |
 | `/`            | Landing page                  |
-| `/q/<quiz-id>` | Take a quiz _(phase 2)_       |
+| `/q/<quiz-id>` | Take a quiz                   |
 | `/dashboard`   | Results dashboard _(phase 4)_ |
 
 ## 5. Quiz file format
@@ -104,7 +111,12 @@ _(coming in phase 6; see `docs/PLAN.md` §6)_
 
 ## 10. Arabic / RTL support
 
-_(coming in phase 2; see `docs/PLAN.md` §7)_
+- **Fonts:** Noto Naskh Arabic (Arabic) and Noto Sans (Latin) are bundled with the site from npm (`@fontsource/*`, SIL Open Font License), so there's no external font CDN.
+- **Arabic inside English:** every piece of quiz or taker text is built with `richText()` (`src/lib/render/dom.js`). Arabic runs are wrapped in `<span class="ar" lang="ar">` and shown in Naskh, slightly larger and in green, so the studied words stand out.
+- **Direction by main script:** each text element gets `dir="rtl"` when most of its letters are Arabic, otherwise `dir="ltr"` (`textDirection()` in `src/lib/bidi.js`). This keeps an English explanation that starts with an Arabic word reading left to right, which `dir="auto"` would get wrong. Diacritics are ignored when counting.
+- **Arabic quizzes** (`"language": "ar"`): the question list and the review list switch to right-to-left (radio buttons on the right). The interface labels and progress bar stay left to right so they read correctly.
+- **Text is never altered:** quiz text must be NFC; diacritics are kept exactly. Name inputs use `dir="auto"` so typing Arabic works naturally.
+- Layout uses CSS logical properties (`margin-inline-start`, `inset-inline`) so it flips cleanly.
 
 ## 11. Local development
 
@@ -115,6 +127,8 @@ npm ci
 cp .env.example .env
 npm run dev          # http://localhost:5173
 ```
+
+Open a quiz at `http://localhost:5173/q/<quiz-id>` (the dev server rewrites `/q/*` to `quiz.html`, like Render will).
 
 The Firebase emulators are added in phase 3.
 
@@ -150,7 +164,7 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 | `scripts/lib/newQuiz.js`              | `tests/unit/newQuiz.test.js`        |
 | every real quiz in `quizzes/`         | `tests/quizzes/all-quizzes.test.js` |
 
-Test fixtures (an Arabic quiz with diacritics and an English quiz) live in `tests/fixtures/`.
+Test fixtures (an Arabic quiz with diacritics, an English quiz, and a copy of the mixed Ism quiz) live in `tests/fixtures/`.
 
 Firestore rules tests and Playwright end‑to‑end tests are added in phases 3 and 7.
 

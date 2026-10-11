@@ -13,8 +13,12 @@ export default [
     languageOptions: { globals: { ...globals.node } },
   },
   {
+    files: ['tests/**/*.js'],
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+  },
+  {
     rules: {
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       'no-restricted-properties': [
         'error',
         { property: 'innerHTML', message: 'Use textContent (XSS rule in CLAUDE.md).' },
