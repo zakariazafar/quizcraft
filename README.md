@@ -211,7 +211,9 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 | `scripts/lib/newQuiz.js`              | `tests/unit/newQuiz.test.js`        |
 | every real quiz in `quizzes/`         | `tests/quizzes/all-quizzes.test.js` |
 
-Test fixtures (an Arabic quiz with diacritics, an English quiz, and a copy of the mixed Ism quiz) live in `tests/fixtures/`.
+Test fixtures (an Arabic quiz with diacritics, an English quiz, a copy of the mixed Ism quiz, and 13 deliberately invalid quizzes) live in `tests/fixtures/`.
+
+Published quizzes: `ism-four-properties` (20 questions, mixed), `tajweed-basics-01` (5, Arabic) and `html-basics-01` (5, English).
 
 Playwright end‑to‑end tests are added in phase 7.
 

@@ -4,6 +4,10 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-11
 
+- chore(merge): combine all pending work into one branch: phase 2 (quiz page), phase 3 (saving attempts) and the `phase-1-quiz-format-v2` branch, on top of `main` (phase 1 + ism-four-properties)
+- quiz: add tajweed-basics-01 (5 questions, Arabic with full diacritics) and html-basics-01 (5 questions, English) from `phase-1-quiz-format-v2`; both pass the current validator
+- test: add the 13 invalid quiz fixtures from `phase-1-quiz-format-v2` and a test that each is rejected for the expected reason
+- chore(merge): keep `main`'s phase 1 implementation (validator, index builder, `new-quiz`, fixtures) over the v2 rewrite, because phases 2–3 depend on its API and fixtures and the rewrite removed `ism-four-properties`; v2's duplicate modules (`quizSchema.js`, `quizTemplate.js`, `validate:quizzes` script) and their tests are not taken
 - feat(attempts): save every submission to Firestore as one JSON record at `attempts/<random-id>` (quiz, taker name/email, answers, score, server `submittedAt`); result screen shows save status and never waits for it
 - feat(attempts): local retry queue with back-off; unsaved attempts are kept in the browser and sent on the next quiz page load; refused attempts are not retried
 - feat(firebase): `config.js` (VITE_* settings, emulator mode with demo project) and `firebase.js` using Firestore Lite (smaller bundle); add `VITE_EMULATOR_HOST`
