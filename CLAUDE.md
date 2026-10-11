@@ -15,6 +15,7 @@ QuizCraft is a **static site** (Vite + vanilla JS, no backend, no framework) hos
 - Firestore rules tests: `npm run test:rules`
 - E2E: `npm run test:e2e`
 - Build: `npm run build` (also validates quizzes and writes `public/quizzes/index.json`)
+- Validate quizzes only: `npm run validate:quizzes`
 - Changelog check: `node scripts/check-changelog.mjs origin/main..HEAD`
 - New quiz scaffold: `npm run new-quiz -- <quiz-id>`
 
