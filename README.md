@@ -199,7 +199,7 @@ Notes:
 
 ## 10. Arabic / RTL support
 
-- **Fonts:** Noto Naskh Arabic (Arabic) and Noto Sans (Latin) are bundled with the site from npm (`@fontsource/*`, SIL Open Font License), so there's no external font CDN.
+- **Fonts:** Amiri Quran — a clean Uthmanic‑Hafs‑style Qur'anic typeface — for Arabic, and Noto Sans for Latin, both bundled with the site from npm (`@fontsource/*`, SIL Open Font License), so there's no external font CDN. Arabic text renders at 1.6× the Latin body size.
 - **Arabic inside English:** every piece of quiz or taker text is built with `richText()` (`src/lib/render/dom.js`). Arabic runs are wrapped in `<span class="ar" lang="ar">` and shown in Naskh, slightly larger and in green, so the studied words stand out.
 - **Direction by main script:** each text element gets `dir="rtl"` when most of its letters are Arabic, otherwise `dir="ltr"` (`textDirection()` in `src/lib/bidi.js`). This keeps an English explanation that starts with an Arabic word reading left to right, which `dir="auto"` would get wrong. Diacritics are ignored when counting.
 - **Arabic quizzes** (`"language": "ar"`): the question list and the review list switch to right-to-left (radio buttons on the right). The interface labels and progress bar stay left to right so they read correctly.

@@ -4,6 +4,8 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- feat(fonts): swap the Arabic typeface from Noto Naskh Arabic to **Amiri Quran** (`@fontsource/amiri-quran`, SIL Open Font License) — a clean Uthmanic-Hafs-style Qur'an typeface, in the spirit of the KFGQPC Uthmanic Script HAFS font but freely redistributable under the project's font licence rule; update `docs/PLAN.md` §3/§7, the README and the e2e font-loaded check to match
+- style(arabic): raise Arabic text to 1.6em (was 1.22em inline / 1em in a full right-to-left quiz) and pin it to its one bundled weight so a bold heading never synthetic-bolds it
 - style(arabic): bump Arabic text inside a full right-to-left quiz from 1em back up to 1.1em (it had been reset to the Latin body size so the inline-highlight rule wouldn't double up); matches PLAN.md §7's "slightly larger size"
 - docs: the rules-deploy service account also needs **Service Usage Consumer**; add troubleshooting rows for that 403 error and for rules that were never deployed
 - test(e2e): check the "Link copied" note next to the pressed Share button, not the first one in the list
