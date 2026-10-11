@@ -1,0 +1,60 @@
+{
+  "id": "mixed-quiz",
+  "version": 2,
+  "active": true,
+  "title": "Tajweed terms — مُصْطَلَحَات",
+  "description": "Mixed Arabic/English fixture: each line must pick its own direction.",
+  "language": "mixed",
+  "createdAt": "2026-10-11",
+  "source": "Test fixture, not a real quiz.",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Which rule applies to النُّونُ السَّاكِنَةُ before بَاء?",
+      "options": [
+        {
+          "id": "a",
+          "text": "الإِظْهَار (iẓhār)"
+        },
+        {
+          "id": "b",
+          "text": "الإِقْلَاب (iqlāb)"
+        },
+        {
+          "id": "c",
+          "text": "الإِدْغَام (idghām)"
+        },
+        {
+          "id": "d",
+          "text": "الإِخْفَاء (ikhfāʾ)"
+        }
+      ],
+      "correct": "b",
+      "explanation": "The nūn turns into a hidden mīm, which is called الإِقْلَاب."
+    },
+    {
+      "id": "q2",
+      "text": "Which direction does Arabic script run?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Left to right"
+        },
+        {
+          "id": "b",
+          "text": "Top to bottom"
+        },
+        {
+          "id": "c",
+          "text": "Bottom to top"
+        },
+        {
+          "id": "d",
+          "text": "Right to left — مِنَ الْيَمِينِ إِلَى الْيَسَارِ"
+        }
+      ],
+      "correct": "d",
+      "explanation": "Arabic is written right to left, so the quiz container gets dir=\"rtl\"."
+    }
+  ]
+}

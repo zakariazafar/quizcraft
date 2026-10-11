@@ -1,0 +1,59 @@
+{
+  "id": "bad-duplicate-question-ids",
+  "version": 1,
+  "active": true,
+  "title": "Invalid fixture",
+  "description": "Breaks exactly one rule from PLAN §4.",
+  "language": "en",
+  "createdAt": "2026-10-11",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Question q1?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Because option a matches the source text."
+    },
+    {
+      "id": "q1",
+      "text": "Question q1?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "c",
+      "explanation": "Because option c matches the source text."
+    }
+  ]
+}

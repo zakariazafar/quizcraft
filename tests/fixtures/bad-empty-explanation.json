@@ -1,0 +1,35 @@
+{
+  "id": "bad-empty-explanation",
+  "version": 1,
+  "active": true,
+  "title": "Invalid fixture",
+  "description": "Breaks exactly one rule from PLAN §4.",
+  "language": "en",
+  "createdAt": "2026-10-11",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Question q1?",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option"
+        },
+        {
+          "id": "b",
+          "text": "Second option"
+        },
+        {
+          "id": "c",
+          "text": "Third option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option"
+        }
+      ],
+      "correct": "b",
+      "explanation": ""
+    }
+  ]
+}

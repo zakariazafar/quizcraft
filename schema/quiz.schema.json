@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quizcraft.example/schema/quiz.schema.json",
+  "title": "QuizCraft quiz file",
+  "description": "Structure of quizzes/<quiz-id>.json. Rules that a JSON Schema cannot express (exactly one correct answer, id equal to the file name, NFC normalisation, correct-answer spread) live in src/lib/validate.js.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "active",
+    "title",
+    "description",
+    "language",
+    "createdAt",
+    "questions"
+  ],
+  "properties": {
+    "id": {
+      "description": "Lowercase letters, digits and hyphens. Must equal the file name without .json.",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 60,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "version": {
+      "description": "Increase whenever questions change after the quiz went live.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "active": {
+      "description": "false shows \"This quiz is closed\" instead of the questions.",
+      "type": "boolean"
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "language": {
+      "description": "ar gives the quiz container dir=\"rtl\" lang=\"ar\".",
+      "enum": ["ar", "en", "mixed"]
+    },
+    "createdAt": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "source": {
+      "description": "Where the questions came from. Optional but recommended.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/question" }
+    }
+  },
+  "$defs": {
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "options", "correct", "explanation"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "text": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "options": {
+          "description": "Exactly four options with unique ids.",
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/option" }
+        },
+        "correct": {
+          "description": "The id of the one correct option.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4,
+          "pattern": "^[a-z0-9]+$"
+        },
+        "explanation": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      }
+    },
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 4, "pattern": "^[a-z0-9]+$" },
+        "text": { "type": "string", "minLength": 1, "maxLength": 300 }
+      }
+    }
+  }
+}

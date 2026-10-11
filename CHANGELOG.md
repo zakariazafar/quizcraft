@@ -4,6 +4,8 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-11
 
+- feat(quiz): add `schema/quiz.schema.json` and `src/lib/validate.js` enforcing every PLAN §4 rule (exactly one correct answer, 4 unique options, unique question ids, id = file name, NFC text with diacritics kept, correct-answer spread)
+- test(quiz): add Arabic, mixed and twelve invalid quiz fixtures; 66 tests covering the validator and the schema/validator agreement (100 % lines on `src/lib`)
 - chore: bootstrap Vite multi-page static site (index, quiz, dashboard, 404) with base RTL-aware CSS
 - chore: add ESLint (with innerHTML ban for XSS), Prettier, Vitest with 90 % coverage gate, `.env.example`
 - feat(ci): add `scripts/check-changelog.mjs` that fails when a commit skips CHANGELOG.md or date headings are invalid, plus optional `.githooks/pre-commit`
