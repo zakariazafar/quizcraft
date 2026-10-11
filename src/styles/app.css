@@ -526,6 +526,10 @@ table.data .num {
   white-space: nowrap;
 }
 
+table.data .when {
+  white-space: nowrap;
+}
+
 table.data .actions {
   white-space: nowrap;
   text-align: end;
@@ -775,4 +779,18 @@ table.data .empty {
   .topbar {
     flex-wrap: wrap;
   }
+}
+
+.exports {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-start: 1rem;
+}
+
+.exports-label {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-inline-end: 0.25rem;
 }

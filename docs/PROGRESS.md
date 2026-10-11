@@ -7,7 +7,7 @@ Claude Code ticks each phase (with the date) in the last commit of that phase. P
 - [x] Phase 2 — Quiz page (taker) (2026-10-11)
 - [x] Phase 3 — Saving attempts (Firestore) (2026-10-11)
 - [x] Phase 4 — Dashboard (2026-10-12)
-- [ ] Phase 5 — Exports
+- [x] Phase 5 — Exports (2026-10-12)
 - [ ] Phase 6 — Hardening
 - [ ] Phase 7 — E2E and deployment
 
@@ -24,3 +24,4 @@ Claude Code ticks each phase (with the date) in the last commit of that phase. P
 - Merge (2026-10-11): `phase-1-quiz-format-v2` (a second phase 1 built separately) was merged keeping the original phase 1 code; only its two sample quizzes and its invalid-quiz fixtures were taken. Because of that, `quizzes/` now also holds the samples `tajweed-basics-01` and `html-basics-01` (set `"active": false` to hide either).
 - Phase 4: the dashboard reads the newest 5,000 attempts in one query and does grouping, filters and statistics in the browser (simple, no extra indexes; revisit if a quiz ever gets more). Per-question statistics count only attempts taken on the current quiz version.
 - Phase 4: the dashboard could not be tried against Firebase in the build workspace (no emulator download). Its screens were checked with test data, and its Firebase calls are covered by mocked tests; the end-to-end test with the emulators comes in phase 7.
+- Phase 5: exports contain the attempts currently shown (filters applied) rather than always all attempts, so a subset can be exported; the label says how many. Added a CSV formula-injection guard (not in the plan) because taker names are public input.

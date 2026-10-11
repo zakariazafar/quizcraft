@@ -8,6 +8,13 @@ import {
   quizRows,
   summarise,
 } from '../lib/dashboardData.js';
+import {
+  answersToCsv,
+  attemptsToCsv,
+  attemptsToJson,
+  downloadFile,
+  exportFileName,
+} from '../lib/exportData.js';
 import { fetchAllAttempts } from '../lib/firebase.js';
 import { authApi, getAuthClient } from '../lib/firebaseAuth.js';
 import { loadQuiz } from '../lib/quizLoader.js';
@@ -120,7 +127,31 @@ function route() {
           stats: questionStats(quiz, attempts),
           hidden: hiddenStore.all(),
         },
-        { share, onToggleHidden: (aid) => (hiddenStore.toggle(aid), hiddenStore.all()) },
+        {
+          share,
+          onToggleHidden: (aid) => (hiddenStore.toggle(aid), hiddenStore.all()),
+          onExport: (format, shown) => {
+            if (format === 'json') {
+              downloadFile(
+                exportFileName(id, 'attempts', 'json'),
+                attemptsToJson(shown),
+                'application/json',
+              );
+            } else if (format === 'answers') {
+              downloadFile(
+                exportFileName(id, 'answers', 'csv'),
+                answersToCsv(shown, quiz),
+                'text/csv;charset=utf-8',
+              );
+            } else {
+              downloadFile(
+                exportFileName(id, 'attempts', 'csv'),
+                attemptsToCsv(shown),
+                'text/csv;charset=utf-8',
+              );
+            }
+          },
+        },
       ),
     ),
   );

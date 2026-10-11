@@ -32,8 +32,11 @@ _Screenshots: coming in phase 7._
 - **Re-scoring:** every attempt is scored again from its saved answers against the quiz file. A score that doesn't match (e.g. faked in the browser) is corrected and marked “⚠ score corrected”; attempts on an older quiz version are marked “older version”.
 - **How each question went:** share of right answers per question (bar with the value written beside it) and the most chosen wrong answer, to spot hard questions.
 - **Hide** marks an attempt as spam in this browser (attempts can't be deleted from the site); “Show hidden” brings them back.
-
-_Exports (JSON/CSV, phase 5) are coming._
+- **Downloads** of the attempts currently shown (after search, dates and hide filters, in table order):
+  - **CSV**: one row per attempt: attempt id, quiz, name, email, stored score, re-checked score, “Score corrected” and “Older quiz version” flags, start and submit times (UTC).
+  - **CSV, one row per answer**: each question with the taker's answer, the correct answer and right/wrong, using the texts from the quiz file.
+  - **JSON**: the attempt records exactly as saved, with their ids and ISO dates.
+  - CSVs are UTF‑8 with a BOM so Excel shows Arabic correctly, and anything a taker typed that starts with `=`, `+`, `-` or `@` is prefixed with `'` so spreadsheets don't run it as a formula.
 
 ## 3. How it works
 
@@ -155,8 +158,9 @@ Rules cannot check each answer against the quiz, so the dashboard re‑scores ev
 1. Open `<site>/dashboard` and enter the dashboard password. (It's the password of the Firebase user named in `VITE_DASHBOARD_EMAIL`; it is never stored in this repo.)
 2. **Share a quiz:** press **Share** next to it and paste the link anywhere. The link is `VITE_SITE_URL/q/<quiz-id>` (or the current site address if that isn't set).
 3. **See results:** click a quiz title. Use **Search**, **From/To** and the column headers to narrow and sort; press **Answers** on a row to see that taker's answers.
-4. **Refresh** reloads quizzes and attempts; **Sign out** ends the session.
-5. **Change the password:** Firebase console → Authentication → Users → the dashboard user → _Reset password_ (or _Edit_). Nothing in the site needs to change.
+4. **Download:** below the table, choose **Download CSV**, **CSV, one row per answer** or **Download JSON**. Files are named `<quiz-id>-attempts-<date>.csv` / `.json` and `<quiz-id>-answers-<date>.csv`; they contain only the attempts shown, so filter first to export a subset.
+5. **Refresh** reloads quizzes and attempts; **Sign out** ends the session.
+6. **Change the password:** Firebase console → Authentication → Users → the dashboard user → _Reset password_ (or _Edit_). Nothing in the site needs to change.
 
 Notes:
 

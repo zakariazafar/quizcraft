@@ -287,9 +287,10 @@ function flags(a) {
  * The quiz page: summary, per-question stats and the attempts table with filters.
  * @param {{ quiz: Quiz, row: QuizRow, attempts: CheckedAttempt[], summary: Summary,
  *   stats: QuestionStats, hidden: Set<string> }} data
- * @param {{ share: ShareFn, onToggleHidden: (id: string) => Set<string> }} handlers
+ * @param {{ share: ShareFn, onToggleHidden: (id: string) => Set<string>,
+ *   onExport?: (format: 'csv' | 'answers' | 'json', attempts: CheckedAttempt[]) => void }} handlers
  */
-export function renderQuizDetail(data, { share, onToggleHidden }) {
+export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
   const { quiz, row } = data;
   let hidden = data.hidden;
   /** @type {{ search: string, from: string, to: string, showHidden: boolean, byTaker: boolean,
@@ -323,6 +324,30 @@ export function renderQuizDetail(data, { share, onToggleHidden }) {
     el('input', { type: 'checkbox', id: 'f-taker' })
   );
   const count = el('p', { class: 'meta count', 'aria-live': 'polite' });
+  const exportBar = el('div', { class: 'exports' });
+  /** @param {CheckedAttempt[]} shown */
+  const drawExports = (shown) => {
+    if (!onExport) return;
+    const n = shown.length;
+    const label = `${n} attempt${n === 1 ? '' : 's'}`;
+    /** @type {[ 'csv' | 'answers' | 'json', string][]} */
+    const kinds = [
+      ['csv', 'Download CSV'],
+      ['answers', 'CSV, one row per answer'],
+      ['json', 'Download JSON'],
+    ];
+    exportBar.replaceChildren(
+      el('span', { class: 'exports-label' }, [`Export the ${label} shown:`]),
+      ...kinds.map(([format, text]) => {
+        const b = el('button', { type: 'button', class: 'button small', 'data-export': format }, [
+          text,
+        ]);
+        if (n === 0) b.setAttribute('disabled', '');
+        b.addEventListener('click', () => onExport(format, shown));
+        return b;
+      }),
+    );
+  };
   const tableArea = el('div', { class: 'table-wrap' });
 
   const controls = el('div', { class: 'filters' }, [
@@ -361,6 +386,7 @@ export function renderQuizDetail(data, { share, onToggleHidden }) {
 
   function draw() {
     const filtered = filterAttempts(data.attempts, { ...state, hidden });
+    drawExports(sortAttempts(filtered, state.sortKey, state.sortDir));
     if (state.byTaker) {
       const takers = groupByTaker(filtered);
       count.textContent = `${takers.length} taker${takers.length === 1 ? '' : 's'}`;
@@ -386,7 +412,7 @@ export function renderQuizDetail(data, { share, onToggleHidden }) {
                 el('td', { class: 'num' }, [String(t.attempts)]),
                 el('td', { class: 'num' }, [`${t.best}%`]),
                 el('td', { class: 'num' }, [`${t.latestPercent}%`]),
-                el('td', {}, [formatDateTime(t.latestAt)]),
+                el('td', { class: 'when' }, [formatDateTime(t.latestAt)]),
               ]),
             ),
           ),
@@ -427,7 +453,7 @@ export function renderQuizDetail(data, { share, onToggleHidden }) {
         el('td', { dir: 'ltr' }, [a.takerEmail]),
         el('td', { class: 'num' }, [`${a.checked.score} / ${a.checked.total}`]),
         el('td', { class: 'num' }, [`${a.checked.percent}%`, ...flags(a)]),
-        el('td', {}, [formatDateTime(a.submittedAt)]),
+        el('td', { class: 'when' }, [formatDateTime(a.submittedAt)]),
         el('td', { class: 'actions' }, [view, hide]),
       ]);
       if (!isOpen) return [tr];
@@ -495,6 +521,7 @@ export function renderQuizDetail(data, { share, onToggleHidden }) {
     controls,
     count,
     tableArea,
+    exportBar,
     el('h2', {}, ['How each question went']),
     renderQuestionStats(data.stats, quiz),
   ]);

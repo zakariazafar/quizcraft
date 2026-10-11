@@ -4,6 +4,11 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- feat(exports): dashboard downloads of the attempts shown (after filters, in table order): CSV one row per attempt (stored and re-checked score, flags, UTC times), CSV one row per answer (question, chosen and correct answer texts, right/wrong) and JSON (records as saved, with ids and ISO dates)
+- feat(exports): CSV is UTF-8 with BOM (Arabic shows in Excel), RFC 4180 quoting, and a guard against spreadsheet formula injection from taker-typed text
+- style: export bar under the attempts table; submission times stay on one line
+- test: export module (escaping, formula guard, BOM, Arabic, re-checked answers, file names, download) and export buttons; 235 tests, 100 % line coverage
+- docs: README downloads and dashboard guide; mark phase 5 done
 - feat(dashboard): password sign-in at `/dashboard` (fixed `VITE_DASHBOARD_EMAIL` + password field, Firebase Auth, session ends when the browser closes) with plain error messages
 - feat(dashboard): quiz list with questions, attempts, average, Open/Closed/Removed status and a Share button (copies the public link, falls back to a selected link field)
 - feat(dashboard): quiz page with summary (attempts, takers, average, highest, lowest), attempts table with search, date range, sorting, per-attempt answers view, one-row-per-taker grouping and hide-as-spam (per browser)
