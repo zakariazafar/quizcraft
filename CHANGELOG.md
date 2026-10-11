@@ -4,6 +4,7 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- style(arabic): bump Arabic text inside a full right-to-left quiz from 1em back up to 1.1em (it had been reset to the Latin body size so the inline-highlight rule wouldn't double up); matches PLAN.md §7's "slightly larger size"
 - docs: the rules-deploy service account also needs **Service Usage Consumer**; add troubleshooting rows for that 403 error and for rules that were never deployed
 - test(e2e): check the "Link copied" note next to the pressed Share button, not the first one in the list
 - test(e2e): make the Share test record what the page copies (headless browsers may refuse the real clipboard) and add a test for the "copy by hand" fallback
