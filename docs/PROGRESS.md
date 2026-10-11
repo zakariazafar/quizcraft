@@ -3,7 +3,7 @@
 Claude Code ticks each phase (with the date) in the last commit of that phase. Phases are defined in `docs/BUILD_PROMPT.md`.
 
 - [x] Phase 0 — Bootstrap (2026-10-11)
-- [ ] Phase 1 — Quiz format
+- [x] Phase 1 — Quiz format (2026-10-11)
 - [ ] Phase 2 — Quiz page (taker)
 - [ ] Phase 3 — Saving attempts (Firestore)
 - [ ] Phase 4 — Dashboard
@@ -14,3 +14,5 @@ Claude Code ticks each phase (with the date) in the last commit of that phase. P
 ## Deviations from the plan
 
 - Phase 0: `firebase-tools` and `@firebase/rules-unit-testing` are installed in phase 3 (when the emulators are first used) instead of phase 0, to keep the bootstrap light. Java setup in CI is added at the same time.
+- Phase 1: the two sample quizzes (Arabic and English) live in `tests/fixtures/` instead of `quizzes/`, so only real quizzes are published. The first real quiz is `ism-four-properties`.
+- Phase 1: `src/lib/validate.js` is hand-written (no Ajv in the browser, which would conflict with a strict CSP); a test checks it agrees with the JSON Schema.
