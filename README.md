@@ -170,7 +170,23 @@ Notes:
 
 ## 9. Security model and limits
 
-_(coming in phase 6; see `docs/PLAN.md` §6)_
+**What protects the data**
+
+- **Firestore rules** (`firestore.rules`, tested in `tests/rules/`): anyone can _add_ an attempt, but only with exactly the expected fields, types and sizes and a server timestamp; nobody can change or delete attempts from the site; only the dashboard account can read them.
+- **Dashboard password** is checked by Firebase Authentication. It is not in the site code, the repo, the README or the tests (tests use the emulator with a test password).
+- **App Check** (optional, recommended): with `VITE_RECAPTCHA_SITE_KEY` set and enforcement turned on for Firestore in the Firebase console, Firestore only accepts requests from this site (reCAPTCHA v3, invisible to takers). This makes scripted spam much harder.
+- **Security headers** (in `render.yaml`, also applied by `npm run preview`): a strict Content‑Security‑Policy (no inline scripts or styles, only this site plus the Firebase and reCAPTCHA endpoints), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy` and HSTS. After every build, `scripts/check-dist.mjs` fails if a page contains anything the policy would block.
+- **No HTML injection:** all quiz and taker text is inserted as text (`textContent`), never as HTML; ESLint forbids `innerHTML`, and tests feed `<script>` and `<img onerror>` names through every screen.
+- **CSV exports** neutralise spreadsheet formulas typed by takers (see §8).
+- **Limits** in the site (name ≤ 100 characters, email ≤ 254, title ≤ 200, ≤ 100 questions) match the Firestore rules; `tests/unit/limits.test.js` fails if they drift apart.
+- Quiz and dashboard pages ask search engines not to index them (`noindex`).
+
+**Known limits** (by design, because the site has no server of its own)
+
+- **Answers are in the quiz file.** The browser downloads each quiz including its correct answers, so a technical user could find them. Use QuizCraft for practice and learning, not high‑stakes exams.
+- **Scores can be faked in the browser**, but the dashboard re‑scores every attempt from its answers and shows the real score (“⚠ score corrected”).
+- **Spam:** anyone with a link can submit attempts. App Check and the rules' size limits keep this reasonable; the dashboard can hide spam attempts.
+- **Privacy:** taker names and emails are personal data. Only the dashboard account can read them; the quiz start page tells takers they are saved.
 
 ## 10. Arabic / RTL support
 
@@ -206,17 +222,17 @@ Without emulators or Firebase settings the quiz still works; results show but ar
 
 See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Firebase web config is not secret; the dashboard password is **never** stored in the repo.
 
-| Variable                    | Required | Purpose                                               |
-| --------------------------- | -------- | ----------------------------------------------------- |
-| `VITE_FIREBASE_API_KEY`     | yes      | Firebase web config                                   |
-| `VITE_FIREBASE_AUTH_DOMAIN` | yes      | Firebase web config                                   |
-| `VITE_FIREBASE_PROJECT_ID`  | yes      | Firebase web config                                   |
-| `VITE_FIREBASE_APP_ID`      | yes      | Firebase web config                                   |
-| `VITE_DASHBOARD_EMAIL`      | yes      | Fixed account the dashboard password signs into       |
-| `VITE_RECAPTCHA_SITE_KEY`   | no       | Enables Firebase App Check                            |
-| `VITE_SITE_URL`             | no       | Base URL for share links (defaults to current origin) |
-| `VITE_USE_EMULATORS`        | no       | `true` to use local Firebase emulators                |
-| `VITE_EMULATOR_HOST`        | no       | Emulator host (default `127.0.0.1`)                   |
+| Variable                    | Required         | Purpose                                                              |
+| --------------------------- | ---------------- | -------------------------------------------------------------------- |
+| `VITE_FIREBASE_API_KEY`     | yes              | Firebase web config                                                  |
+| `VITE_FIREBASE_AUTH_DOMAIN` | yes              | Firebase web config                                                  |
+| `VITE_FIREBASE_PROJECT_ID`  | yes              | Firebase web config                                                  |
+| `VITE_FIREBASE_APP_ID`      | yes              | Firebase web config                                                  |
+| `VITE_DASHBOARD_EMAIL`      | yes              | Fixed account the dashboard password signs into                      |
+| `VITE_RECAPTCHA_SITE_KEY`   | no (recommended) | reCAPTCHA v3 site key; turns on Firebase App Check (spam protection) |
+| `VITE_SITE_URL`             | no               | Base URL for share links (defaults to current origin)                |
+| `VITE_USE_EMULATORS`        | no               | `true` to use local Firebase emulators                               |
+| `VITE_EMULATOR_HOST`        | no               | Emulator host (default `127.0.0.1`)                                  |
 
 ## 13. Testing
 
@@ -243,7 +259,7 @@ Playwright end‑to‑end tests are added in phase 7.
 
 ## 14. CI pipeline
 
-GitHub Actions (`.github/workflows/ci.yml`) on every push to `main` and every pull request: install (Node 20 + Java 21, emulator download cached) → lint → format check → unit tests with coverage gate → Firestore rules tests on the emulator → build → changelog check.
+GitHub Actions (`.github/workflows/ci.yml`) on every push to `main` and every pull request: install (Node 20 + Java 21, emulator download cached) → lint → format check → unit tests with coverage gate (includes accessibility and contrast checks) → Firestore rules tests on the emulator → build (then the CSP check of the built pages) → changelog check.
 
 ## 15. Deployment
 
@@ -260,6 +276,8 @@ quizcraft/
 ├── quizzes/          quiz JSON files
 ├── schema/           quiz JSON Schema
 ├── scripts/          build and CI scripts (lib/ holds tested logic)
+├── render.yaml       Render Blueprint: build, rewrites, security headers, env vars
+├── firestore.rules   who can read/write attempts (tests in tests/rules/)
 ├── tests/unit/       Vitest tests
 ├── docs/             PLAN, BUILD_PROMPT, PROGRESS
 └── .github/workflows/ci.yml

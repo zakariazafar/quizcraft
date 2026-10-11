@@ -794,3 +794,12 @@ table.data .empty {
   color: var(--muted);
   margin-inline-end: 0.25rem;
 }
+
+code {
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}

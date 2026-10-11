@@ -1,6 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('firebase/app', () => ({ initializeApp: vi.fn((cfg, name) => ({ name })) }));
+vi.mock('firebase/app-check', () => ({
+  initializeAppCheck: vi.fn(),
+  ReCaptchaV3Provider: vi.fn(),
+}));
 vi.mock('firebase/firestore/lite', () => ({
   getFirestore: vi.fn(() => ({})),
   connectFirestoreEmulator: vi.fn(),
