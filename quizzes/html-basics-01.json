@@ -1,0 +1,132 @@
+{
+  "id": "html-basics-01",
+  "version": 1,
+  "active": true,
+  "title": "HTML and text direction — basics",
+  "description": "Five questions on page structure, HTTP status codes and writing CSS that works right-to-left.",
+  "language": "en",
+  "createdAt": "2026-10-11",
+  "source": "Sample quiz shipped with QuizCraft, based on introductory HTML/CSS material.",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Which element marks the main heading of a page?",
+      "options": [
+        {
+          "id": "a",
+          "text": "<head>"
+        },
+        {
+          "id": "b",
+          "text": "<title>"
+        },
+        {
+          "id": "c",
+          "text": "<h1>"
+        },
+        {
+          "id": "d",
+          "text": "<main>"
+        }
+      ],
+      "correct": "c",
+      "explanation": "A page has one <h1> for its main heading. <head> and <title> describe the document rather than its visible content, and <main> wraps the content without giving it a heading level."
+    },
+    {
+      "id": "q2",
+      "text": "What does <meta charset=\"utf-8\"> declare?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The language of the page"
+        },
+        {
+          "id": "b",
+          "text": "The character encoding the browser should use"
+        },
+        {
+          "id": "c",
+          "text": "The direction the text runs in"
+        },
+        {
+          "id": "d",
+          "text": "The font the page should load"
+        }
+      ],
+      "correct": "b",
+      "explanation": "It tells the browser to decode the bytes of the page as UTF-8. Without it, non-Latin text such as Arabic can arrive as boxes or question marks."
+    },
+    {
+      "id": "q3",
+      "text": "Which HTTP status code means the page was not found?",
+      "options": [
+        {
+          "id": "a",
+          "text": "200"
+        },
+        {
+          "id": "b",
+          "text": "301"
+        },
+        {
+          "id": "c",
+          "text": "403"
+        },
+        {
+          "id": "d",
+          "text": "404"
+        }
+      ],
+      "correct": "d",
+      "explanation": "404 means the server has no resource at that address. 200 is success, 301 is a permanent redirect and 403 means access was refused."
+    },
+    {
+      "id": "q4",
+      "text": "Which attribute lets a line of text pick its own direction from its content?",
+      "options": [
+        {
+          "id": "a",
+          "text": "dir=\"auto\""
+        },
+        {
+          "id": "b",
+          "text": "lang=\"auto\""
+        },
+        {
+          "id": "c",
+          "text": "align=\"auto\""
+        },
+        {
+          "id": "d",
+          "text": "translate=\"auto\""
+        }
+      ],
+      "correct": "a",
+      "explanation": "dir=\"auto\" asks the browser to look at the first strong directional character and lay the line out accordingly, which is what mixed Arabic and English lines need."
+    },
+    {
+      "id": "q5",
+      "text": "Which CSS property replaces margin-left in a layout that must work in both directions?",
+      "options": [
+        {
+          "id": "a",
+          "text": "margin-start"
+        },
+        {
+          "id": "b",
+          "text": "margin-inline-start"
+        },
+        {
+          "id": "c",
+          "text": "padding-inline"
+        },
+        {
+          "id": "d",
+          "text": "inset-inline-start"
+        }
+      ],
+      "correct": "b",
+      "explanation": "margin-inline-start is the logical equivalent of margin-left: it follows the writing direction, so it becomes the right-hand margin in a right-to-left layout."
+    }
+  ]
+}
