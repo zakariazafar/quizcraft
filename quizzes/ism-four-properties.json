@@ -1,0 +1,493 @@
+{
+  "$schema": "../schema/quiz.schema.json",
+  "id": "ism-four-properties",
+  "version": 1,
+  "active": true,
+  "title": "The 4 Properties of an اِسْم (Ism)",
+  "description": "20 questions on the Status, Number, Gender and Type of an اِسْم.",
+  "language": "mixed",
+  "createdAt": "2026-10-11",
+  "source": "Owner’s lesson notes: three kinds of words and the 4 properties of an اِسْم",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "An اِسْم has 4 properties. Which list names them correctly?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Status, Number, Gender and Type"
+        },
+        {
+          "id": "b",
+          "text": "Status, Tense, Gender and Type"
+        },
+        {
+          "id": "c",
+          "text": "Number, Gender, Doer and Details"
+        },
+        {
+          "id": "d",
+          "text": "Tense, Number, Gender and Person"
+        }
+      ],
+      "correct": "a",
+      "explanation": "The 4 properties of an اِسْم are Status, Number, Gender and Type. Tense belongs to the فِعْل (it is stuck in time), not to the اِسْم, which is timeless."
+    },
+    {
+      "id": "q2",
+      "text": "What are the 3 statuses of an اِسْم?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Singular, Dual and Plural"
+        },
+        {
+          "id": "b",
+          "text": "رَفْعَ (Raf'a), نَصْب (Nasb) and جَرْ (Jar)"
+        },
+        {
+          "id": "c",
+          "text": "Common, Proper and Light"
+        },
+        {
+          "id": "d",
+          "text": "Fully flexible, Partly flexible and Non-flexible"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Status has 3 forms: رَفْعَ for the doer, نَصْب for details, and جَرْ for the word after “of”. Singular/Dual/Plural is Number, and Common/Proper is Type."
+    },
+    {
+      "id": "q3",
+      "text": "In “He drank juice outside yesterday quickly”, what is the status of “He”?",
+      "options": [
+        {
+          "id": "a",
+          "text": "نَصْب (Nasb)"
+        },
+        {
+          "id": "b",
+          "text": "جَرْ (Jar)"
+        },
+        {
+          "id": "c",
+          "text": "رَفْعَ (Raf'a)"
+        },
+        {
+          "id": "d",
+          "text": "It is a فِعْل, not an اِسْم"
+        }
+      ],
+      "correct": "c",
+      "explanation": "“He” is the doer of the action (drank), and the doer is in رَفْعَ status."
+    },
+    {
+      "id": "q4",
+      "text": "In “The balloon of Abdallah popped loudly”, what is the status of “Abdallah”?",
+      "options": [
+        {
+          "id": "a",
+          "text": "رَفْعَ (Raf'a)"
+        },
+        {
+          "id": "b",
+          "text": "نَصْب (Nasb)"
+        },
+        {
+          "id": "c",
+          "text": "It is a حَرْف, not an اِسْم"
+        },
+        {
+          "id": "d",
+          "text": "جَرْ (Jar)"
+        }
+      ],
+      "correct": "d",
+      "explanation": "“Abdallah” comes right after “of” (the balloon of Abdallah), and the word after “of” is in جَرْ status."
+    },
+    {
+      "id": "q5",
+      "text": "In Arabic, how do you tell which word is the doer (رَفْعَ) and which is a detail (نَصْب)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "By the order of the words in the sentence"
+        },
+        {
+          "id": "b",
+          "text": "By the sound at the end of each word"
+        },
+        {
+          "id": "c",
+          "text": "By whether the word starts with ال"
+        },
+        {
+          "id": "d",
+          "text": "By which word comes straight after the فِعْل"
+        }
+      ],
+      "correct": "b",
+      "explanation": "In English the order of words tells you who did what, but in Arabic the order does not matter. The ending sound (or ending combination) of each word shows its status."
+    },
+    {
+      "id": "q6",
+      "text": "A singular اِسْم ending in the sound “u” or “un” (as in مُسْلِمٌ) is in which status?",
+      "options": [
+        {
+          "id": "a",
+          "text": "رَفْعَ (Raf'a)"
+        },
+        {
+          "id": "b",
+          "text": "نَصْب (Nasb)"
+        },
+        {
+          "id": "c",
+          "text": "جَرْ (Jar)"
+        },
+        {
+          "id": "d",
+          "text": "It has no status"
+        }
+      ],
+      "correct": "a",
+      "explanation": "For singular words, u/un means رَفْعَ, a/an means نَصْب, and i/in means جَرْ. مُسْلِمٌ ends in “un”, so it is رَفْعَ."
+    },
+    {
+      "id": "q7",
+      "text": "What does the ending of مُسْلِمَانِ tell you?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Dual (a pair), in نَصْب or جَرْ status"
+        },
+        {
+          "id": "b",
+          "text": "Plural, in رَفْعَ status"
+        },
+        {
+          "id": "c",
+          "text": "Singular, in جَرْ status"
+        },
+        {
+          "id": "d",
+          "text": "Dual (a pair), in رَفْعَ status"
+        }
+      ],
+      "correct": "d",
+      "explanation": "The ending “aani” marks a dual in رَفْعَ. A dual in نَصْب or جَرْ ends in “ayni”, as in مُسْلِمَيْنِ."
+    },
+    {
+      "id": "q8",
+      "text": "What does the ending of مُسْلِمَاتٌ tell you?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Feminine plural, in نَصْب or جَرْ status"
+        },
+        {
+          "id": "b",
+          "text": "Feminine dual, in رَفْعَ status"
+        },
+        {
+          "id": "c",
+          "text": "Feminine plural, in رَفْعَ status"
+        },
+        {
+          "id": "d",
+          "text": "Masculine plural, in رَفْعَ status"
+        }
+      ],
+      "correct": "c",
+      "explanation": "“Aatun” is the feminine plural in رَفْعَ. With “aatin”, as in مُسْلِمَاتٍ, the word would be in نَصْب or جَرْ."
+    },
+    {
+      "id": "q9",
+      "text": "What is the light version of مُسْلِمَانِ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "مُسْلِمَا"
+        },
+        {
+          "id": "b",
+          "text": "مُسْلِمُ"
+        },
+        {
+          "id": "c",
+          "text": "مُسْلِمَيْ"
+        },
+        {
+          "id": "d",
+          "text": "مُسْلِمِيْ"
+        }
+      ],
+      "correct": "a",
+      "explanation": "مُسْلِمَانِ is heavy because of its ending combination. To make it light, remove the ن at the end: مُسْلِمَانِ becomes مُسْلِمَا."
+    },
+    {
+      "id": "q10",
+      "text": "Which word is partly flexible (it can never take tanween or kasrah)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "مُسْلِمٌ"
+        },
+        {
+          "id": "b",
+          "text": "مُوسَى"
+        },
+        {
+          "id": "c",
+          "text": "يُوسُفَ"
+        },
+        {
+          "id": "d",
+          "text": "كِتَابٌ"
+        }
+      ],
+      "correct": "c",
+      "explanation": "يُوسُفَ is a non-Arab name, so it is partly flexible: it never takes tanween or kasrah. مُسْلِمٌ and كِتَابٌ are fully flexible, and مُوسَى is non-flexible."
+    },
+    {
+      "id": "q11",
+      "text": "How are non-human plurals (such as “books”) treated for gender and number?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Masculine and plural (“they”)"
+        },
+        {
+          "id": "b",
+          "text": "Feminine and singular (“she”)"
+        },
+        {
+          "id": "c",
+          "text": "Masculine and singular (“he”)"
+        },
+        {
+          "id": "d",
+          "text": "Feminine and dual"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Plurals of things that aren’t human are treated as “she”: feminine and singular. “These are books” becomes “she is books”."
+    },
+    {
+      "id": "q12",
+      "text": "أَقْلَامٌ (pens) is the plural of قَلَمٌ (pen). What kind of plural is it?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Masculine plural"
+        },
+        {
+          "id": "b",
+          "text": "Human broken plural, treated as “she” or “they”"
+        },
+        {
+          "id": "c",
+          "text": "Non-human feminine plural ending in “aat”"
+        },
+        {
+          "id": "d",
+          "text": "Non-human broken plural, treated only as “she”"
+        }
+      ],
+      "correct": "d",
+      "explanation": "أَقْلَامٌ is a new word, not قَلَمٌ plus an ending combination, so it is a broken plural. Pens are not human, so the only choice is feminine singular (“she”)."
+    },
+    {
+      "id": "q13",
+      "text": "قَوْمٌ (a nation) looks singular. Why is it treated as plural?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It ends in a masculine plural combination"
+        },
+        {
+          "id": "b",
+          "text": "It is a dual"
+        },
+        {
+          "id": "c",
+          "text": "It is an Ism Jam’a (اسم جمع): plural by meaning, because the Arabs said so"
+        },
+        {
+          "id": "d",
+          "text": "It is a non-human feminine plural"
+        }
+      ],
+      "correct": "c",
+      "explanation": "Words like قَوْمٌ (nation), نَاسٌ (people) and قَرْنٌ (generation) look singular but are plural by meaning (Ism Jam’a), because the Arabs said so."
+    },
+    {
+      "id": "q14",
+      "text": "The masculine plural (ending “oona/eena”, as in مُسْلِمُونَ) is used only for…",
+      "options": [
+        {
+          "id": "a",
+          "text": "Humans, angels and jinn"
+        },
+        {
+          "id": "b",
+          "text": "Male humans only"
+        },
+        {
+          "id": "c",
+          "text": "Non-human things"
+        },
+        {
+          "id": "d",
+          "text": "Places and non-Arab names"
+        }
+      ],
+      "correct": "a",
+      "explanation": "The masculine plural is used only for humans, angels and jinn, and it includes both males and females."
+    },
+    {
+      "id": "q15",
+      "text": "What is the default gender of an اِسْم?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Feminine"
+        },
+        {
+          "id": "b",
+          "text": "Neither, because Arabic uses “it”"
+        },
+        {
+          "id": "c",
+          "text": "It depends on the status"
+        },
+        {
+          "id": "d",
+          "text": "Masculine"
+        }
+      ],
+      "correct": "d",
+      "explanation": "Every اِسْم is masculine by default unless it falls into one of the feminine categories. Arabic has only “he” and “she”; there is no “it”."
+    },
+    {
+      "id": "q16",
+      "text": "Which word is feminine because of its ending (a “fake feminine”)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "خَوْفٌ (fear)"
+        },
+        {
+          "id": "b",
+          "text": "آيَةً (a sign)"
+        },
+        {
+          "id": "c",
+          "text": "الجُوعِ (hunger)"
+        },
+        {
+          "id": "d",
+          "text": "طَوْلًا (height)"
+        }
+      ],
+      "correct": "b",
+      "explanation": "آيَةً ends in ة, the most common sign of a fake feminine. خَوْفٌ, الجُوعِ and طَوْلًا are masculine singular."
+    },
+    {
+      "id": "q17",
+      "text": "Which word is feminine because “the Arabs said so”?",
+      "options": [
+        {
+          "id": "a",
+          "text": "شَمْس (sun)"
+        },
+        {
+          "id": "b",
+          "text": "رَسُولٌ (messenger)"
+        },
+        {
+          "id": "c",
+          "text": "عَذَابٌ (punishment)"
+        },
+        {
+          "id": "d",
+          "text": "شَرَابٌ (a drink)"
+        }
+      ],
+      "correct": "a",
+      "explanation": "شَمْس has no feminine ending, but it is one of the words the Arabs treat as feminine, together with war, sky, fire, wind, land and the others in the story."
+    },
+    {
+      "id": "q18",
+      "text": "What type is an اِسْم with tanween, such as كِتَابٌ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Proper"
+        },
+        {
+          "id": "b",
+          "text": "Neither common nor proper"
+        },
+        {
+          "id": "c",
+          "text": "Proper, because it names a thing"
+        },
+        {
+          "id": "d",
+          "text": "Common"
+        }
+      ],
+      "correct": "d",
+      "explanation": "Handy tip: if you see an اِسْم with tanween, it is common. Words with ال cannot have tanween, and names, pronouns and pointers are proper."
+    },
+    {
+      "id": "q19",
+      "text": "Which word is proper?",
+      "options": [
+        {
+          "id": "a",
+          "text": "مُسْلِمٌ"
+        },
+        {
+          "id": "b",
+          "text": "شَرَابٌ"
+        },
+        {
+          "id": "c",
+          "text": "المُسْلِمُ"
+        },
+        {
+          "id": "d",
+          "text": "قَوْمٍ"
+        }
+      ],
+      "correct": "c",
+      "explanation": "المُسْلِمُ has ال (“the”), one of the 7 categories of proper words. The other words have tanween, so they are common."
+    },
+    {
+      "id": "q20",
+      "text": "What does the Ism Mowsool الَّذِينَ mean?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The one who (masculine singular)"
+        },
+        {
+          "id": "b",
+          "text": "Those who (masculine plural)"
+        },
+        {
+          "id": "c",
+          "text": "The two who (masculine dual)"
+        },
+        {
+          "id": "d",
+          "text": "The one who (feminine singular)"
+        }
+      ],
+      "correct": "b",
+      "explanation": "الَّذِي means “the one who”, الَّذَانِ means “the two who”, and الَّذِينَ means “those who” (masculine plural)."
+    }
+  ]
+}
