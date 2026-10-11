@@ -12,6 +12,7 @@
     "predev": "node scripts/build-quiz-index.mjs",
     "build": "node scripts/build-quiz-index.mjs && vite build",
     "validate:quizzes": "node scripts/build-quiz-index.mjs --check",
+    "new-quiz": "node scripts/new-quiz.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",

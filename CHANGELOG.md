@@ -4,6 +4,8 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-11
 
+- feat(scripts): add `npm run new-quiz -- <quiz-id>`, which scaffolds a valid, inactive quiz file with placeholder text in the quiz language (`--questions`, `--language`, `--title`) and refuses to overwrite an existing file
+- docs: add the "add or edit a quiz" guide to the README (Claude Code and by hand, editing and retiring a live quiz)
 - feat(build): add `scripts/build-quiz-index.mjs`, which validates `quizzes/`, publishes them to `public/quizzes/` and writes `index.json`; it runs before `vite build` and `vite dev`, and an invalid quiz fails the build without writing anything
 - feat(scripts): add `npm run validate:quizzes` (`--check`: validate without writing)
 - docs: document the quiz file format, its validation rules, the generated quiz routes and the module → test map in the README

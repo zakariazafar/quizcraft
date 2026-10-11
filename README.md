@@ -116,7 +116,40 @@ build and nothing is written**, so a broken quiz can never reach the live site.
 
 ## 6. How to add or edit a quiz
 
-In Claude Code run `/add-quiz <paste content or give a file path>`. Details in `CLAUDE.md` → "How to add a quiz". _(Hand-editing guide coming in phase 1.)_
+### With Claude Code
+
+Run `/add-quiz <paste the content, or give a file path>`. Claude Code asks for the number
+of questions (default 10), the difficulty (default medium), the language (default: the
+language of the content) and the quiz id (default: a slug of the title), writes the file,
+runs the tests and opens a pull request. Details in `CLAUDE.md` → "How to add a quiz".
+
+### By hand
+
+```bash
+npm run new-quiz -- tajweed-basics-02 --questions 10 --language ar
+```
+
+That writes `quizzes/tajweed-basics-02.json` with placeholder questions in the quiz
+language, correct answers already spread over the four positions, and `"active": false`
+so an unfinished quiz cannot go live. Options: `--questions <n>` (1–100, default 10),
+`--language ar|en|mixed` (default `en`), `--title "A title"` (default: derived from the id).
+It never overwrites an existing file.
+
+Then:
+
+1. Replace every placeholder. Four options per question, exactly one correct, plausible
+   distractors, no "all of the above". Write the explanation in the quiz language and say
+   **why** the correct option is right, in one to three sentences.
+2. Copy Arabic terms exactly, **with their diacritics**.
+3. Set `"active": true` and fill in `source`.
+4. Run `npm test && npm run build` and fix every validation error (§5).
+5. Commit as `quiz: add <quiz-id> (<n> questions, <language>)` with a `CHANGELOG.md`
+   bullet, and open a pull request. After the merge the quiz is live at
+   `<VITE_SITE_URL>/q/<quiz-id>`.
+
+**Editing a live quiz:** increase `version` (attempts record the version they were taken
+against) and say in the CHANGELOG what changed. To retire a quiz, set `"active": false` —
+the link then shows "This quiz is closed" and past attempts stay in the dashboard.
 
 ## 7. Attempt record format
 
@@ -205,7 +238,7 @@ quizcraft/
 ├── src/styles/       CSS
 ├── quizzes/          quiz JSON files — the source of truth
 ├── schema/           quiz JSON Schema
-├── scripts/          build-quiz-index.mjs, check-changelog.mjs (lib/ holds the tested logic)
+├── scripts/          build-quiz-index.mjs, new-quiz.mjs, check-changelog.mjs (lib/ holds the tested logic)
 ├── public/quizzes/   generated: published quizzes + index.json
 ├── tests/unit/       Vitest unit tests
 ├── tests/quizzes/    validates every file in quizzes/
