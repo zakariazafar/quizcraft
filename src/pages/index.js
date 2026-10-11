@@ -1,9 +1,14 @@
-const app = document.getElementById('app');
-const h1 = document.createElement('h1');
-h1.textContent = 'QuizCraft';
-const p = document.createElement('p');
-p.textContent = 'Quizzes are shared by link. Quiz owners can open the dashboard.';
-const a = document.createElement('a');
-a.href = '/dashboard';
-a.textContent = 'Open dashboard';
-app.append(h1, p, a);
+import { el } from '../lib/render/dom.js';
+
+const app = /** @type {HTMLElement} */ (document.getElementById('app'));
+app.append(
+  el('section', { class: 'message' }, [
+    el('h1', {}, ['QuizCraft']),
+    el('p', { class: 'lede' }, [
+      'Quizzes here are shared by link. Open the link you were given to take a quiz.',
+    ]),
+    el('p', { class: 'meta' }, [
+      el('a', { href: '/dashboard' }, ['Quiz owners: open the results dashboard']),
+    ]),
+  ]),
+);

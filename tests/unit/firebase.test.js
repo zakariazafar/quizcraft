@@ -3,6 +3,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('firebase/app', () => ({
   initializeApp: vi.fn((cfg, name) => ({ name, cfg })),
 }));
+vi.mock('firebase/app-check', () => ({
+  initializeAppCheck: vi.fn(),
+  ReCaptchaV3Provider: vi.fn(function (key) {
+    this.key = key;
+  }),
+}));
 vi.mock('firebase/firestore/lite', () => ({
   getFirestore: vi.fn((app) => ({ app })),
   connectFirestoreEmulator: vi.fn(),
@@ -25,6 +31,7 @@ vi.mock('firebase/firestore/lite', () => ({
 
 const app = await import('firebase/app');
 const fs = await import('firebase/firestore/lite');
+const appCheck = await import('firebase/app-check');
 const { fetchAllAttempts, firestoreAttemptWriter, getFirebase, resetFirebaseCache } =
   await import('../../src/lib/firebase.js');
 const { readConfig } = await import('../../src/lib/config.js');
@@ -46,6 +53,26 @@ describe('getFirebase', () => {
     expect(first).toBe(second);
     expect(app.initializeApp).toHaveBeenCalledTimes(1);
     expect(fs.connectFirestoreEmulator).not.toHaveBeenCalled();
+  });
+
+  it('turns on App Check with reCAPTCHA v3 when a site key is set', () => {
+    getFirebase(
+      readConfig({
+        VITE_FIREBASE_API_KEY: 'k',
+        VITE_FIREBASE_PROJECT_ID: 'with-app-check',
+        VITE_FIREBASE_APP_ID: 'a',
+        VITE_RECAPTCHA_SITE_KEY: 'site-key',
+      }),
+    );
+    expect(appCheck.initializeAppCheck).toHaveBeenCalledWith(expect.anything(), {
+      provider: expect.objectContaining({ key: 'site-key' }),
+      isTokenAutoRefreshEnabled: true,
+    });
+  });
+
+  it('skips App Check without a site key or with the emulators', () => {
+    getFirebase(readConfig({ VITE_USE_EMULATORS: 'true', VITE_RECAPTCHA_SITE_KEY: 'site-key' }));
+    expect(appCheck.initializeAppCheck).not.toHaveBeenCalled();
   });
 
   it('connects to the Firestore emulator when configured', () => {

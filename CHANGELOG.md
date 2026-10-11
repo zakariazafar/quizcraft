@@ -4,6 +4,13 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- feat(security): Firebase App Check with reCAPTCHA v3 when `VITE_RECAPTCHA_SITE_KEY` is set (not with emulators)
+- feat(security): `render.yaml` with a strict Content-Security-Policy (no inline scripts/styles), X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, HSTS, cache rules, rewrites and env vars; `npm run preview` applies the same headers and rewrites and serves `404.html` for unknown paths (multi-page mode)
+- feat(build): `scripts/check-dist.mjs` runs after every build and fails if a page has anything the CSP would block
+- feat(pages): friendlier home and 404 pages; `noindex` on quiz and dashboard pages
+- chore(deps): add `yaml` (read render.yaml in Vite and tests) and `axe-core` (accessibility tests) as dev dependencies
+- test: render.yaml headers/rewrites/env vars, CSP build check, limits shared with firestore.rules, axe-core accessibility checks of every screen, WCAG AA contrast of colour tokens, App Check setup; 270 tests, 100 % line coverage
+- docs: README security model and limits, env vars, test map, CI; mark phase 6 done
 - feat(exports): dashboard downloads of the attempts shown (after filters, in table order): CSV one row per attempt (stored and re-checked score, flags, UTC times), CSV one row per answer (question, chosen and correct answer texts, right/wrong) and JSON (records as saved, with ids and ISO dates)
 - feat(exports): CSV is UTF-8 with BOM (Arabic shows in Excel), RFC 4180 quoting, and a guard against spreadsheet formula injection from taker-typed text
 - style: export bar under the attempts table; submission times stay on one line

@@ -8,7 +8,7 @@ Claude Code ticks each phase (with the date) in the last commit of that phase. P
 - [x] Phase 3 — Saving attempts (Firestore) (2026-10-11)
 - [x] Phase 4 — Dashboard (2026-10-12)
 - [x] Phase 5 — Exports (2026-10-12)
-- [ ] Phase 6 — Hardening
+- [x] Phase 6 — Hardening (2026-10-12)
 - [ ] Phase 7 — E2E and deployment
 
 ## Deviations from the plan
@@ -25,3 +25,6 @@ Claude Code ticks each phase (with the date) in the last commit of that phase. P
 - Phase 4: the dashboard reads the newest 5,000 attempts in one query and does grouping, filters and statistics in the browser (simple, no extra indexes; revisit if a quiz ever gets more). Per-question statistics count only attempts taken on the current quiz version.
 - Phase 4: the dashboard could not be tried against Firebase in the build workspace (no emulator download). Its screens were checked with test data, and its Firebase calls are covered by mocked tests; the end-to-end test with the emulators comes in phase 7.
 - Phase 5: exports contain the attempts currently shown (filters applied) rather than always all attempts, so a subset can be exported; the label says how many. Added a CSV formula-injection guard (not in the plan) because taker names are public input.
+- Phase 6: `render.yaml` was created in this phase (with headers, rewrites and env vars) rather than phase 7, so the CSP could be tested; phase 7 only needs to verify it on Render. Vite reads routes and headers from it, so there is one source of truth.
+- Phase 6: accessibility is checked automatically with axe-core on every screen (jsdom) plus a WCAG AA contrast test of the colour tokens; colour contrast inside axe is off in jsdom because it needs real layout.
+- Phase 6: `npm run preview` can't reproduce Render's long cache on `/assets/*` (Vite's file server sets its own Cache-Control); the header is still tested from `render.yaml`.

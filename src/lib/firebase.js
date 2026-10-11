@@ -1,5 +1,6 @@
 // @ts-check
 import { initializeApp } from 'firebase/app';
+import { ReCaptchaV3Provider, initializeAppCheck } from 'firebase/app-check';
 import {
   collection,
   connectFirestoreEmulator,
@@ -27,6 +28,14 @@ export function getFirebase(config) {
   const existing = cache.get(key);
   if (existing) return existing;
   const app = initializeApp(config.firebase, key);
+  // App Check: Firestore only accepts requests from this site once enforcement is turned on
+  // in the Firebase console. Not used with the emulators.
+  if (config.recaptchaSiteKey && !config.useEmulators) {
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(config.recaptchaSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }
   const db = getFirestore(app);
   if (config.useEmulators) connectFirestoreEmulator(db, config.emulatorHost, 8080);
   const entry = { app, db };
