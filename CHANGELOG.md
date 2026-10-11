@@ -2,6 +2,18 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-10-12
+
+- feat(dashboard): password sign-in at `/dashboard` (fixed `VITE_DASHBOARD_EMAIL` + password field, Firebase Auth, session ends when the browser closes) with plain error messages
+- feat(dashboard): quiz list with questions, attempts, average, Open/Closed/Removed status and a Share button (copies the public link, falls back to a selected link field)
+- feat(dashboard): quiz page with summary (attempts, takers, average, highest, lowest), attempts table with search, date range, sorting, per-attempt answers view, one-row-per-taker grouping and hide-as-spam (per browser)
+- feat(dashboard): re-score every attempt from its saved answers; mismatches are corrected and flagged, older-version attempts keep their stored score and are marked
+- feat(dashboard): per-question share of right answers and most chosen wrong answer
+- feat(firebase): `fetchAllAttempts` (newest 5,000) and a separate `firebaseAuth.js` so the quiz page bundle doesn't include Firebase Auth
+- style: dashboard layout (wide container, tables that scroll on phones, summary numbers, thin per-question bars with values written out)
+- test: dashboard data (re-scoring incl. faked score, stats, filters, sorting, grouping, hidden store), auth, share, Firebase auth/reads (mocked) and dashboard views (jsdom); 216 tests, 100 % line coverage
+- docs: README dashboard features, route and guide; mark phase 4 done
+
 ## 2026-10-11
 
 - chore(merge): combine all pending work into one branch: phase 2 (quiz page), phase 3 (saving attempts) and the `phase-1-quiz-format-v2` branch, on top of `main` (phase 1 + ism-four-properties)
