@@ -57,14 +57,33 @@ test('the dashboard lists quizzes, shows attempts and re-checked scores', async 
   await expect(page.locator('.qstat')).toHaveCount(20);
 });
 
-test('Share copies the public quiz link', async ({ page, context }) => {
-  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+test('Share copies the public quiz link', async ({ page }) => {
+  // Headless browsers may refuse the real clipboard, so record what the page copies.
+  await page.addInitScript(() => {
+    window.__copied = [];
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: async (t) => void window.__copied.push(t) },
+    });
+  });
   await signIn(page);
   await page.locator(`[data-share="${ism.id}"]`).click();
   await expect(page.locator('.share-note').first()).toHaveText('Link copied');
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-    `http://127.0.0.1:4173/q/${ism.id}`,
-  );
+  expect(await page.evaluate(() => window.__copied)).toEqual([`http://127.0.0.1:4173/q/${ism.id}`]);
+});
+
+test('Share shows the link to copy by hand when the browser blocks copying', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: async () => Promise.reject(new Error('blocked')) },
+    });
+  });
+  await signIn(page);
+  await page.locator(`[data-share="${ism.id}"]`).click();
+  const field = page.getByLabel('Quiz link');
+  await expect(field).toHaveValue(`http://127.0.0.1:4173/q/${ism.id}`);
+  await expect(field).toBeFocused();
 });
 
 test('CSV and JSON downloads contain the attempts (Arabic intact, formulas neutralised)', async ({

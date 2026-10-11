@@ -2,16 +2,25 @@
 
 A static quiz website. Quizzes are JSON files in this repo (Arabic, English or mixed). Anyone with a quiz's public link enters their name and email, takes the quiz, and sees their score, the correct answers and an explanation for each mistake. Every attempt is saved as a JSON record in Firebase Firestore. A password‑protected dashboard shows all attempts, statistics, share links, and JSON/CSV downloads.
 
-> **Build status:** see [`docs/PROGRESS.md`](docs/PROGRESS.md). Sections marked _(coming in phase N)_ are filled in as the build progresses.
+> **Build status:** all phases complete, see [`docs/PROGRESS.md`](docs/PROGRESS.md). To go live, follow [Deployment](#15-deployment).
 
 ## 1. Product overview
 
 QuizCraft has two audiences:
 
-- **Quiz takers** open a shared link, enter name and email, answer multiple‑choice questions and see their result on screen.
-- **Quiz owners** add quizzes as JSON files (written with Claude Code from source content) and view results in a password‑protected dashboard.
+- **Quiz takers** open a shared link, enter name and email, answer multiple‑choice questions and see their result on screen, with the correct answer and an explanation for every mistake.
+- **Quiz owners** add quizzes as JSON files (written with Claude Code from source content) and see every attempt in a password‑protected dashboard.
 
-_Screenshots: coming in phase 7._
+There is no server of our own: the site is static files on Render, attempts go to Firebase Firestore, and the dashboard password is checked by Firebase Authentication.
+
+| Taking a quiz                                                       | Result and review                                                        |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| ![Quiz intro with name and email](docs/screenshots/quiz-intro.png)  | ![Result screen with score and review](docs/screenshots/quiz-result.png) |
+| ![Questions with progress bar](docs/screenshots/quiz-questions.png) | ![Arabic quiz shown right to left](docs/screenshots/quiz-arabic.png)     |
+
+| Dashboard: quizzes                                                      | Dashboard: one quiz                                                                     |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| ![Quiz list with Share buttons](docs/screenshots/dashboard-quizzes.png) | ![Quiz results with summary, attempts and answers](docs/screenshots/dashboard-quiz.png) |
 
 ## 2. Features
 
@@ -199,7 +208,7 @@ Notes:
 
 ## 11. Local development
 
-Requirements: Node 20+.
+Requirements: Node 22+ (and Java 21+ for the Firebase emulators).
 
 ```bash
 npm ci
@@ -255,15 +264,78 @@ Test fixtures (an Arabic quiz with diacritics, an English quiz, a copy of the mi
 
 Published quizzes: `ism-four-properties` (20 questions, mixed), `tajweed-basics-01` (5, Arabic) and `html-basics-01` (5, English).
 
-Playwright end‑to‑end tests are added in phase 7.
+**End‑to‑end tests** (`tests/e2e/`, Playwright) run the production build, with the production headers, against the Firebase Auth and Firestore emulators:
+
+- `taker.spec.js`: take a quiz and check the score, review and the saved Firestore record; Arabic quiz right to left with the Naskh font; unanswered‑questions warning; form errors; an attempt made offline is saved on the next visit; closed quiz, wrong quiz link and 404 page; security headers present and no CSP violations.
+- `dashboard.spec.js`: wrong password refused; quiz list, summary and re‑checked scores; answers view and search; Share copies the link (and the fallback when copying is blocked); CSV and JSON downloads (Arabic intact, formulas neutralised); sign‑out.
 
 ## 14. CI pipeline
 
-GitHub Actions (`.github/workflows/ci.yml`) on every push to `main` and every pull request: install (Node 20 + Java 21, emulator download cached) → lint → format check → unit tests with coverage gate (includes accessibility and contrast checks) → Firestore rules tests on the emulator → build (then the CSP check of the built pages) → changelog check.
+GitHub Actions (`.github/workflows/ci.yml`):
+
+- **`test`** (every push to `main` and every pull request): install (Node 22 + Java 21, emulator download cached) → lint → format check → unit tests with coverage gate (includes accessibility and contrast checks) → Firestore rules tests on the emulator → build (then the CSP check of the built pages) → Playwright end‑to‑end tests on the emulators → changelog check.
+- **`deploy-rules`** (after `test`, on pushes to `main` only): fills the dashboard UID into `firestore.rules` and deploys the rules and indexes to the real Firebase project. It needs three repository secrets (see Deployment) and skips with a notice until they are set.
 
 ## 15. Deployment
 
-_(coming in phase 7: Firebase setup, Render Blueprint, rules deployment)_
+Render serves the site; Firebase stores attempts and checks the dashboard password. Do these steps once, in order. Firebase and Render screens change from time to time, so menu names may differ slightly.
+
+### Step 1: Create the Firebase project
+
+1. Go to [console.firebase.google.com](https://console.firebase.google.com) → **Create a project** (e.g. `quizcraft`). Google Analytics is not needed.
+2. **Add a web app:** on the project overview press the **Web** (`</>`) icon, give it a nickname, leave Firebase Hosting unticked, **Register app**. Keep the shown `firebaseConfig` values; you need `apiKey`, `authDomain`, `projectId` and `appId`.
+3. **Firestore:** _Build → Firestore Database → Create database_. Pick a location close to your takers (e.g. `australia-southeast1`, Sydney; it can't be changed later) and **production mode**.
+4. **Dashboard account:** _Build → Authentication → Get started → Sign-in method → Email/Password → Enable → Save_. Then _Users → Add user_: an email such as `dashboard@yourdomain.com` (it never receives mail) and the **dashboard password**. Copy the new user's **User UID**.
+5. **Block new sign-ups** (recommended): _Authentication → Settings → User actions_, untick **Enable create (sign-up)**. Even without this, only the UID in the rules can read results.
+
+### Step 2: Let GitHub deploy the security rules
+
+1. In the [Google Cloud console](https://console.cloud.google.com) for the same project: _IAM & Admin → Service accounts → Create service account_ (e.g. `github-rules-deploy`). Give it the role **Firebase Rules Admin** and **Cloud Datastore Index Admin** (or simply **Firebase Admin**). Then _Keys → Add key → JSON_ and download the file.
+2. In GitHub: _Settings → Secrets and variables → Actions → New repository secret_, add:
+
+| Secret                     | Value                                  |
+| -------------------------- | -------------------------------------- |
+| `FIREBASE_SERVICE_ACCOUNT` | the whole content of the JSON key file |
+| `FIREBASE_PROJECT_ID`      | the `projectId` from Step 1.2          |
+| `DASHBOARD_UID`            | the User UID from Step 1.4             |
+
+3. Push anything to `main` (or _Actions → CI → Re-run_ on the latest `main` run). The **deploy-rules** job puts the UID into the rules and deploys them. Check the rules in _Firestore → Rules_: they should contain your UID, not `DASHBOARD_UID_PLACEHOLDER`.
+
+### Step 3: Spam protection with App Check (recommended)
+
+1. Create a **reCAPTCHA v3** key at [google.com/recaptcha/admin](https://www.google.com/recaptcha/admin) for your site's domain (e.g. `quizcraft.onrender.com`, plus any custom domain). Keep the **site key** and **secret key**.
+2. Firebase console → _App Check → Apps_ → your web app → **reCAPTCHA v3** → paste the **secret key** → Save.
+3. Put the **site key** in Render as `VITE_RECAPTCHA_SITE_KEY` (Step 4).
+4. After deploying, open App Check → _APIs → Cloud Firestore_. When the metrics show requests as verified, press **Enforce**. From then on Firestore only accepts requests from your site.
+
+### Step 4: Publish on Render
+
+1. At [dashboard.render.com](https://dashboard.render.com): **New → Blueprint**, connect GitHub and pick this repository. Render reads `render.yaml` (a static site built with `npm ci && npm run build`, published from `dist`, with the rewrites and security headers).
+2. Fill in the environment variables it asks for:
+
+| Variable                                                                                                 | Value                                                                                                             |
+| -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` | from Step 1.2                                                                                                     |
+| `VITE_DASHBOARD_EMAIL`                                                                                   | the dashboard user's email from Step 1.4 (not the password)                                                       |
+| `VITE_RECAPTCHA_SITE_KEY`                                                                                | from Step 3 (leave empty to skip App Check)                                                                       |
+| `VITE_SITE_URL`                                                                                          | the site address, e.g. `https://quizcraft.onrender.com` (fill in after the first deploy if you don't know it yet) |
+
+3. **Apply**. When the first deploy finishes, note the site address. If you set or change any `VITE_*` value afterwards, run _Manual Deploy → Deploy latest commit_: these values are baked in at build time.
+4. Firebase console → _Authentication → Settings → Authorized domains_: add the Render domain (and any custom domain).
+
+### Step 5: Check it works
+
+1. Open `<site>/q/ism-four-properties` in a private window, take the quiz with one wrong answer and check the result screen says **“Your result has been saved.”**
+2. Open `<site>/dashboard`, sign in with the dashboard password, open the quiz and find the attempt; try **Answers**, **Download CSV** and **Share**.
+3. A wrong password must be refused, and `<site>/anything` must show the “Page not found” page.
+
+### Updating the site
+
+Every merge to `main` redeploys automatically: Render rebuilds the site (new and changed quizzes included), and the `deploy-rules` job redeploys the Firestore rules.
+
+### Free tiers and costs
+
+Both Firebase (Spark plan) and Render (static sites) have free tiers that comfortably cover classroom‑sized use; QuizCraft writes one small document per attempt and the dashboard reads up to 5,000. Limits and prices change, so check [firebase.google.com/pricing](https://firebase.google.com/pricing) and [render.com/pricing](https://render.com/pricing) before relying on them. Render static sites don't sleep.
 
 ## 16. Project structure
 
@@ -291,8 +363,22 @@ quizcraft/
 
 ## 18. Troubleshooting
 
-_(coming in phase 7)_
+| Problem                                                            | Cause and fix                                                                                                                                                                                                    |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Quiz page says **“Results are not being saved on this site”**      | The `VITE_FIREBASE_*` values were not set when the site was built. Set them in Render and redeploy.                                                                                                              |
+| Result says **“Your result could not be saved”**                   | Firestore refused the attempt: the rules weren't deployed, or App Check is enforced but the reCAPTCHA site key is missing or wrong. Check the **deploy-rules** job in GitHub Actions and the App Check settings. |
+| Result says **“not saved yet”**                                    | The taker was offline or Firestore was unreachable. The attempt is kept in their browser and sent the next time they open any quiz on the site.                                                                  |
+| Dashboard says **“This account is not allowed to read results”**   | The UID in the deployed rules doesn't match the dashboard user. Check the `DASHBOARD_UID` secret and re-run **deploy-rules**.                                                                                    |
+| Dashboard says **“That password is not right”** but it is          | `VITE_DASHBOARD_EMAIL` doesn't match the dashboard user's email exactly, or the user is disabled in Firebase Authentication.                                                                                     |
+| Dashboard says **“Dashboard not set up”**                          | Firebase settings are missing from the build (see the first row).                                                                                                                                                |
+| Arabic shows as boxes or in a plain font                           | Fonts are bundled with the site; a hard refresh usually fixes a stale cache. Check that the quiz text is real Arabic characters (not a picture or a legacy font encoding).                                       |
+| Browser console shows **“Refused to …”** (CSP)                     | Something on the page isn't allowed by the Content‑Security‑Policy in `render.yaml`. If you add an outside service, add its address to the right directive there.                                                |
+| `npm run build` fails naming a quiz file                           | The quiz is invalid; the message names the file and question. Fix it (see §5) and build again.                                                                                                                   |
+| **deploy-rules** job is skipped                                    | The three Firebase secrets aren't set yet (see Deployment, Step 2).                                                                                                                                              |
+| `npm run test:rules` or `test:e2e` fails locally with a Java error | The Firebase emulators need Java 21 or newer.                                                                                                                                                                    |
 
 ## 19. Roadmap and licence
 
-Roadmap: see `docs/PLAN.md` §17. Licence: to be decided by the owner.
+Possible next steps (from `docs/PLAN.md` §17): per‑quiz dashboard passwords, time limits, random question order or subsets, true/false and multi‑select questions, printable certificates, an Arabic interface, and importing quizzes from a spreadsheet.
+
+**Licence:** not chosen yet. Until the owner adds a `LICENSE` file, all rights are reserved. Fonts are under the SIL Open Font License (bundled from `@fontsource`).

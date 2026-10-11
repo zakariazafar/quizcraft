@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Static quiz site: quizzes as JSON files, attempts saved to Firebase Firestore, password-protected dashboard.",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "vite",

@@ -17,11 +17,11 @@ You are building **QuizCraft**, a static quiz site described in full in `docs/PL
 
 ## Phase 0 — Bootstrap
 
-1. Vite multi‑page project (`index.html`, `quiz.html`, `dashboard.html`, `404.html`) with the layout in PLAN §9. Node 20.
+1. Vite multi‑page project (`index.html`, `quiz.html`, `dashboard.html`, `404.html`) with the layout in PLAN §9. Node 22.
 2. Dev dependencies: vite, vitest, @vitest/coverage-v8, jsdom, ajv, ajv-formats, eslint, prettier, @playwright/test, firebase-tools, @firebase/rules-unit-testing. Runtime: firebase.
 3. npm scripts from CLAUDE.md "Commands". Vitest coverage threshold 90 % on `src/lib`.
 4. `scripts/check-changelog.mjs` + unit tests; optional `.githooks/pre-commit`.
-5. `.github/workflows/ci.yml` per PLAN §13 (Node 20 + Java 17, `fetch-depth: 0`). The rules deploy job can be added in phase 7.
+5. `.github/workflows/ci.yml` per PLAN §13 (Node 22 + Java 21, `fetch-depth: 0`). The rules deploy job can be added in phase 7.
 6. `CHANGELOG.md` with header and today's entry; `README.md` skeleton with every heading from the README spec below; `.env.example` per PLAN §10.
    **Done when** CI is green on GitHub.
 

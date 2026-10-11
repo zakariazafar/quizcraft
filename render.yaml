@@ -10,7 +10,7 @@ services:
     pullRequestPreviewsEnabled: false
     envVars:
       - key: NODE_VERSION
-        value: '20'
+        value: '22'
       - key: VITE_FIREBASE_API_KEY
         sync: false
       - key: VITE_FIREBASE_AUTH_DOMAIN
