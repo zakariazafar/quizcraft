@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+public/quizzes/
+playwright-report/
+test-results/
+.env
+.env.*
+!.env.example
+*.log
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+.DS_Store
+.claude/settings.local.json
