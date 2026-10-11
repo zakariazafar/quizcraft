@@ -150,7 +150,7 @@ describe('renderQuizList', () => {
   });
 });
 
-function detail(overrides = {}) {
+function detail(overrides = {}, onExport = undefined) {
   const onToggleHidden = vi.fn();
   let hidden = new Set();
   onToggleHidden.mockImplementation((id) => {
@@ -169,7 +169,7 @@ function detail(overrides = {}) {
       hidden: new Set(),
       ...overrides,
     },
-    { share: vi.fn(), onToggleHidden },
+    { share: vi.fn(), onToggleHidden, onExport },
   );
   document.body.append(view);
   return { view, onToggleHidden };
@@ -310,6 +310,41 @@ describe('renderQuizDetail', () => {
     expect(view.textContent).toContain('Closed');
     expect(view.querySelector('.qbar-value').textContent).toBe('No answers yet');
     expect(view.querySelector('.qbar-fill').style.inlineSize).toBe('0%');
+  });
+});
+
+describe('export buttons', () => {
+  it('export exactly the attempts shown, in table order', () => {
+    const onExport = vi.fn();
+    const { view } = detail({}, onExport);
+    expect(view.querySelector('.exports-label').textContent).toBe('Export the 4 attempts shown:');
+    const search = view.querySelector('#f-search');
+    search.value = 'zakaria@';
+    search.dispatchEvent(new Event('input'));
+    expect(view.querySelector('.exports-label').textContent).toBe('Export the 2 attempts shown:');
+    view.querySelector('[data-export="csv"]').click();
+    expect(onExport).toHaveBeenCalledWith('csv', expect.any(Array));
+    expect(onExport.mock.calls[0][1].map((a) => a.id)).toEqual(['a1', 'a3']);
+    view.querySelector('[data-export="answers"]').click();
+    view.querySelector('[data-export="json"]').click();
+    expect(onExport.mock.calls.map((c) => c[0])).toEqual(['csv', 'answers', 'json']);
+  });
+
+  it('says "1 attempt" and disables buttons when nothing is shown', () => {
+    const onExport = vi.fn();
+    const { view } = detail({}, onExport);
+    const search = view.querySelector('#f-search');
+    search.value = 'amina';
+    search.dispatchEvent(new Event('input'));
+    expect(view.querySelector('.exports-label').textContent).toBe('Export the 1 attempt shown:');
+    search.value = 'nobody';
+    search.dispatchEvent(new Event('input'));
+    expect(view.querySelector('[data-export="csv"]').disabled).toBe(true);
+  });
+
+  it('are left out when no export handler is given', () => {
+    const { view } = detail();
+    expect(view.querySelector('[data-export]')).toBeNull();
   });
 });
 
