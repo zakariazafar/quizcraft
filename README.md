@@ -23,7 +23,17 @@ _Screenshots: coming in phase 7._
 - Clear messages for a mistyped link (“Quiz not found”), a closed quiz, or a loading problem.
 - Every submission is saved to Firestore as one JSON record. A line under the score says “Your result has been saved.” If the taker is offline, the attempt is kept in the browser and sent automatically next time a quiz page opens; the result screen never waits for saving.
 
-_Dashboard (phase 4) and exports (phase 5) are coming._
+**For quiz owners** (`/dashboard`)
+
+- Sign in with the dashboard password (checked by Firebase; the session ends when the browser closes).
+- **Quiz list:** every published quiz with its number of questions and attempts, average score and status (Open / Closed / Removed), plus a **Share** button that copies the public link (“Link copied”; if the browser blocks copying, the link is shown selected).
+- **Quiz page:** attempts, takers, average, highest and lowest score; a table of every attempt (name, email, score, %, time) with search by name or email, date range, sorting, and an **Answers** view showing each question as right ✓ or wrong ✗ with the correct answer.
+- **One row per taker** groups attempts by email (attempts, best and latest score).
+- **Re-scoring:** every attempt is scored again from its saved answers against the quiz file. A score that doesn't match (e.g. faked in the browser) is corrected and marked “⚠ score corrected”; attempts on an older quiz version are marked “older version”.
+- **How each question went:** share of right answers per question (bar with the value written beside it) and the most chosen wrong answer, to spot hard questions.
+- **Hide** marks an attempt as spam in this browser (attempts can't be deleted from the site); “Show hidden” brings them back.
+
+_Exports (JSON/CSV, phase 5) are coming._
 
 ## 3. How it works
 
@@ -35,11 +45,11 @@ Full design: [`docs/PLAN.md`](docs/PLAN.md).
 
 ## 4. Pages and routes
 
-| URL            | Purpose                       |
-| -------------- | ----------------------------- |
-| `/`            | Landing page                  |
-| `/q/<quiz-id>` | Take a quiz                   |
-| `/dashboard`   | Results dashboard _(phase 4)_ |
+| URL            | Purpose                      |
+| -------------- | ---------------------------- |
+| `/`            | Landing page                 |
+| `/q/<quiz-id>` | Take a quiz                  |
+| `/dashboard`   | Results dashboard (password) |
 
 ## 5. Quiz file format
 
@@ -142,7 +152,17 @@ Rules cannot check each answer against the quiz, so the dashboard re‑scores ev
 
 ## 8. Dashboard guide
 
-_(coming in phase 4)_
+1. Open `<site>/dashboard` and enter the dashboard password. (It's the password of the Firebase user named in `VITE_DASHBOARD_EMAIL`; it is never stored in this repo.)
+2. **Share a quiz:** press **Share** next to it and paste the link anywhere. The link is `VITE_SITE_URL/q/<quiz-id>` (or the current site address if that isn't set).
+3. **See results:** click a quiz title. Use **Search**, **From/To** and the column headers to narrow and sort; press **Answers** on a row to see that taker's answers.
+4. **Refresh** reloads quizzes and attempts; **Sign out** ends the session.
+5. **Change the password:** Firebase console → Authentication → Users → the dashboard user → _Reset password_ (or _Edit_). Nothing in the site needs to change.
+
+Notes:
+
+- The dashboard loads up to 5,000 most recent attempts and does the grouping and statistics in the browser.
+- “Hide” is remembered only in the browser where you pressed it.
+- If the page says “This account is not allowed to read results”, the UID in the deployed `firestore.rules` doesn't match the dashboard user (see Deployment).
 
 ## 9. Security model and limits
 
@@ -211,7 +231,7 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 | `scripts/lib/newQuiz.js`              | `tests/unit/newQuiz.test.js`        |
 | every real quiz in `quizzes/`         | `tests/quizzes/all-quizzes.test.js` |
 
-Test fixtures (an Arabic quiz with diacritics, an English quiz, a copy of the mixed Ism quiz, and 13 deliberately invalid quizzes) live in `tests/fixtures/`.
+Test fixtures (an Arabic quiz with diacritics, an English quiz, a copy of the mixed Ism quiz, 13 deliberately invalid quizzes, and sample attempt documents including a faked score and an older-version attempt) live in `tests/fixtures/`.
 
 Published quizzes: `ism-four-properties` (20 questions, mixed), `tajweed-basics-01` (5, Arabic) and `html-basics-01` (5, English).
 

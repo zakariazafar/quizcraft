@@ -1,9 +1,14 @@
 // @ts-check
 import { initializeApp } from 'firebase/app';
 import {
+  collection,
   connectFirestoreEmulator,
   doc,
+  getDocs,
   getFirestore,
+  limit,
+  orderBy,
+  query,
   serverTimestamp,
   setDoc,
 } from 'firebase/firestore/lite';
@@ -44,4 +49,19 @@ export function firestoreAttemptWriter(config) {
 /** For tests. */
 export function resetFirebaseCache() {
   cache.clear();
+}
+
+/**
+ * All attempts, newest first (the dashboard groups and filters them in the browser).
+ * Needs the dashboard account to be signed in on the same Firebase app.
+ * @param {SiteConfig} config
+ * @param {number} [max]
+ * @returns {Promise<Record<string, unknown>[]>}
+ */
+export async function fetchAllAttempts(config, max = 5000) {
+  const { db } = getFirebase(config);
+  const snap = await getDocs(
+    query(collection(db, 'attempts'), orderBy('submittedAt', 'desc'), limit(max)),
+  );
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
