@@ -82,8 +82,11 @@ a {
   color: var(--green);
 }
 
+/* A whole Arabic quiz (dir="rtl"): almost every word is inside .ar, so the
+   22% inline-highlight size would blow up the whole page. Still slightly
+   bigger than the Latin body text, per PLAN.md §7. */
 [dir='rtl'] .ar {
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 .bidi[dir='rtl'] {
