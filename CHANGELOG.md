@@ -4,6 +4,7 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- docs: the rules-deploy service account also needs **Service Usage Consumer**; add troubleshooting rows for that 403 error and for rules that were never deployed
 - test(e2e): check the "Link copied" note next to the pressed Share button, not the first one in the list
 - test(e2e): make the Share test record what the page copies (headless browsers may refuse the real clipboard) and add a test for the "copy by hand" fallback
 - ci: move to Node 22 (Node 20 is end-of-life) in CI, `render.yaml` and `engines`; update checkout/setup-node/setup-java actions to v5

@@ -290,7 +290,7 @@ Render serves the site; Firebase stores attempts and checks the dashboard passwo
 
 ### Step 2: Let GitHub deploy the security rules
 
-1. In the [Google Cloud console](https://console.cloud.google.com) for the same project: _IAM & Admin → Service accounts → Create service account_ (e.g. `github-rules-deploy`). Give it the role **Firebase Rules Admin** and **Cloud Datastore Index Admin** (or simply **Firebase Admin**). Then _Keys → Add key → JSON_ and download the file.
+1. In the [Google Cloud console](https://console.cloud.google.com) for the same project: _IAM & Admin → Service accounts → Create service account_ (e.g. `github-rules-deploy`). Give it the roles **Firebase Rules Admin**, **Cloud Datastore Index Admin** and **Service Usage Consumer** (the deploy first checks that the Firestore API is enabled; without this role it fails with _“Permission denied to get service [firestore.googleapis.com]”_). Then _Keys → Add key → JSON_ and download the file.
 2. In GitHub: _Settings → Secrets and variables → Actions → New repository secret_, add:
 
 | Secret                     | Value                                  |
