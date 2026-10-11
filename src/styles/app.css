@@ -1,0 +1,43 @@
+:root {
+  --font-body: 'Noto Sans', system-ui, sans-serif;
+  --font-arabic: 'Noto Naskh Arabic', 'Noto Sans', system-ui, sans-serif;
+  --bg: #fbfaf7;
+  --text: #1d1d1f;
+  --muted: #5c5c66;
+  --accent: #0f6e5c;
+  --border: #dedad2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+.container {
+  max-inline-size: 760px;
+  margin-inline: auto;
+  padding: 24px 16px 64px;
+}
+
+/* Text from quizzes or takers: each line picks its own direction. */
+.bidi {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+
+[lang='ar'],
+.bidi:lang(ar) {
+  font-family: var(--font-arabic);
+  line-height: 1.8;
+}
+
+a {
+  color: var(--accent);
+}

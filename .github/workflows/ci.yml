@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Unit tests with coverage
+        run: npm run test:coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Changelog check (pull request)
+        if: github.event_name == 'pull_request'
+        run: node scripts/check-changelog.mjs "origin/${{ github.base_ref }}..HEAD"
+
+      - name: Changelog check (push)
+        if: github.event_name == 'push'
+        run: node scripts/check-changelog.mjs "${{ github.event.before }}..${{ github.sha }}"
