@@ -59,7 +59,7 @@ test('an Arabic quiz is shown right to left and keeps its diacritics', async ({ 
   await expect(page.locator('.q-text').first()).toHaveText(tajweed.questions[0].text);
   const fontReady = await page.evaluate(async () => {
     await document.fonts.ready;
-    return document.fonts.check('16px "Noto Naskh Arabic"', 'اسم');
+    return document.fonts.check('16px "Amiri Quran"', 'اسم');
   });
   expect(fontReady).toBe(true);
 });

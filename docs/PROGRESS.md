@@ -31,3 +31,4 @@ Claude Code ticks each phase (with the date) in the last commit of that phase. P
 - Phase 7: end-to-end tests run in GitHub Actions (the build workspace can't download the emulators); the dashboard test user gets the UID `DASHBOARD_UID_PLACEHOLDER`, which is what the committed rules compare against, so no test-only rules file is needed.
 - Phase 7: the rules are deployed by a GitHub Actions job using a service account, rather than by hand, and it skips (not fails) until the secrets exist.
 - Phase 7: Node 22 instead of Node 20, which reached end of life in April 2026.
+- Post-phase-7 (2026-10-12): swapped the Arabic typeface from Noto Naskh Arabic to **Amiri Quran** (owner request: a clean Uthmanic-Hafs-style font, like the KFGQPC Qur'an Complex font but under the SIL Open Font License, which this project requires for self-hosted fonts) and raised Arabic text to 1.6× the Latin body size. `docs/PLAN.md` §3 and §7 updated to match.
