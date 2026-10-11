@@ -1,6 +1,6 @@
 ---
 description: Build the next unfinished phase of QuizCraft from docs/BUILD_PROMPT.md
-argument-hint: "[optional phase number, e.g. 3]"
+argument-hint: '[optional phase number, e.g. 3]'
 ---
 
 1. Read `CLAUDE.md`, `docs/PLAN.md`, `docs/BUILD_PROMPT.md` and `docs/PROGRESS.md` completely.

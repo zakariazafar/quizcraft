@@ -1,0 +1,6 @@
+#!/bin/sh
+# Enable with: git config core.hooksPath .githooks
+if ! git diff --cached --name-only | grep -qx 'CHANGELOG.md'; then
+  echo "✗ CHANGELOG.md is not staged. Add a bullet under today's date (see CLAUDE.md)." >&2
+  exit 1
+fi

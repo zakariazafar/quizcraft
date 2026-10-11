@@ -23,6 +23,7 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
 ## 2. Flows
 
 ### 2.1 Creating a quiz (by code)
+
 1. You give Claude Code the source content (text, PDF, Word file, notes) and say how many questions, the difficulty and the language.
 2. Claude Code writes `quizzes/<quiz-id>.json` following the quiz format (§4), with 4 options per question, exactly one correct, and an explanation for each.
 3. `npm test` validates every quiz file (schema, exactly one correct answer, unique IDs, Arabic text normalised, correct answers spread across positions).
@@ -30,16 +31,18 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
 5. To retire a quiz, set `"active": false` (the link shows "This quiz is closed"; past attempts stay in the dashboard).
 
 ### 2.2 Taking a quiz (public)
+
 1. Open `/q/<quiz-id>` → see title, description and number of questions.
 2. Enter **name** (required) and **email** (required, validated) → **Start**.
 3. All questions on one page; one choice per question. A warning before submitting lists any unanswered questions (they count as wrong).
 4. **Submit** → the score is calculated in the browser and the **result screen** shows:
    - quiz name, taker name, **total score** (e.g. `7 / 10 – 70%`);
-   - for each wrong or unanswered question: the question, *your answer*, *correct answer*, and *why it's correct* (explanation);
+   - for each wrong or unanswered question: the question, _your answer_, _correct answer_, and _why it's correct_ (explanation);
    - a congratulation message if all answers are right.
 5. At the same moment, the attempt is saved to Firestore. If saving fails (offline, etc.) the result is still shown, the attempt is kept in the browser and retried automatically (up to 3 times, then again on the next visit), and a small notice says "Result not yet saved, retrying…".
 
 ### 2.3 Dashboard (password protected)
+
 1. Open `/dashboard` → enter the dashboard password → **Sign in**. (The password is checked by Firebase, not by page code; see §6.)
 2. **Quiz list**: title, language, number of questions, number of attempts, average score, active/closed, **Share** button (copies the public link and shows "Link copied").
 3. **Quiz page**:
@@ -54,20 +57,20 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
 
 ## 3. Technology choices
 
-| Concern | Choice | Why |
-|---|---|---|
-| Site | Plain **HTML + CSS + JavaScript (ES modules)**, built with **Vite** (multi‑page) | No framework needed; Vite bundles the Firebase SDK and injects config |
-| Quiz content | JSON files in `quizzes/`, validated with **JSON Schema (Ajv)** | "Made by code", reviewable in pull requests |
-| Attempt storage | **Firebase Firestore** (free Spark plan) | No server to run; security rules control who can read/write |
-| Dashboard password | **Firebase Authentication** (email/password) with one shared dashboard account | The password is checked by Google's servers, so it can't be read from the page source |
-| Abuse protection (optional, recommended) | **Firebase App Check** with reCAPTCHA v3 | Makes it harder for scripts to spam fake attempts |
-| Arabic font | Self‑hosted **Noto Naskh Arabic** + **Noto Sans** (`woff2`) | No external CDN; consistent rendering |
-| Unit/integration tests | **Vitest** + **jsdom** | Fast, runs in CI |
-| Security‑rule tests | **@firebase/rules-unit-testing** + **Firebase Emulator Suite** | Proves who can read and write |
-| End‑to‑end tests | **Playwright** against the built site + emulators | Full taker and dashboard flows |
-| Lint/format | **ESLint** + **Prettier** | Consistent code |
-| CI | **GitHub Actions** | Lint, tests, coverage gate, changelog check, rules deploy |
-| Hosting | **Render Static Site** via `render.yaml` | Auto‑deploy from GitHub, free |
+| Concern                                  | Choice                                                                           | Why                                                                                   |
+| ---------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Site                                     | Plain **HTML + CSS + JavaScript (ES modules)**, built with **Vite** (multi‑page) | No framework needed; Vite bundles the Firebase SDK and injects config                 |
+| Quiz content                             | JSON files in `quizzes/`, validated with **JSON Schema (Ajv)**                   | "Made by code", reviewable in pull requests                                           |
+| Attempt storage                          | **Firebase Firestore** (free Spark plan)                                         | No server to run; security rules control who can read/write                           |
+| Dashboard password                       | **Firebase Authentication** (email/password) with one shared dashboard account   | The password is checked by Google's servers, so it can't be read from the page source |
+| Abuse protection (optional, recommended) | **Firebase App Check** with reCAPTCHA v3                                         | Makes it harder for scripts to spam fake attempts                                     |
+| Arabic font                              | Self‑hosted **Noto Naskh Arabic** + **Noto Sans** (`woff2`)                      | No external CDN; consistent rendering                                                 |
+| Unit/integration tests                   | **Vitest** + **jsdom**                                                           | Fast, runs in CI                                                                      |
+| Security‑rule tests                      | **@firebase/rules-unit-testing** + **Firebase Emulator Suite**                   | Proves who can read and write                                                         |
+| End‑to‑end tests                         | **Playwright** against the built site + emulators                                | Full taker and dashboard flows                                                        |
+| Lint/format                              | **ESLint** + **Prettier**                                                        | Consistent code                                                                       |
+| CI                                       | **GitHub Actions**                                                               | Lint, tests, coverage gate, changelog check, rules deploy                             |
+| Hosting                                  | **Render Static Site** via `render.yaml`                                         | Auto‑deploy from GitHub, free                                                         |
 
 ---
 
@@ -101,6 +104,7 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
 ```
 
 Rules (enforced by tests):
+
 - `id`: lowercase letters, digits and hyphens, 3–60 chars, equal to the file name, unique.
 - `language`: `ar`, `en` or `mixed`.
 - 1–100 questions; question `id`s unique within the quiz; exactly **4 options** with unique `id`s; `correct` matches one option `id`; `explanation` not empty.
@@ -149,12 +153,14 @@ Collection path: `attempts/{autoId}`. One document per submission:
 ## 6. Security model (no server of our own)
 
 **Firestore security rules (`firestore.rules`, in the repo, tested):**
+
 - `attempts`: **create** allowed to anyone, only if the document has exactly the allowed fields with the right types and sizes (name ≤ 100 chars, email ≤ 254 chars and email‑shaped, ≤ 100 answers, `0 ≤ score ≤ total ≤ 100`, `percent` consistent, `submittedAt == request.time`). With App Check enforced, only requests from our site are accepted.
 - **No update, no delete** from the site, ever.
 - **Read** only if signed in as the dashboard account: `request.auth.uid == "<DASHBOARD_UID>"`.
 - Everything else denied.
 
 **Dashboard password:**
+
 - One Firebase Auth user, e.g. `dashboard@quizcraft.local`, whose password is the dashboard password. The dashboard page shows only a password box; the email is fixed in config. Firebase checks the password, so it is **not in the page source or the repo**.
 - The password must **never be committed** to the repo, README or tests. Tests use the emulator with a test password.
 - Turn off public sign‑ups in Firebase Auth settings. Even if someone created another account, the rules only allow the dashboard UID to read.
@@ -185,14 +191,14 @@ Collection path: `attempts/{autoId}`. One document per submission:
 
 ## 8. Pages and routes
 
-| URL | File | Purpose |
-|---|---|---|
-| `/` | `index.html` | Simple landing page (site name, link to dashboard). Quizzes are **not** listed publicly. |
-| `/q/<quiz-id>` | `quiz.html` (Render rewrite) | Quiz intro → name/email → questions → result |
-| `/dashboard` | `dashboard.html` | Password sign‑in → quiz list → quiz stats/attempts |
-| `/quizzes/<id>.json` | static | Quiz data (fetched by `quiz.html`) |
-| `/quizzes/index.json` | generated | Quiz list for the dashboard |
-| `*` (not found) | `404.html` | Friendly not‑found page |
+| URL                   | File                         | Purpose                                                                                  |
+| --------------------- | ---------------------------- | ---------------------------------------------------------------------------------------- |
+| `/`                   | `index.html`                 | Simple landing page (site name, link to dashboard). Quizzes are **not** listed publicly. |
+| `/q/<quiz-id>`        | `quiz.html` (Render rewrite) | Quiz intro → name/email → questions → result                                             |
+| `/dashboard`          | `dashboard.html`             | Password sign‑in → quiz list → quiz stats/attempts                                       |
+| `/quizzes/<id>.json`  | static                       | Quiz data (fetched by `quiz.html`)                                                       |
+| `/quizzes/index.json` | generated                    | Quiz list for the dashboard                                                              |
+| `*` (not found)       | `404.html`                   | Friendly not‑found page                                                                  |
 
 ---
 
@@ -248,16 +254,16 @@ quizcraft/
 
 Build‑time environment variables (set in Render and `.env` locally). Firebase web config values are **not secret**; protection comes from the security rules.
 
-| Variable | Example | Notes |
-|---|---|---|
-| `VITE_FIREBASE_API_KEY` | `AIza...` | From Firebase project settings |
-| `VITE_FIREBASE_AUTH_DOMAIN` | `quizcraft-xxxx.firebaseapp.com` | |
-| `VITE_FIREBASE_PROJECT_ID` | `quizcraft-xxxx` | |
-| `VITE_FIREBASE_APP_ID` | `1:...:web:...` | |
-| `VITE_DASHBOARD_EMAIL` | `dashboard@quizcraft.local` | Fixed account the dashboard password signs into |
-| `VITE_RECAPTCHA_SITE_KEY` | | Only if App Check is enabled |
-| `VITE_SITE_URL` | `https://quizcraft.onrender.com` | Used for share links (falls back to `location.origin`) |
-| `VITE_USE_EMULATORS` | `false` | `true` in tests/local dev |
+| Variable                    | Example                          | Notes                                                  |
+| --------------------------- | -------------------------------- | ------------------------------------------------------ |
+| `VITE_FIREBASE_API_KEY`     | `AIza...`                        | From Firebase project settings                         |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `quizcraft-xxxx.firebaseapp.com` |                                                        |
+| `VITE_FIREBASE_PROJECT_ID`  | `quizcraft-xxxx`                 |                                                        |
+| `VITE_FIREBASE_APP_ID`      | `1:...:web:...`                  |                                                        |
+| `VITE_DASHBOARD_EMAIL`      | `dashboard@quizcraft.local`      | Fixed account the dashboard password signs into        |
+| `VITE_RECAPTCHA_SITE_KEY`   |                                  | Only if App Check is enabled                           |
+| `VITE_SITE_URL`             | `https://quizcraft.onrender.com` | Used for share links (falls back to `location.origin`) |
+| `VITE_USE_EMULATORS`        | `false`                          | `true` in tests/local dev                              |
 
 GitHub Actions secret (only for deploying rules): `FIREBASE_TOKEN` or a service‑account JSON (`FIREBASE_SERVICE_ACCOUNT`). The dashboard UID goes into `firestore.rules` (not secret).
 
@@ -265,23 +271,23 @@ GitHub Actions secret (only for deploying rules): `FIREBASE_TOKEN` or a service�
 
 ## 11. Testing strategy (every functional module covered)
 
-| Module | Type | Key cases |
-|---|---|---|
-| `validate` + `tests/quizzes` | unit | valid Arabic/mixed quiz; missing fields; 3 or 5 options; `correct` not an option; duplicate ids; id ≠ file name; non‑NFC text; correct answers clustered; **every real file in `quizzes/` passes** |
-| `quizLoader` | unit (mocked fetch) | loads quiz, 404 → "not found", inactive → "closed", invalid JSON → error |
-| `scoring` | unit | all right, all wrong, partial, unanswered, unknown option ignored, review list has question/your answer/correct answer/explanation, Arabic preserved |
-| `takerForm` | unit | name required/trimmed/NFC/max length, email validation, Arabic names allowed |
-| `attempts` | unit (mocked Firestore) | record has exact fields/types; save success; failure → queued in localStorage; retry on next load; no duplicates after retry |
-| `share` | unit (jsdom) | URL built from `VITE_SITE_URL` or origin; clipboard success shows toast; clipboard blocked → fallback input selected |
-| `bidi` | unit | Arabic detection; `dir`/`lang` applied for `ar` quizzes; `dir="auto"` helper |
-| `render/*` | unit (jsdom) | intro, questions, result screen; text inserted with `textContent` (script tags in names don't execute); every text node container has `dir="auto"` |
-| `dashboardAuth` | unit (mocked Auth) | correct password → signed in; wrong password → error message; sign‑out |
-| `dashboardData` | unit | re‑scoring and mismatch flag; summary stats; per‑question stats; search/filter/sort; grouping by email |
-| `exportData` | unit | JSON matches records; CSV has BOM, header, escaped commas/quotes/newlines, Arabic intact |
-| `build-quiz-index` | unit | index generated, invalid quiz fails the build |
-| `check-changelog` | unit | commit without CHANGELOG change fails; with it passes; merge commits skipped |
-| **Firestore rules** | emulator | anonymous create valid → ok; extra field / wrong type / oversized / score > total / wrong timestamp → denied; update/delete → denied; read anonymous → denied; read as other user → denied; read as dashboard UID → allowed |
-| **E2E** | Playwright + emulators | taker: open `/q/<arabic fixture>`, enter name/email, answer with one wrong, see score + correct answer + explanation, attempt in Firestore emulator; dashboard: wrong password rejected, right password → attempt listed with name/email/score, detail view, CSV and JSON download, Share copies link; closed quiz message; unknown quiz → 404 page |
+| Module                       | Type                    | Key cases                                                                                                                                                                                                                                                                                                                                           |
+| ---------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `validate` + `tests/quizzes` | unit                    | valid Arabic/mixed quiz; missing fields; 3 or 5 options; `correct` not an option; duplicate ids; id ≠ file name; non‑NFC text; correct answers clustered; **every real file in `quizzes/` passes**                                                                                                                                                  |
+| `quizLoader`                 | unit (mocked fetch)     | loads quiz, 404 → "not found", inactive → "closed", invalid JSON → error                                                                                                                                                                                                                                                                            |
+| `scoring`                    | unit                    | all right, all wrong, partial, unanswered, unknown option ignored, review list has question/your answer/correct answer/explanation, Arabic preserved                                                                                                                                                                                                |
+| `takerForm`                  | unit                    | name required/trimmed/NFC/max length, email validation, Arabic names allowed                                                                                                                                                                                                                                                                        |
+| `attempts`                   | unit (mocked Firestore) | record has exact fields/types; save success; failure → queued in localStorage; retry on next load; no duplicates after retry                                                                                                                                                                                                                        |
+| `share`                      | unit (jsdom)            | URL built from `VITE_SITE_URL` or origin; clipboard success shows toast; clipboard blocked → fallback input selected                                                                                                                                                                                                                                |
+| `bidi`                       | unit                    | Arabic detection; `dir`/`lang` applied for `ar` quizzes; `dir="auto"` helper                                                                                                                                                                                                                                                                        |
+| `render/*`                   | unit (jsdom)            | intro, questions, result screen; text inserted with `textContent` (script tags in names don't execute); every text node container has `dir="auto"`                                                                                                                                                                                                  |
+| `dashboardAuth`              | unit (mocked Auth)      | correct password → signed in; wrong password → error message; sign‑out                                                                                                                                                                                                                                                                              |
+| `dashboardData`              | unit                    | re‑scoring and mismatch flag; summary stats; per‑question stats; search/filter/sort; grouping by email                                                                                                                                                                                                                                              |
+| `exportData`                 | unit                    | JSON matches records; CSV has BOM, header, escaped commas/quotes/newlines, Arabic intact                                                                                                                                                                                                                                                            |
+| `build-quiz-index`           | unit                    | index generated, invalid quiz fails the build                                                                                                                                                                                                                                                                                                       |
+| `check-changelog`            | unit                    | commit without CHANGELOG change fails; with it passes; merge commits skipped                                                                                                                                                                                                                                                                        |
+| **Firestore rules**          | emulator                | anonymous create valid → ok; extra field / wrong type / oversized / score > total / wrong timestamp → denied; update/delete → denied; read anonymous → denied; read as other user → denied; read as dashboard UID → allowed                                                                                                                         |
+| **E2E**                      | Playwright + emulators  | taker: open `/q/<arabic fixture>`, enter name/email, answer with one wrong, see score + correct answer + explanation, attempt in Firestore emulator; dashboard: wrong password rejected, right password → attempt listed with name/email/score, detail view, CSV and JSON download, Share copies link; closed quiz message; unknown quiz → 404 page |
 
 - Coverage gate: **≥ 90 % lines** for `src/lib` (Vitest `coverage.thresholds`).
 - No real Firebase in tests: emulators or mocks only.
@@ -291,6 +297,7 @@ GitHub Actions secret (only for deploying rules): `FIREBASE_TOKEN` or a service�
 ## 12. Hosting on Render
 
 `render.yaml`:
+
 - `type: web`, `runtime: static`, `buildCommand: npm ci && npm run build`, `staticPublishPath: dist`.
 - `routes`: rewrite `/q/*` → `/quiz.html`, `/dashboard` → `/dashboard.html`.
 - `headers`: security headers from §6; long cache for `/assets/*` and fonts, short cache for `/quizzes/*`.
@@ -309,12 +316,15 @@ Firestore rules and indexes are deployed by GitHub Actions (`firebase deploy --o
 
   ```markdown
   # Changelog
+
   All notable changes, grouped by date (newest first).
 
   ## 2026-10-12
+
   - feat(quiz): render quiz page with RTL support
   - quiz: add tajweed-basics-01 (10 questions, Arabic)
   ```
+
 - `scripts/check-changelog.mjs` fails CI if any commit in the push/PR range changed files but not `CHANGELOG.md` (merge commits skipped). Optional local `pre-commit` hook.
 - **CI workflow:** checkout (full history) → Node 20 + Java 17 (for emulators) → `npm ci` → lint + format check → `npm run test:coverage` → `npm run test:rules` (emulator) → `npm run build` → Playwright e2e (emulators) → changelog check. Separate job on `main`: deploy Firestore rules.
 
@@ -322,16 +332,16 @@ Firestore rules and indexes are deployed by GitHub Actions (`firebase deploy --o
 
 ## 14. Delivery phases
 
-| # | Phase | Outcome |
-|---|---|---|
-| 0 | Bootstrap | Vite multi‑page project, lint/format, Vitest, CI, changelog script, README skeleton, CHANGELOG, CLAUDE.md |
-| 1 | Quiz format | JSON Schema, `validate.js`, quiz tests, index build script, `new-quiz` scaffold, sample Arabic + English quizzes |
-| 2 | Quiz page | Loader, intro, name/email form, questions, scoring, result screen, Arabic/RTL styling + fonts |
-| 3 | Saving attempts | Firebase init, attempt record, Firestore rules + emulator tests, retry queue |
-| 4 | Dashboard | Password sign‑in, quiz list, Share button, stats, attempts table, detail, per‑question stats, re‑scoring |
-| 5 | Exports | JSON and CSV download |
-| 6 | Hardening | App Check, CSP/headers, 404 page, privacy notice, XSS tests |
-| 7 | E2E + deploy | Playwright flows, `render.yaml`, rules deploy job, complete README |
+| #   | Phase           | Outcome                                                                                                          |
+| --- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 0   | Bootstrap       | Vite multi‑page project, lint/format, Vitest, CI, changelog script, README skeleton, CHANGELOG, CLAUDE.md        |
+| 1   | Quiz format     | JSON Schema, `validate.js`, quiz tests, index build script, `new-quiz` scaffold, sample Arabic + English quizzes |
+| 2   | Quiz page       | Loader, intro, name/email form, questions, scoring, result screen, Arabic/RTL styling + fonts                    |
+| 3   | Saving attempts | Firebase init, attempt record, Firestore rules + emulator tests, retry queue                                     |
+| 4   | Dashboard       | Password sign‑in, quiz list, Share button, stats, attempts table, detail, per‑question stats, re‑scoring         |
+| 5   | Exports         | JSON and CSV download                                                                                            |
+| 6   | Hardening       | App Check, CSP/headers, 404 page, privacy notice, XSS tests                                                      |
+| 7   | E2E + deploy    | Playwright flows, `render.yaml`, rules deploy job, complete README                                               |
 
 ---
 
@@ -354,4 +364,5 @@ Firestore rules and indexes are deployed by GitHub Actions (`firebase deploy --o
 - Quizzes are for practice and learning: correct answers can be found by technical users (§4 note).
 
 ## 17. Future options
+
 Per‑quiz dashboard passwords · time limits · random question subset/order per taker · true/false and multi‑select · certificate/printable result · Arabic UI translation · CSV import of quizzes from a spreadsheet.
