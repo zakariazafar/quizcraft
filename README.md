@@ -35,11 +35,60 @@ Full design: [`docs/PLAN.md`](docs/PLAN.md).
 
 ## 5. Quiz file format
 
-_(coming in phase 1; see `docs/PLAN.md` §4)_
+Each quiz is one file, `quizzes/<quiz-id>.json`. JSON Schema: [`schema/quiz.schema.json`](schema/quiz.schema.json).
+
+```json
+{
+  "$schema": "../schema/quiz.schema.json",
+  "id": "ism-four-properties",
+  "version": 1,
+  "active": true,
+  "title": "The 4 Properties of an اِسْم (Ism)",
+  "description": "Optional short description.",
+  "language": "mixed",
+  "createdAt": "2026-10-11",
+  "source": "Optional: where the content came from",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What are the 4 properties of an اِسْم?",
+      "options": [
+        { "id": "a", "text": "Status, Number, Gender, Type" },
+        { "id": "b", "text": "Status, Tense, Gender, Type" },
+        { "id": "c", "text": "Number, Gender, Doer, Detail" },
+        { "id": "d", "text": "Tense, Number, Gender, Person" }
+      ],
+      "correct": "a",
+      "explanation": "An اِسْم has 4 properties: Status, Number, Gender and Type."
+    }
+  ]
+}
+```
+
+Validation rules (checked by `npm test` and before every build, in `src/lib/validate.js`):
+
+- `id`: 3–60 lowercase letters, digits or hyphens, equal to the file name.
+- `version` integer ≥ 1 (increase it when you change questions of a quiz people have already taken); `active` true/false (false shows "This quiz is closed").
+- `language`: `ar`, `en` or `mixed`; `createdAt`: `YYYY-MM-DD`.
+- 1–100 questions; unique question ids; exactly **4 options** with unique ids and texts; `correct` is one option id; `explanation` required.
+- All text NFC‑normalised with no leading/trailing spaces (Arabic diacritics are kept).
+- For quizzes with 6+ questions, no more than half the correct answers may sit in the same position.
+
+The build (`npm run build`, also `npm run quizzes`) validates every quiz, copies it to `public/quizzes/` and writes `public/quizzes/index.json` for the dashboard. One invalid quiz stops the build.
 
 ## 6. How to add or edit a quiz
 
-In Claude Code run `/add-quiz <paste content or give a file path>`. Details in `CLAUDE.md` → "How to add a quiz". _(Hand-editing guide coming in phase 1.)_
+**With Claude Code (recommended):** run `/add-quiz <paste content or give a file path>` and say how many questions you want. Claude Code writes the quiz file, runs the checks, commits with a changelog entry and pushes a branch. Details in `CLAUDE.md` → "How to add a quiz".
+
+**By hand:**
+
+1. `npm run new-quiz -- <quiz-id>` creates `quizzes/<quiz-id>.json` with TODO placeholders.
+2. Fill in the title, language and questions (format above). Write Arabic with its diacritics.
+3. Run `npm test` and fix any reported problem (the message names the file and question).
+4. Add a bullet to `CHANGELOG.md`, commit as `quiz: add <quiz-id> (<n> questions, <language>)`, push and open a pull request.
+5. After merge and deploy the quiz is live at `<site>/q/<quiz-id>`.
+
+To edit a quiz people have already taken, increase `version`. To close a quiz, set `"active": false`.
 
 ## 7. Attempt record format
 
@@ -86,14 +135,22 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 
 ## 13. Testing
 
-| Command                 | What it runs                                     |
-| ----------------------- | ------------------------------------------------ |
-| `npm test`              | Unit tests (Vitest)                              |
-| `npm run test:coverage` | Unit tests with coverage; fails below 90 % lines |
+| Command                    | What it runs                                     |
+| -------------------------- | ------------------------------------------------ |
+| `npm test`                 | Unit tests (Vitest)                              |
+| `npm run test:coverage`    | Unit tests with coverage; fails below 90 % lines |
+| `npm run quizzes`          | Validate quizzes and write `public/quizzes/`     |
+| `npm run new-quiz -- <id>` | Scaffold a new quiz file                         |
 
-| Module                     | Test file                      |
-| -------------------------- | ------------------------------ |
-| `scripts/lib/changelog.js` | `tests/unit/changelog.test.js` |
+| Module                                | Test file                           |
+| ------------------------------------- | ----------------------------------- |
+| `scripts/lib/changelog.js`            | `tests/unit/changelog.test.js`      |
+| `src/lib/validate.js` (+ JSON Schema) | `tests/unit/validate.test.js`       |
+| `scripts/lib/quizIndex.js`            | `tests/unit/quizIndex.test.js`      |
+| `scripts/lib/newQuiz.js`              | `tests/unit/newQuiz.test.js`        |
+| every real quiz in `quizzes/`         | `tests/quizzes/all-quizzes.test.js` |
+
+Test fixtures (an Arabic quiz with diacritics and an English quiz) live in `tests/fixtures/`.
 
 Firestore rules tests and Playwright end‑to‑end tests are added in phases 3 and 7.
 

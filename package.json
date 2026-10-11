@@ -17,7 +17,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "changelog:check": "node scripts/check-changelog.mjs"
+    "changelog:check": "node scripts/check-changelog.mjs",
+    "quizzes": "node scripts/build-quiz-index.mjs",
+    "predev": "node scripts/build-quiz-index.mjs",
+    "prebuild": "node scripts/build-quiz-index.mjs",
+    "new-quiz": "node scripts/new-quiz.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

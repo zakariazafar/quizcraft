@@ -1,0 +1,131 @@
+{
+  "id": "english-sample",
+  "version": 1,
+  "active": true,
+  "title": "Sample English quiz",
+  "description": "Five short questions.",
+  "language": "en",
+  "createdAt": "2026-10-10",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What is 2 + 2?",
+      "options": [
+        {
+          "id": "a",
+          "text": "4"
+        },
+        {
+          "id": "b",
+          "text": "3"
+        },
+        {
+          "id": "c",
+          "text": "5"
+        },
+        {
+          "id": "d",
+          "text": "22"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Two plus two is four."
+    },
+    {
+      "id": "q2",
+      "text": "Which is a colour?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Table"
+        },
+        {
+          "id": "b",
+          "text": "Blue"
+        },
+        {
+          "id": "c",
+          "text": "Run"
+        },
+        {
+          "id": "d",
+          "text": "Quickly"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Blue is a colour."
+    },
+    {
+      "id": "q3",
+      "text": "Which is a verb?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Happy"
+        },
+        {
+          "id": "b",
+          "text": "Chair"
+        },
+        {
+          "id": "c",
+          "text": "Run"
+        },
+        {
+          "id": "d",
+          "text": "Sydney"
+        }
+      ],
+      "correct": "c",
+      "explanation": "Run is an action."
+    },
+    {
+      "id": "q4",
+      "text": "Which is a place?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Anger"
+        },
+        {
+          "id": "b",
+          "text": "Eat"
+        },
+        {
+          "id": "c",
+          "text": "Slowly"
+        },
+        {
+          "id": "d",
+          "text": "Sydney"
+        }
+      ],
+      "correct": "d",
+      "explanation": "Sydney is a city."
+    },
+    {
+      "id": "q5",
+      "text": "Which word is an adverb?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Slowly"
+        },
+        {
+          "id": "b",
+          "text": "Slow"
+        },
+        {
+          "id": "c",
+          "text": "Slowness"
+        },
+        {
+          "id": "d",
+          "text": "Slower"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Words ending in -ly are often adverbs."
+    }
+  ]
+}
