@@ -68,7 +68,8 @@ test('Share copies the public quiz link', async ({ page }) => {
   });
   await signIn(page);
   await page.locator(`[data-share="${ism.id}"]`).click();
-  await expect(page.locator('.share-note').first()).toHaveText('Link copied');
+  // The note next to the button that was pressed (the list holds several quizzes).
+  await expect(page.locator(`[data-share="${ism.id}"] + .share-note`)).toHaveText('Link copied');
   expect(await page.evaluate(() => window.__copied)).toEqual([`http://127.0.0.1:4173/q/${ism.id}`]);
 });
 
