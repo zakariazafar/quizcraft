@@ -9,7 +9,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "predev": "node scripts/build-quiz-index.mjs",
+    "build": "node scripts/build-quiz-index.mjs && vite build",
+    "validate:quizzes": "node scripts/build-quiz-index.mjs --check",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",

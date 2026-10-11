@@ -27,15 +27,92 @@ Full design: [`docs/PLAN.md`](docs/PLAN.md).
 
 ## 4. Pages and routes
 
-| URL            | Purpose                       |
-| -------------- | ----------------------------- |
-| `/`            | Landing page                  |
-| `/q/<quiz-id>` | Take a quiz _(phase 2)_       |
-| `/dashboard`   | Results dashboard _(phase 4)_ |
+| URL                       | Purpose                                                |
+| ------------------------- | ------------------------------------------------------ |
+| `/`                       | Landing page (quizzes are not listed publicly)         |
+| `/q/<quiz-id>`            | Take a quiz _(phase 2)_                                |
+| `/dashboard`              | Results dashboard _(phase 4)_                          |
+| `/quizzes/<quiz-id>.json` | A published quiz file, fetched by the quiz page        |
+| `/quizzes/index.json`     | Generated list of quizzes (id, title, language, count) |
+| anything else             | `404.html`                                             |
 
 ## 5. Quiz file format
 
-_(coming in phase 1; see `docs/PLAN.md` §4)_
+One quiz per file: `quizzes/<quiz-id>.json`. The file name **is** the quiz id and the
+public link: `quizzes/tajweed-basics-01.json` → `/q/tajweed-basics-01`.
+
+```json
+{
+  "id": "tajweed-basics-01",
+  "version": 1,
+  "active": true,
+  "title": "أَحْكَامُ التَّجْوِيدِ — الْمُسْتَوَى الْأَوَّلُ",
+  "description": "خَمْسَةُ أَسْئِلَةٍ فِي أَحْكَامِ النُّونِ وَالْمِيمِ السَّاكِنَتَيْنِ.",
+  "language": "ar",
+  "createdAt": "2026-10-11",
+  "source": "Notes provided by the owner, chapter 1",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "مَا حُكْمُ النُّونِ السَّاكِنَةِ إِذَا جَاءَ بَعْدَهَا حَرْفُ الْيَاءِ؟",
+      "options": [
+        { "id": "a", "text": "إِظْهَارٌ حَلْقِيٌّ" },
+        { "id": "b", "text": "إِدْغَامٌ بِغُنَّةٍ" },
+        { "id": "c", "text": "إِقْلَابٌ" },
+        { "id": "d", "text": "إِخْفَاءٌ حَقِيقِيٌّ" }
+      ],
+      "correct": "b",
+      "explanation": "الْيَاءُ مِنْ حُرُوفِ «يَرْمَلُونَ»، فَيَكُونُ مَعَهَا الإِدْغَامُ بِغُنَّةٍ."
+    }
+  ]
+}
+```
+
+### Fields
+
+| Field         | Required | Rules                                                                                                |
+| ------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| `id`          | yes      | 3–60 chars, lowercase letters, digits and single hyphens; **equal to the file name** without `.json` |
+| `version`     | yes      | Integer ≥ 1. Increase it whenever you change a quiz people have already taken                        |
+| `active`      | yes      | `false` shows "This quiz is closed" instead of the questions; past attempts stay in the dashboard    |
+| `title`       | yes      | 1–200 chars                                                                                          |
+| `description` | yes      | 1–500 chars                                                                                          |
+| `language`    | yes      | `ar`, `en` or `mixed`. `ar` makes the quiz container `dir="rtl" lang="ar"`                           |
+| `createdAt`   | yes      | A real date as `YYYY-MM-DD`                                                                          |
+| `source`      | no       | Where the questions came from, 1–300 chars                                                           |
+| `questions`   | yes      | 1–100 questions                                                                                      |
+
+Each question has `id` (unique in the quiz, ≤ 20 chars), `text` (≤ 1000), exactly **four**
+`options` with unique ids (`id` ≤ 4 chars, `text` ≤ 300), `correct` (the id of the one
+correct option) and `explanation` (1–1000 chars, in the quiz language).
+
+### Validation rules
+
+`schema/quiz.schema.json` describes the structure; `src/lib/validate.js` enforces every
+rule, including the ones a JSON Schema cannot express. A quiz is rejected — and the build
+fails — when any of these is broken:
+
+- `id` malformed, too short/long, or different from the file name.
+- A question or option id appears twice, or a question does not have exactly four options.
+- `correct` is not one of that question's option ids, or `explanation` is empty.
+- Any text is empty, starts or ends with whitespace, or is not NFC-normalised.
+  **Arabic diacritics are never stripped** — normalisation only changes how characters are encoded.
+- Unknown fields anywhere in the file (a typo like `"explination"` is an error, not a silent loss).
+- Correct answers are clustered: in a quiz with 6 or more questions, no single option
+  position may hold more than 50 % of the correct answers.
+
+Run the checks with `npm test` (every file in `quizzes/`) or `npm run validate:quizzes`.
+
+### Publishing
+
+`npm run build` (and `npm run dev`) first runs `scripts/build-quiz-index.mjs`, which
+validates every quiz, copies the valid ones to `public/quizzes/` and writes
+`public/quizzes/index.json` — the list the dashboard reads. **An invalid quiz fails the
+build and nothing is written**, so a broken quiz can never reach the live site.
+
+> **Answers are visible.** There is no server, so the browser downloads the whole quiz
+> file, correct answers included. Fine for practice and learning; not for high-stakes
+> exams. See `docs/PLAN.md` §4.
 
 ## 6. How to add or edit a quiz
 
@@ -67,6 +144,9 @@ cp .env.example .env
 npm run dev          # http://localhost:5173
 ```
 
+`npm run dev` and `npm run build` both validate `quizzes/` first and publish the valid
+quizzes to `public/quizzes/` (generated, not committed).
+
 The Firebase emulators are added in phase 3.
 
 ## 12. Environment variables
@@ -86,14 +166,24 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 
 ## 13. Testing
 
-| Command                 | What it runs                                     |
-| ----------------------- | ------------------------------------------------ |
-| `npm test`              | Unit tests (Vitest)                              |
-| `npm run test:coverage` | Unit tests with coverage; fails below 90 % lines |
+| Command                    | What it runs                                                |
+| -------------------------- | ----------------------------------------------------------- |
+| `npm test`                 | Unit tests and quiz-file validation (Vitest)                |
+| `npm run test:coverage`    | The same with coverage; fails below 90 % lines on `src/lib` |
+| `npm run validate:quizzes` | Validates `quizzes/` without writing anything               |
 
-| Module                     | Test file                      |
-| -------------------------- | ------------------------------ |
-| `scripts/lib/changelog.js` | `tests/unit/changelog.test.js` |
+| Module                         | Test file                       |
+| ------------------------------ | ------------------------------- |
+| `src/lib/validate.js`          | `tests/unit/validate.test.js`   |
+| `scripts/lib/quizSchema.js`    | `tests/unit/quizSchema.test.js` |
+| `scripts/lib/quizIndex.js`     | `tests/unit/quizIndex.test.js`  |
+| `scripts/build-quiz-index.mjs` | `tests/unit/quizIndex.test.js`  |
+| `scripts/lib/changelog.js`     | `tests/unit/changelog.test.js`  |
+| every file in `quizzes/`       | `tests/quizzes/quizzes.test.js` |
+
+Quiz fixtures live in `tests/fixtures/`: `arabic-quiz.json` (full diacritics),
+`mixed-quiz.json` (Arabic + English on one line) and one `bad-*.json` per rule, so each
+validation rule is proved by a file you can read.
 
 Firestore rules tests and Playwright end‑to‑end tests are added in phases 3 and 7.
 
@@ -111,12 +201,15 @@ _(coming in phase 7: Firebase setup, Render Blueprint, rules deployment)_
 quizcraft/
 ├── index.html quiz.html dashboard.html 404.html
 ├── src/pages/        page scripts
-├── src/lib/          tested logic modules
+├── src/lib/          tested logic modules (validate.js …)
 ├── src/styles/       CSS
-├── quizzes/          quiz JSON files
+├── quizzes/          quiz JSON files — the source of truth
 ├── schema/           quiz JSON Schema
-├── scripts/          build and CI scripts (lib/ holds tested logic)
-├── tests/unit/       Vitest tests
+├── scripts/          build-quiz-index.mjs, check-changelog.mjs (lib/ holds the tested logic)
+├── public/quizzes/   generated: published quizzes + index.json
+├── tests/unit/       Vitest unit tests
+├── tests/quizzes/    validates every file in quizzes/
+├── tests/fixtures/   valid and deliberately invalid quiz files
 ├── docs/             PLAN, BUILD_PROMPT, PROGRESS
 └── .github/workflows/ci.yml
 ```

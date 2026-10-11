@@ -4,6 +4,9 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-11
 
+- feat(build): add `scripts/build-quiz-index.mjs`, which validates `quizzes/`, publishes them to `public/quizzes/` and writes `index.json`; it runs before `vite build` and `vite dev`, and an invalid quiz fails the build without writing anything
+- feat(scripts): add `npm run validate:quizzes` (`--check`: validate without writing)
+- docs: document the quiz file format, its validation rules, the generated quiz routes and the module → test map in the README
 - quiz: add tajweed-basics-01 (5 questions, Arabic with full diacritics)
 - quiz: add html-basics-01 (5 questions, English)
 - test(quiz): validate every file in `quizzes/` against the validator and the schema, and check the Arabic sample keeps its diacritics
