@@ -1,43 +1,418 @@
 :root {
+  --page: #f7f8f6;
+  --surface: #ffffff;
+  --ink: #1c2b2a;
+  --muted: #56645f;
+  --line: #d9dfdb;
+  --green: #1f5a44;
+  --green-soft: #e6efe9;
+  --gold: #a9842b;
+  --gold-soft: #f6efdc;
+  --right: #1e7a4c;
+  --right-soft: #e5f3eb;
+  --wrong: #b3261e;
+  --wrong-soft: #fbe9e7;
   --font-body: 'Noto Sans', system-ui, sans-serif;
-  --font-arabic: 'Noto Naskh Arabic', 'Noto Sans', system-ui, sans-serif;
-  --bg: #fbfaf7;
-  --text: #1d1d1f;
-  --muted: #5c5c66;
-  --accent: #0f6e5c;
-  --border: #dedad2;
+  --font-arabic: 'Noto Naskh Arabic', 'Noto Sans', serif;
+  --radius-control: 10px;
+  --radius-panel: 16px;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--page);
+  color: var(--ink);
   font-family: var(--font-body);
+  font-size: 1.0625rem;
   line-height: 1.6;
 }
 
 .container {
-  max-inline-size: 760px;
+  max-inline-size: 42rem;
   margin-inline: auto;
-  padding: 24px 16px 64px;
+  padding: 2.5rem 1rem 7rem;
 }
 
-/* Text from quizzes or takers: each line picks its own direction. */
-.bidi {
-  unicode-bidi: plaintext;
-  text-align: start;
+h1,
+h2 {
+  line-height: 1.25;
+  margin-block: 0 0.75rem;
+  font-weight: 600;
 }
 
-[lang='ar'],
-.bidi:lang(ar) {
-  font-family: var(--font-arabic);
-  line-height: 1.8;
+h1 {
+  font-size: 1.75rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-block-start: 2.5rem;
+}
+
+h1:focus {
+  outline: none;
 }
 
 a {
-  color: var(--accent);
+  color: var(--green);
+}
+
+/* Text from quizzes or takers: dir is set from its main script (bidi.textDirection). */
+.bidi {
+  unicode-bidi: isolate;
+  text-align: start;
+}
+
+/* Arabic inside any text: the studied words stand out. */
+.ar {
+  font-family: var(--font-arabic);
+}
+
+.ar {
+  font-size: 1.22em;
+  line-height: 1.5;
+  color: var(--green);
+}
+
+[dir='rtl'] .ar {
+  font-size: 1em;
+}
+
+.bidi[dir='rtl'] {
+  line-height: 1.9;
+}
+
+.meta {
+  color: var(--muted);
+  margin-block: 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+.lede {
+  font-size: 1.15rem;
+  margin-block: 0 0.5rem;
+}
+
+/* Forms */
+.taker-form {
+  margin-block-start: 2rem;
+  display: grid;
+  gap: 1.25rem;
+  max-inline-size: 26rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.field input {
+  font: inherit;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.field input[aria-invalid] {
+  border-color: var(--wrong);
+}
+
+.field-error {
+  margin: 0;
+  min-block-size: 1.2em;
+  color: var(--wrong);
+  font-size: 0.9rem;
+}
+
+.privacy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.button {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius-control);
+  border: 1.5px solid var(--green);
+  background: var(--surface);
+  color: var(--green);
+  cursor: pointer;
+  justify-self: start;
+}
+
+.button.primary {
+  background: var(--green);
+  color: #fff;
+}
+
+.button.danger {
+  border-color: var(--wrong);
+  color: var(--wrong);
+}
+
+.button:hover {
+  filter: brightness(0.95);
+}
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Questions */
+.questions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 2.25rem;
+}
+
+.question fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.question legend {
+  padding: 0;
+  margin-block-end: 0.85rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.q-number {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.q-text {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.options {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.option input {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  margin: 0;
+  flex: none;
+  accent-color: var(--green);
+}
+
+.option:has(input:checked) {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+}
+
+.option-text {
+  flex: 1;
+}
+
+/* Progress bar pinned to the bottom of the screen */
+.progress {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem max(1rem, calc((100vw - 42rem) / 2 + 1rem));
+  background: rgb(247 248 246 / 0.96);
+  border-block-start: 1px solid var(--line);
+}
+
+.progress-track {
+  flex: 1;
+  block-size: 6px;
+  border-radius: 3px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progress-fill {
+  display: block;
+  block-size: 100%;
+  inline-size: 0;
+  background: var(--green);
+  transition: inline-size 200ms ease;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.confirm {
+  margin-block-start: 2rem;
+  padding: 1rem 1.1rem;
+  border-inline-start: 4px solid var(--wrong);
+  background: var(--wrong-soft);
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+}
+
+.confirm p {
+  margin-block: 0 0.75rem;
+}
+
+.confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Result */
+.score {
+  font-size: 1.3rem;
+  margin-block: 0 0.5rem;
+}
+
+.score-figure {
+  font-weight: 600;
+  color: var(--green);
+}
+
+.save-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-block: 0;
+}
+
+.save-status:empty {
+  display: none;
+}
+
+.result h2 {
+  margin-block-start: 2rem;
+}
+
+.perfect {
+  font-size: 1.15rem;
+  padding: 1rem 1.1rem;
+  background: var(--right-soft);
+  border-radius: var(--radius-panel);
+}
+
+.review-list {
+  padding-inline-start: 1.5rem;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.review-item::marker {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.review-item .q-text {
+  margin-block: 0 0.6rem;
+}
+
+.review-item dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1rem;
+}
+
+.review-item dt {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding-block-start: 0.15rem;
+}
+
+.review-item dd {
+  margin: 0;
+}
+
+.review-item dd.wrong {
+  color: var(--wrong);
+}
+
+.review-item dd.not-answered {
+  font-style: italic;
+}
+
+.review-item dd.right {
+  color: var(--right);
+  font-weight: 600;
+}
+
+.review-item .wrong .ar,
+.review-item .right .ar {
+  color: inherit;
+}
+
+.result > .button {
+  margin-block-start: 2.5rem;
+}
+
+.message {
+  padding-block-start: 2rem;
+}
+
+@media (max-width: 30rem) {
+  .container {
+    padding-block-start: 1.5rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .review-item dl {
+    grid-template-columns: 1fr;
+  }
+  .review-item dt {
+    padding-block-start: 0.5rem;
+  }
+  .progress .button {
+    padding-inline: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill {
+    transition: none;
+  }
+}
+
+.save-status[data-state='saved'] {
+  color: var(--right);
+}
+
+.save-status[data-state='failed'],
+.save-status[data-state='rejected'] {
+  color: var(--wrong);
 }

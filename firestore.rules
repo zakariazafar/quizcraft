@@ -1,0 +1,56 @@
+rules_version = '2';
+
+// QuizCraft security rules. Every change here needs a matching test in tests/rules/.
+// DASHBOARD_UID_PLACEHOLDER is replaced with the real dashboard user's UID when the rules are
+// deployed (GitHub Actions secret DASHBOARD_UID) and with a test UID in the rules tests.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isDashboard() {
+      return request.auth != null && request.auth.uid == 'DASHBOARD_UID_PLACEHOLDER';
+    }
+
+    function shortString(value, lo, hi) {
+      return value is string && value.size() >= lo && value.size() <= hi;
+    }
+
+    function validAttempt(d) {
+      return d.keys().hasOnly([
+               'quizId', 'quizVersion', 'quizTitle', 'takerName', 'takerEmail',
+               'takerEmailLower', 'answers', 'score', 'total', 'percent', 'startedAt',
+               'submittedAt', 'clientId', 'userAgent'])
+        && d.keys().hasAll([
+               'quizId', 'quizVersion', 'quizTitle', 'takerName', 'takerEmail',
+               'takerEmailLower', 'answers', 'score', 'total', 'percent', 'startedAt',
+               'submittedAt', 'clientId', 'userAgent'])
+        && shortString(d.quizId, 3, 60)
+        && d.quizId.matches('^[a-z0-9][a-z0-9-]*[a-z0-9]$')
+        && d.quizVersion is int && d.quizVersion >= 1
+        && shortString(d.quizTitle, 1, 200)
+        && shortString(d.takerName, 1, 100)
+        && shortString(d.takerEmail, 3, 254)
+        && d.takerEmail.matches('^[^\\s@]+@[^\\s@]+[.][^\\s@]+$')
+        && shortString(d.takerEmailLower, 3, 254)
+        && d.total is int && d.total >= 1 && d.total <= 100
+        && d.answers is list && d.answers.size() == d.total
+        && d.score is int && d.score >= 0 && d.score <= d.total
+        && d.percent is int && d.percent >= 0 && d.percent <= 100
+        && shortString(d.startedAt, 10, 30)
+        && d.submittedAt == request.time
+        && shortString(d.clientId, 1, 64)
+        && d.userAgent is string && d.userAgent.size() <= 200;
+    }
+
+    // One document per submission. The document id is a random id made in the browser, so a
+    // retried save can never create a duplicate.
+    match /attempts/{attemptId} {
+      allow create: if attemptId.size() <= 64 && validAttempt(request.resource.data);
+      allow read: if isDashboard();
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
