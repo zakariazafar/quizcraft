@@ -9,16 +9,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -46,6 +46,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests (built site + Firebase emulators)
+        run: npm run test:e2e
+
       - name: Changelog check (pull request)
         if: github.event_name == 'pull_request'
         run: node scripts/check-changelog.mjs "origin/${{ github.base_ref }}..HEAD"
@@ -53,3 +59,59 @@ jobs:
       - name: Changelog check (push)
         if: github.event_name == 'push'
         run: node scripts/check-changelog.mjs "${{ github.event.before }}..${{ github.sha }}"
+
+  # Deploys firestore.rules and indexes to the real Firebase project after a push to main.
+  # Needs repository secrets FIREBASE_SERVICE_ACCOUNT, FIREBASE_PROJECT_ID and DASHBOARD_UID;
+  # until they are set, this job skips with a notice instead of failing.
+  deploy-rules:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check secrets
+        id: secrets
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+          UID: ${{ secrets.DASHBOARD_UID }}
+        run: |
+          if [ -z "$SA" ] || [ -z "$PROJECT" ] || [ -z "$UID" ]; then
+            echo "::notice::Firebase secrets not set yet; skipping rules deployment (see README → Deployment)."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          elif ! printf '%s' "$UID" | grep -Eq '^[A-Za-z0-9]{1,128}$'; then
+            echo "::error::DASHBOARD_UID must be the Firebase user UID (letters and digits only)."
+            exit 1
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v5
+        if: steps.secrets.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        if: steps.secrets.outputs.ready == 'true'
+        run: npm ci
+
+      - name: Put the dashboard UID into the rules
+        if: steps.secrets.outputs.ready == 'true'
+        env:
+          UID: ${{ secrets.DASHBOARD_UID }}
+        run: |
+          sed -i "s/DASHBOARD_UID_PLACEHOLDER/$UID/g" firestore.rules
+          if grep -q DASHBOARD_UID_PLACEHOLDER firestore.rules; then echo "::error::placeholder left"; exit 1; fi
+
+      - name: Deploy Firestore rules and indexes
+        if: steps.secrets.outputs.ready == 'true'
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          printf '%s' "$SA" > "$RUNNER_TEMP/sa.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json"
+          npx firebase deploy --only firestore:rules,firestore:indexes --project "$PROJECT" --non-interactive
+          rm -f "$RUNNER_TEMP/sa.json"

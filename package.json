@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Static quiz site: quizzes as JSON files, attempts saved to Firebase Firestore, password-protected dashboard.",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "vite",
@@ -24,7 +24,8 @@
     "new-quiz": "node scripts/new-quiz.mjs",
     "emulators": "firebase emulators:start --only firestore,auth",
     "test:rules": "firebase emulators:exec --only firestore \"vitest run --config vitest.rules.config.js\"",
-    "postbuild": "node scripts/check-dist.mjs"
+    "postbuild": "node scripts/check-dist.mjs",
+    "test:e2e": "firebase emulators:exec --only firestore,auth \"playwright test\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

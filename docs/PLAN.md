@@ -326,7 +326,7 @@ Firestore rules and indexes are deployed by GitHub Actions (`firebase deploy --o
   ```
 
 - `scripts/check-changelog.mjs` fails CI if any commit in the push/PR range changed files but not `CHANGELOG.md` (merge commits skipped). Optional local `pre-commit` hook.
-- **CI workflow:** checkout (full history) → Node 20 + Java 17 (for emulators) → `npm ci` → lint + format check → `npm run test:coverage` → `npm run test:rules` (emulator) → `npm run build` → Playwright e2e (emulators) → changelog check. Separate job on `main`: deploy Firestore rules.
+- **CI workflow:** checkout (full history) → Node 22 + Java 21 (for emulators) → `npm ci` → lint + format check → `npm run test:coverage` → `npm run test:rules` (emulator) → `npm run build` → Playwright e2e (emulators) → changelog check. Separate job on `main`: deploy Firestore rules.
 
 ---
 

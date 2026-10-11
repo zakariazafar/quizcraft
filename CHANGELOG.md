@@ -4,6 +4,12 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- test(e2e): check the "Link copied" note next to the pressed Share button, not the first one in the list
+- test(e2e): make the Share test record what the page copies (headless browsers may refuse the real clipboard) and add a test for the "copy by hand" fallback
+- ci: move to Node 22 (Node 20 is end-of-life) in CI, `render.yaml` and `engines`; update checkout/setup-node/setup-java actions to v5
+- docs: README screenshots (`docs/screenshots/`), full step-by-step deployment (Firebase project, dashboard user, rules deploy secrets, App Check, Render Blueprint, checks), troubleshooting table, end-to-end tests, CI jobs, roadmap and licence note; mark phase 7 done
+- test(e2e): Playwright tests of the built site (production headers) against the Firebase Auth and Firestore emulators: taking a quiz and saving the attempt, Arabic RTL and font, unanswered warning, form errors, offline save and retry, closed/unknown quiz and 404, security headers with no CSP violations; dashboard sign-in, wrong password, quiz list, re-checked scores, answers view, search, Share (clipboard), CSV/JSON downloads, sign-out
+- ci: run the end-to-end tests in GitHub Actions; add a `deploy-rules` job that deploys `firestore.rules` (with the dashboard UID filled in) and indexes on push to `main` once Firebase secrets are set, and skips with a notice until then
 - feat(security): Firebase App Check with reCAPTCHA v3 when `VITE_RECAPTCHA_SITE_KEY` is set (not with emulators)
 - feat(security): `render.yaml` with a strict Content-Security-Policy (no inline scripts/styles), X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, HSTS, cache rules, rewrites and env vars; `npm run preview` applies the same headers and rewrites and serves `404.html` for unknown paths (multi-page mode)
 - feat(build): `scripts/check-dist.mjs` runs after every build and fails if a page has anything the CSP would block
