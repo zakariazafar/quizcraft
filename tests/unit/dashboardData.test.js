@@ -246,11 +246,11 @@ describe('createHiddenStore', () => {
 });
 
 describe('formatDateTime', () => {
-  it('formats in the given time zone, with a dash for missing dates', () => {
+  it('formats in the given time zone, with n/a for missing dates', () => {
     const s = formatDateTime(new Date('2026-10-12T09:00:00Z'), 'en-AU', 'Australia/Sydney');
     expect(s).toMatch(/12 Oct 2026/);
     expect(s).toMatch(/8:00/);
-    expect(formatDateTime(null)).toBe('—');
+    expect(formatDateTime(null)).toBe('n/a');
     expect(formatDateTime(new Date())).toBeTruthy();
   });
 });

@@ -49,7 +49,9 @@ test('a taker sees their score and a review, and the attempt is saved', async ({
   expect(saved[0].submittedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
 });
 
-test('an Arabic quiz is shown right to left and keeps its diacritics', async ({ page }) => {
+test('an Arabic quiz is shown right to left in the Uthmanic font and keeps its diacritics', async ({
+  page,
+}) => {
   await page.goto(`/q/${tajweed.id}`);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(tajweed.title);
   await page.getByLabel('Your name').fill('مريم');
@@ -59,7 +61,7 @@ test('an Arabic quiz is shown right to left and keeps its diacritics', async ({ 
   await expect(page.locator('.q-text').first()).toHaveText(tajweed.questions[0].text);
   const fontReady = await page.evaluate(async () => {
     await document.fonts.ready;
-    return document.fonts.check('16px "Amiri Quran"', 'اسم');
+    return document.fonts.check('16px "KFGQPC Uthmanic Script HAFS"', 'اسم');
   });
   expect(fontReady).toBe(true);
 });

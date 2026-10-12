@@ -309,7 +309,7 @@ export function createHiddenStore(storage, key = 'quizcraft.hiddenAttempts') {
  * @param {string} [timeZone]
  */
 export function formatDateTime(d, locale = 'en-AU', timeZone) {
-  if (!d) return '—';
+  if (!d) return 'n/a';
   return new Intl.DateTimeFormat(locale, {
     dateStyle: 'medium',
     timeStyle: 'short',

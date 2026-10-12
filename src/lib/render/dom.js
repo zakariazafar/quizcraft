@@ -36,3 +36,18 @@ export function richText(text, tag = 'span', attrs = {}) {
   );
   return el(tag, { ...attrs, dir: textDirection(text), class: cls }, runs);
 }
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+/**
+ * Create an SVG element with attributes (no text content; used for small graphics).
+ * @param {string} tag
+ * @param {Record<string, string>} [attrs]
+ * @param {Element[]} [children]
+ */
+export function svgEl(tag, attrs = {}, children = []) {
+  const node = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+  node.append(...children);
+  return node;
+}

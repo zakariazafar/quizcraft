@@ -4,6 +4,14 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- feat(brand): QuizCraft logo (Rub el Hizb star with a gold check mark) as `public/logo.svg` and favicon; site header with the logo on every page; faint star pattern behind the quiz intro
+- feat(fonts): Arabic now uses KFGQPC Uthmanic Script HAFS (original file from the King Fahd Glorious Quran Printing Complex, unmodified, licence in `public/fonts/LICENSE-KFGQPC.txt`), with Amiri Quran as fallback and for the Arabic comma, semicolon and question mark; Latin text moves from Noto Sans to Figtree
+- feat(ui): quiz intro with chips (questions, format, time) and a form card; each question in its own card with lettered answer tiles (A to D, or أ ب ج د in Arabic quizzes) that are fully clickable; floating progress bar that becomes a top strip on phones
+- feat(ui): result screen with a score ring, right/wrong/not answered chips and numbered review cards
+- feat(ui): new home and 404 pages; dashboard toolbar, summary cards, tables and question statistics in panels, status pills; sign-in as a card
+- style: refreshed colour tokens (still WCAG AA, checked by tests), Figtree type scale, consistent radii and soft shadows
+- chore: remove em dashes from site text and quiz titles (`tajweed-basics-01`, `html-basics-01`; titles only, questions unchanged so their version stays 1); missing values show "n/a"; page titles use "|"
+- docs: README logo, new screenshots, fonts and licences; plan updated for the fonts
 - feat(fonts): swap the Arabic typeface from Noto Naskh Arabic to **Amiri Quran** (`@fontsource/amiri-quran`, SIL Open Font License) — a clean Uthmanic-Hafs-style Qur'an typeface, in the spirit of the KFGQPC Uthmanic Script HAFS font but freely redistributable under the project's font licence rule; update `docs/PLAN.md` §3/§7, the README and the e2e font-loaded check to match
 - style(arabic): raise Arabic text to 1.6em (was 1.22em inline / 1em in a full right-to-left quiz) and pin it to its one bundled weight so a bold heading never synthetic-bolds it
 - style(arabic): bump Arabic text inside a full right-to-left quiz from 1em back up to 1.1em (it had been reset to the Latin body size so the inline-highlight rule wouldn't double up); matches PLAN.md §7's "slightly larger size"

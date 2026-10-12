@@ -1,4 +1,4 @@
-# QuizCraft — Product & Technical Plan (v2: static site + Firebase)
+# QuizCraft: Product & Technical Plan (v2: static site + Firebase)
 
 > Working name: **QuizCraft** (rename freely).
 > Plan date: 2026-10-11 · v2 replaces the earlier FastAPI/database/email plan.
@@ -57,20 +57,20 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
 
 ## 3. Technology choices
 
-| Concern                                  | Choice                                                                            | Why                                                                                   |
-| ---------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Site                                     | Plain **HTML + CSS + JavaScript (ES modules)**, built with **Vite** (multi‑page)  | No framework needed; Vite bundles the Firebase SDK and injects config                 |
-| Quiz content                             | JSON files in `quizzes/`, validated with **JSON Schema (Ajv)**                    | "Made by code", reviewable in pull requests                                           |
-| Attempt storage                          | **Firebase Firestore** (free Spark plan)                                          | No server to run; security rules control who can read/write                           |
-| Dashboard password                       | **Firebase Authentication** (email/password) with one shared dashboard account    | The password is checked by Google's servers, so it can't be read from the page source |
-| Abuse protection (optional, recommended) | **Firebase App Check** with reCAPTCHA v3                                          | Makes it harder for scripts to spam fake attempts                                     |
-| Arabic font                              | Self‑hosted **Amiri Quran** (Quranic Uthmanic‑Hafs style) + **Noto Sans** (Latin) | No external CDN; a clean typeface for Qur'anic/tajweed text                           |
-| Unit/integration tests                   | **Vitest** + **jsdom**                                                            | Fast, runs in CI                                                                      |
-| Security‑rule tests                      | **@firebase/rules-unit-testing** + **Firebase Emulator Suite**                    | Proves who can read and write                                                         |
-| End‑to‑end tests                         | **Playwright** against the built site + emulators                                 | Full taker and dashboard flows                                                        |
-| Lint/format                              | **ESLint** + **Prettier**                                                         | Consistent code                                                                       |
-| CI                                       | **GitHub Actions**                                                                | Lint, tests, coverage gate, changelog check, rules deploy                             |
-| Hosting                                  | **Render Static Site** via `render.yaml`                                          | Auto‑deploy from GitHub, free                                                         |
+| Concern                                  | Choice                                                                                                                                                                           | Why                                                                                   |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Site                                     | Plain **HTML + CSS + JavaScript (ES modules)**, built with **Vite** (multi‑page)                                                                                                 | No framework needed; Vite bundles the Firebase SDK and injects config                 |
+| Quiz content                             | JSON files in `quizzes/`, validated with **JSON Schema (Ajv)**                                                                                                                   | "Made by code", reviewable in pull requests                                           |
+| Attempt storage                          | **Firebase Firestore** (free Spark plan)                                                                                                                                         | No server to run; security rules control who can read/write                           |
+| Dashboard password                       | **Firebase Authentication** (email/password) with one shared dashboard account                                                                                                   | The password is checked by Google's servers, so it can't be read from the page source |
+| Abuse protection (optional, recommended) | **Firebase App Check** with reCAPTCHA v3                                                                                                                                         | Makes it harder for scripts to spam fake attempts                                     |
+| Arabic font                              | **KFGQPC Uthmanic Script HAFS** (self-hosted original OTF with its licence; Amiri Quran as fallback and for the Arabic comma, semicolon and question mark) + **Figtree** (Latin) | No external CDN; the Uthmanic script requested for this project                       |
+| Unit/integration tests                   | **Vitest** + **jsdom**                                                                                                                                                           | Fast, runs in CI                                                                      |
+| Security‑rule tests                      | **@firebase/rules-unit-testing** + **Firebase Emulator Suite**                                                                                                                   | Proves who can read and write                                                         |
+| End‑to‑end tests                         | **Playwright** against the built site + emulators                                                                                                                                | Full taker and dashboard flows                                                        |
+| Lint/format                              | **ESLint** + **Prettier**                                                                                                                                                        | Consistent code                                                                       |
+| CI                                       | **GitHub Actions**                                                                                                                                                               | Lint, tests, coverage gate, changelog check, rules deploy                             |
+| Hosting                                  | **Render Static Site** via `render.yaml`                                                                                                                                         | Auto‑deploy from GitHub, free                                                         |
 
 ---
 
@@ -81,7 +81,7 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
   "id": "tajweed-basics-01",
   "version": 1,
   "active": true,
-  "title": "أحكام التجويد — المستوى الأول",
+  "title": "أحكام التجويد: المستوى الأول",
   "description": "Ten questions on the basics of tajweed.",
   "language": "ar",
   "createdAt": "2026-10-12",
@@ -126,7 +126,7 @@ Collection path: `attempts/{attemptId}`, where `attemptId` is a random id create
 {
   "quizId": "tajweed-basics-01",
   "quizVersion": 1,
-  "quizTitle": "أحكام التجويد — المستوى الأول",
+  "quizTitle": "أحكام التجويد: المستوى الأول",
   "takerName": "Zakaria",
   "takerEmail": "someone@example.com",
   "takerEmailLower": "someone@example.com",
@@ -182,7 +182,7 @@ Collection path: `attempts/{attemptId}`, where `attemptId` is a random id create
 - Every element showing quiz or taker text (titles, questions, options, explanations, names in the dashboard) gets the class `.bidi` and a `dir` chosen from its **main script** (`rtl` when most letters are Arabic, otherwise `ltr`). This keeps an English sentence that starts with an Arabic word (e.g. “الَّذِي means…”) reading left to right, which `dir="auto"` gets wrong. Arabic runs inside any text are wrapped in `<span class="ar" lang="ar">` and set in the Arabic font. Text inputs use `dir="auto"`.
 - If a quiz has `language: "ar"`, the quiz area gets `dir="rtl"` and `lang="ar"` so the layout (radio buttons, numbering) also flips.
 - CSS logical properties only (`margin-inline-start`, `text-align: start`), never left/right for text layout.
-- Fonts: `font-family: "Amiri Quran", serif;` for Arabic (a clean Uthmanic‑Hafs‑style Qur'anic typeface, one weight only — it has no bold), `"Noto Sans", system-ui, sans-serif;` for Latin; both self‑hosted `woff2` with `font-display: swap`. Arabic line‑height 1.8–1.9 and font-size 1.6× the Latin body text.
+- Fonts: Arabic in `"KFGQPC Uthmanic Script HAFS", "Amiri Quran", serif` (one weight; never synthetic bold), Latin in `"Figtree", system-ui, sans-serif`. The KFGQPC file is served unmodified from `public/fonts/` with `font-display: swap` and a `unicode-range` that leaves out U+060C, U+061B and U+061F (drawn as Quranic signs in that font). Arabic line-height 1.8 to 1.9 and font-size 1.6 times the Latin body text.
 - Inputs (name, search) have `dir="auto"` (the user's typing decides).
 - CSV export is UTF‑8 with BOM; JSON export is UTF‑8.
 - Tests use real Arabic fixtures with diacritics and mixed Arabic/English in every layer: quiz validation → rendering → scoring → attempt record → dashboard → CSV/JSON export.
@@ -225,7 +225,7 @@ quizcraft/
 │   │   ├── bidi.js             # dir/lang helpers, Arabic detection
 │   │   └── render/             # small DOM render functions (escape all text!)
 │   └── styles/  app.css  fonts.css
-├── public/fonts/               # Noto woff2 + OFL licence
+├── public/fonts/               # KFGQPC Uthmanic Script HAFS (OTF) + its licence
 ├── index.html  quiz.html  dashboard.html  404.html
 ├── scripts/
 │   ├── build-quiz-index.mjs    # writes public/quizzes/ (copies + index.json)

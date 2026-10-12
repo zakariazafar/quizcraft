@@ -12,7 +12,7 @@ import { el, richText } from './dom.js';
  * @typedef {(quizId: string) => Promise<{ result: 'copied' | 'manual', url: string }>} ShareFn
  */
 
-const pct = (/** @type {number | null} */ v) => (v === null ? '—' : `${v}%`);
+const pct = (/** @type {number | null} */ v) => (v === null ? 'n/a' : `${v}%`);
 
 /**
  * Password-only sign-in form.
@@ -48,7 +48,7 @@ export function renderSignIn({ onSubmit }) {
     e.preventDefault();
     onSubmit(input.value);
   });
-  const view = el('section', { class: 'signin' }, [
+  const view = el('section', { class: 'signin card' }, [
     el('h1', {}, ['Quiz results']),
     el('p', { class: 'meta' }, ['Enter the dashboard password to see who took each quiz.']),
     form,
@@ -80,9 +80,9 @@ export function renderShell(content, { onRefresh, onSignOut, status = '' }) {
   refresh.addEventListener('click', onRefresh);
   signOut.addEventListener('click', onSignOut);
   return el('div', { class: 'dashboard' }, [
-    el('div', { class: 'topbar' }, [
-      el('a', { href: '#/', class: 'brand' }, ['QuizCraft results']),
-      el('span', { class: 'topbar-status', 'aria-live': 'polite' }, [status]),
+    el('div', { class: 'toolbar' }, [
+      el('a', { href: '#/', class: 'toolbar-title' }, ['Results dashboard']),
+      el('span', { class: 'toolbar-status', 'aria-live': 'polite' }, [status]),
       refresh,
       signOut,
     ]),
@@ -512,8 +512,10 @@ export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
   return el('section', { class: 'quiz-detail' }, [
     el('p', { class: 'back' }, [el('a', { href: '#/' }, ['All quizzes'])]),
     richText(quiz.title, 'h1'),
-    el('p', { class: 'meta' }, [
-      `${quiz.questions.length} questions · version ${quiz.version} · ${status} · `,
+    el('div', { class: 'meta' }, [
+      el('span', { class: 'chip neutral' }, [`${quiz.questions.length} questions`]),
+      el('span', { class: 'chip neutral' }, [`Version ${quiz.version}`]),
+      el('span', { class: `status status-${status.toLowerCase()}` }, [status]),
       shareButton(quiz.id, share),
     ]),
     renderSummary(data.summary),
