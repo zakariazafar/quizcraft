@@ -4,6 +4,7 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-13
 
+- feat(quiz): score-tiered encouragement line under a non-perfect result (100% keeps its existing congratulation; 80-99% "Strong result"; 50-79% "Good effort"; below 50% matter-of-fact, no false cheer) — new pure `resultTier()` in `src/lib/scoring.js` (T4)
 - feat(loading): show a skeleton from first paint instead of a blank page: `quiz.js` renders the real intro shape (title, chip row, form card) while the quiz JSON loads; `dashboard.js` renders a generic neutral placeholder (not shaped like either the sign-in card or the signed-in dashboard, since which one applies isn't known until Firebase Auth's first callback) while that's pending. Both pulse subtly and respect `prefers-reduced-motion` (T2, Decision 16)
 - fix(a11y): `.button.small` (dashboard's Refresh/Sign out/Share/export/Answers/Hide buttons) gets a 44px touch-target `min-height` on phones (`@media (max-width: 30rem)`), scoped to mobile only so the dense desktop attempts table doesn't grow (T9)
 - test(quiz): cover `scoreRing`'s no-`requestAnimationFrame` fallback branch — deletes `globalThis.requestAnimationFrame` for one assertion and restores it in a `finally` block (T7 follow-up, caught by the coverage gate)

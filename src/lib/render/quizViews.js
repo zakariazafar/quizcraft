@@ -1,6 +1,6 @@
 // @ts-check
 import { containerDirection } from '../bidi.js';
-import { unansweredQuestions } from '../scoring.js';
+import { resultTier, unansweredQuestions } from '../scoring.js';
 import { EMAIL_MAX, NAME_MAX, validateTaker } from '../takerForm.js';
 import { el, richText, svgEl } from './dom.js';
 
@@ -337,6 +337,9 @@ export function renderResult(quiz, taker, result, { onRestart } = {}) {
           el('span', { class: 'score-figure' }, [`${result.score} out of ${result.total}`]),
           ` (${result.percent}%).`,
         ]),
+        perfect
+          ? null
+          : el('p', { class: 'result-tier' }, [resultTier(result.percent, result.review.length)]),
         el('ul', { class: 'chips breakdown', 'aria-label': 'Breakdown' }, [
           el('li', { class: 'chip right' }, [`${result.score} right`]),
           el('li', { class: 'chip wrong' }, [`${wrong} wrong`]),

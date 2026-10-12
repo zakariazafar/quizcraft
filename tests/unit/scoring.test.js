@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { scoreQuiz, unansweredQuestions } from '../../src/lib/scoring.js';
+import { resultTier, scoreQuiz, unansweredQuestions } from '../../src/lib/scoring.js';
 
 const arabic = JSON.parse(readFileSync('tests/fixtures/arabic-quiz.json', 'utf8'));
 const allRight = Object.fromEntries(arabic.questions.map((q) => [q.id, q.correct]));
@@ -57,6 +57,17 @@ describe('scoreQuiz', () => {
   it('rounds the percentage', () => {
     const three = { ...arabic, questions: arabic.questions.slice(0, 3) };
     expect(scoreQuiz(three, { q1: 'a' }).percent).toBe(33);
+  });
+});
+
+describe('resultTier', () => {
+  it('picks the right tier at and around each boundary', () => {
+    expect(resultTier(99, 1)).toBe('Strong result — review the 1 below to close the gap.');
+    expect(resultTier(80, 2)).toBe('Strong result — review the 2 below to close the gap.');
+    expect(resultTier(79, 3)).toBe('Good effort. 3 questions to review below.');
+    expect(resultTier(50, 4)).toBe('Good effort. 4 questions to review below.');
+    expect(resultTier(49, 5)).toBe("5 to review below — that's exactly what this is for.");
+    expect(resultTier(0, 10)).toBe("10 to review below — that's exactly what this is for.");
   });
 });
 
