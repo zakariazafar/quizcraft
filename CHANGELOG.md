@@ -4,6 +4,7 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-13
 
+- feat(dashboard): designed empty states — a small hand-drawn icon (new `icon()` helper in `src/lib/render/dom.js`, no new dependency), one specific sentence and a primary action for all 3 empty cases: no quizzes published, no attempts yet (Share button), and no attempts matching the current filters (Clear filters button, which resets search/dates/hidden but leaves the "one row per taker" view untouched since it's a view choice, not a filter) (T3)
 - style(dashboard): collapse the 5 boxed summary cards into one slim stat row (reuses the grid's existing 5/3/2-column responsive breakpoints, no new CSS wrap logic) and move "How each question went" into a closed-by-default `<details>` disclosure so it doesn't compete with the attempts table (T1)
 - style(motion): add `--duration-base`/`--duration-emphasis`/`--ease-out` tokens and migrate every existing `transition` (`.field input`, `.button`, `.option`, `.progress-fill`, and the score ring) to them (T8)
 - feat(quiz): wire up the score ring's entrance animation — it already had a CSS `transition` that never fired because the final value was set at creation; `scoreRing()` now mounts the ring empty and flips to the real value a frame later (double `requestAnimationFrame`) so it actually draws in; the result card fades/translates up on arrival. Both respect `prefers-reduced-motion` (T7)

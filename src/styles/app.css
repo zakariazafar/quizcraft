@@ -966,6 +966,32 @@ table.data .empty {
   text-align: center;
 }
 
+/* Empty state: icon, one sentence, an optional action — used for the quiz list, the
+   attempts table with no attempts yet, and the attempts table with no filter matches. */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding-block: 2rem;
+  color: var(--muted);
+}
+
+.empty-icon {
+  color: var(--muted);
+}
+
+.empty-state p {
+  margin: 0;
+  max-inline-size: 24rem;
+}
+
+/* .button normally self-aligns start (for form contexts); center it here so it lines up
+   under the centered icon/text above it. */
+.empty-state .button,
+.empty-state .share {
+  justify-self: center;
+}
+
 .sort {
   font: inherit;
   color: inherit;

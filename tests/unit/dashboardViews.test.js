@@ -143,10 +143,11 @@ describe('renderQuizList', () => {
     expect(trs[0].querySelector('.bidi').getAttribute('dir')).toBe('rtl');
   });
 
-  it('explains an empty site', () => {
-    expect(renderQuizList([], { onOpen: vi.fn(), share: vi.fn() }).textContent).toContain(
-      'No quizzes are published yet',
-    );
+  it('explains an empty site with an icon and no quiz table', () => {
+    const view = renderQuizList([], { onOpen: vi.fn(), share: vi.fn() });
+    expect(view.textContent).toContain('No quizzes published yet');
+    expect(view.querySelector('.empty-icon')).not.toBeNull();
+    expect(view.querySelector('table')).toBeNull();
   });
 });
 
@@ -224,7 +225,7 @@ describe('renderQuizDetail', () => {
     expect(names(view)).toEqual(['Amina']);
     search.value = 'nobody';
     search.dispatchEvent(new Event('input'));
-    expect(view.querySelector('.empty').textContent).toBe('No attempts match.');
+    expect(view.querySelector('.empty').textContent).toContain('No attempts match your filters.');
     expect(view.querySelector('.count').textContent).toBe('0 attempts');
     search.value = '';
     search.dispatchEvent(new Event('input'));
@@ -236,6 +237,31 @@ describe('renderQuizDetail', () => {
     to.dispatchEvent(new Event('change'));
     expect(names(view)).toEqual(['Amina']);
     expect(view.querySelector('.count').textContent).toBe('1 attempt');
+  });
+
+  it('empty state says "no one has taken this quiz yet" when there are no attempts at all', () => {
+    const { view } = detail({ attempts: [], summary: summarise([]) });
+    expect(view.querySelector('.empty').textContent).toContain('No one has taken this quiz yet.');
+    expect(view.querySelector('.empty .share')).not.toBeNull();
+  });
+
+  it('Clear filters resets search/dates/hidden but not the "one row per taker" view', () => {
+    const { view } = detail();
+    const byTaker = view.querySelector('#f-taker');
+    byTaker.checked = true;
+    byTaker.dispatchEvent(new Event('change'));
+    const search = view.querySelector('#f-search');
+    search.value = 'nobody-matches-this';
+    search.dispatchEvent(new Event('input'));
+    expect(view.querySelector('.empty').textContent).toContain('No attempts match your filters.');
+
+    view.querySelector('.empty button').click();
+
+    expect(search.value).toBe('');
+    expect(view.querySelector('.empty')).toBeNull();
+    expect(view.querySelector('.count').textContent).not.toBe('0 takers');
+    // byTaker is a view choice, not a filter — Clear filters must not reset it.
+    expect(byTaker.checked).toBe(true);
   });
 
   it('opens and closes the answers of one attempt', () => {

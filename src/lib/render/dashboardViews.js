@@ -1,7 +1,7 @@
 // @ts-check
 import { containerDirection } from '../bidi.js';
 import { filterAttempts, formatDateTime, groupByTaker, sortAttempts } from '../dashboardData.js';
-import { el, richText } from './dom.js';
+import { el, icon, richText } from './dom.js';
 
 /**
  * @typedef {import('../validate.js').Quiz} Quiz
@@ -13,6 +13,16 @@ import { el, richText } from './dom.js';
  */
 
 const pct = (/** @type {number | null} */ v) => (v === null ? 'n/a' : `${v}%`);
+
+/**
+ * A centered empty-state: icon, one sentence, an optional primary action.
+ * @param {'list' | 'search' | 'share'} iconName
+ * @param {string} message
+ * @param {HTMLElement} [action]
+ */
+function emptyState(iconName, message, action) {
+  return el('div', { class: 'empty-state' }, [icon(iconName), el('p', {}, [message]), action]);
+}
 
 /**
  * Password-only sign-in form.
@@ -126,7 +136,7 @@ export function renderQuizList(rows, { onOpen, share }) {
   if (rows.length === 0) {
     return el('section', {}, [
       el('h1', {}, ['Quizzes']),
-      el('p', {}, ['No quizzes are published yet. Add one with /add-quiz in Claude Code.']),
+      emptyState('list', 'No quizzes published yet. Add one with /add-quiz in Claude Code.'),
     ]);
   }
   const body = rows.map((r) => {
@@ -384,6 +394,39 @@ export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
     );
   };
 
+  // Resets search/from/to/showHidden only — byTaker is a view choice (grouped table vs.
+  // per-attempt table), not a filter, so Clear filters never touches it.
+  function clearFilters() {
+    state.search = '';
+    state.from = '';
+    state.to = '';
+    state.showHidden = false;
+    search.value = '';
+    from.value = '';
+    to.value = '';
+    showHidden.checked = false;
+    draw();
+  }
+
+  /** @param {number} colspan */
+  function emptyAttemptsRow(colspan) {
+    const content =
+      data.attempts.length === 0
+        ? emptyState('share', 'No one has taken this quiz yet.', shareButton(quiz.id, share))
+        : emptyState(
+            'search',
+            'No attempts match your filters.',
+            (() => {
+              const button = el('button', { type: 'button', class: 'button small' }, [
+                'Clear filters',
+              ]);
+              button.addEventListener('click', clearFilters);
+              return button;
+            })(),
+          );
+    return el('tr', {}, [el('td', { colspan: String(colspan), class: 'empty' }, [content])]);
+  }
+
   function draw() {
     const filtered = filterAttempts(data.attempts, { ...state, hidden });
     drawExports(sortAttempts(filtered, state.sortKey, state.sortDir));
@@ -405,16 +448,18 @@ export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
           el(
             'tbody',
             {},
-            takers.map((t) =>
-              el('tr', {}, [
-                el('td', {}, [richText(t.name)]),
-                el('td', { dir: 'ltr' }, [t.email]),
-                el('td', { class: 'num' }, [String(t.attempts)]),
-                el('td', { class: 'num' }, [`${t.best}%`]),
-                el('td', { class: 'num' }, [`${t.latestPercent}%`]),
-                el('td', { class: 'when' }, [formatDateTime(t.latestAt)]),
-              ]),
-            ),
+            takers.length
+              ? takers.map((t) =>
+                  el('tr', {}, [
+                    el('td', {}, [richText(t.name)]),
+                    el('td', { dir: 'ltr' }, [t.email]),
+                    el('td', { class: 'num' }, [String(t.attempts)]),
+                    el('td', { class: 'num' }, [`${t.best}%`]),
+                    el('td', { class: 'num' }, [`${t.latestPercent}%`]),
+                    el('td', { class: 'when' }, [formatDateTime(t.latestAt)]),
+                  ]),
+                )
+              : [emptyAttemptsRow(6)],
           ),
         ]),
       );
@@ -474,13 +519,7 @@ export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
             el('th', { scope: 'col' }, [el('span', { class: 'visually-hidden' }, ['Actions'])]),
           ]),
         ]),
-        el(
-          'tbody',
-          {},
-          rows.length
-            ? rows
-            : [el('tr', {}, [el('td', { colspan: '6', class: 'empty' }, ['No attempts match.'])])],
-        ),
+        el('tbody', {}, rows.length ? rows : [emptyAttemptsRow(6)]),
       ]),
     );
   }
