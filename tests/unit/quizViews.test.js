@@ -7,6 +7,7 @@ import {
   renderMessage,
   renderQuestions,
   renderResult,
+  renderSkeleton,
   scoreRing,
 } from '../../src/lib/render/quizViews.js';
 import { scoreQuiz } from '../../src/lib/scoring.js';
@@ -56,6 +57,15 @@ describe('dom helpers', () => {
     const ar = node.querySelector('span.ar');
     expect(ar.getAttribute('lang')).toBe('ar');
     expect(ar.textContent).toBe('مُسْلِمٌ');
+  });
+});
+
+describe('renderSkeleton', () => {
+  it('is hidden from screen readers and has no heading to steal focus', () => {
+    const view = renderSkeleton();
+    expect(view.getAttribute('aria-hidden')).toBe('true');
+    expect(view.querySelector('h1')).toBeNull();
+    expect(view.querySelectorAll('.skeleton-block').length).toBeGreaterThan(0);
   });
 });
 

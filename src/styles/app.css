@@ -249,6 +249,63 @@ h1 .ar {
 }
 
 /* ---------- Quiz intro ---------- */
+/* ---------- Loading skeleton ---------- */
+/* Shown from first paint until real content arrives (quiz.js: the quiz JSON; dashboard.js:
+   Firebase Auth's first callback) — grey blocks instead of a blank page. A slow pulse
+   (not --duration-base, which is tuned for hover/focus transitions, not a breathing loop)
+   says "still loading", not "frozen". */
+@keyframes skeleton-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.skeleton-block {
+  background: var(--line);
+  border-radius: var(--radius-control);
+  animation: skeleton-pulse calc(var(--duration-emphasis) * 2) var(--ease-out) infinite;
+}
+
+.skeleton-title {
+  inline-size: 60%;
+  block-size: 2rem;
+  margin-block-end: 1rem;
+}
+
+.skeleton-chip {
+  inline-size: 6rem;
+  block-size: 1.5rem;
+  border-radius: 999px;
+}
+
+.skeleton-card {
+  margin-block-start: 2rem;
+  display: grid;
+  gap: 0.5rem;
+  max-inline-size: 30rem;
+}
+
+.skeleton-field-label {
+  inline-size: 30%;
+  block-size: 0.9rem;
+}
+
+.skeleton-field {
+  block-size: 2.75rem;
+  margin-block-end: 0.75rem;
+}
+
+.skeleton-button {
+  inline-size: 8rem;
+  block-size: 2.5rem;
+  margin-block-start: 0.5rem;
+}
+
+.skeleton-generic .skeleton-card {
+  margin-inline: auto;
+  margin-block-start: 3rem;
+}
+
 .hero {
   position: relative;
   margin: -2rem -1rem 1.5rem;
@@ -1310,7 +1367,8 @@ table.data .empty {
     transition: none;
   }
 
-  .result-summary {
+  .result-summary,
+  .skeleton-block {
     animation: none;
   }
 }

@@ -4,6 +4,7 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-13
 
+- feat(loading): show a skeleton from first paint instead of a blank page: `quiz.js` renders the real intro shape (title, chip row, form card) while the quiz JSON loads; `dashboard.js` renders a generic neutral placeholder (not shaped like either the sign-in card or the signed-in dashboard, since which one applies isn't known until Firebase Auth's first callback) while that's pending. Both pulse subtly and respect `prefers-reduced-motion` (T2, Decision 16)
 - fix(a11y): `.button.small` (dashboard's Refresh/Sign out/Share/export/Answers/Hide buttons) gets a 44px touch-target `min-height` on phones (`@media (max-width: 30rem)`), scoped to mobile only so the dense desktop attempts table doesn't grow (T9)
 - test(quiz): cover `scoreRing`'s no-`requestAnimationFrame` fallback branch — deletes `globalThis.requestAnimationFrame` for one assertion and restores it in a `finally` block (T7 follow-up, caught by the coverage gate)
 - feat(dashboard): designed empty states — a small hand-drawn icon (new `icon()` helper in `src/lib/render/dom.js`, no new dependency), one specific sentence and a primary action for all 3 empty cases: no quizzes published, no attempts yet (Share button), and no attempts matching the current filters (Clear filters button, which resets search/dates/hidden but leaves the "one row per taker" view untouched since it's a view choice, not a filter) (T3)

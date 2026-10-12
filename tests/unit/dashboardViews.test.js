@@ -14,6 +14,7 @@ import {
   renderQuizList,
   renderShell,
   renderSignIn,
+  renderSkeleton,
   shareButton,
 } from '../../src/lib/render/dashboardViews.js';
 import { rawAttempts } from '../fixtures/attempts.js';
@@ -47,6 +48,16 @@ const flush = () => new Promise((r) => setTimeout(r, 0));
 
 beforeEach(() => document.body.replaceChildren());
 afterEach(() => vi.useRealTimers());
+
+describe('renderSkeleton', () => {
+  it('is a generic placeholder, hidden from screen readers, with no sign-in form or data', () => {
+    const view = renderSkeleton();
+    expect(view.getAttribute('aria-hidden')).toBe('true');
+    expect(view.querySelector('form')).toBeNull();
+    expect(view.querySelector('table')).toBeNull();
+    expect(view.querySelectorAll('.skeleton-block').length).toBeGreaterThan(0);
+  });
+});
 
 describe('renderSignIn', () => {
   it('submits the password and shows busy and error states', () => {

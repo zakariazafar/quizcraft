@@ -11,6 +11,26 @@ import { el, richText, svgEl } from './dom.js';
  */
 
 /**
+ * Shown from first paint until the quiz JSON arrives — the real intro shape (title,
+ * chip row, form card) as grey blocks, so there's never a blank page while loading.
+ * Replaced by `show()` as soon as real content is ready.
+ */
+export function renderSkeleton() {
+  const block = (cls) => el('div', { class: `skeleton-block ${cls}` });
+  return el('section', { class: 'skeleton', 'aria-hidden': 'true' }, [
+    block('skeleton-title'),
+    el('div', { class: 'chips' }, [block('skeleton-chip'), block('skeleton-chip')]),
+    el('div', { class: 'card skeleton-card' }, [
+      block('skeleton-field-label'),
+      block('skeleton-field'),
+      block('skeleton-field-label'),
+      block('skeleton-field'),
+      block('skeleton-button'),
+    ]),
+  ]);
+}
+
+/**
  * Full-page message (quiz not found, closed, or failed to load).
  * @param {string} title
  * @param {string} body

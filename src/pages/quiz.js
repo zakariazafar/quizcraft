@@ -14,6 +14,7 @@ import {
   renderMessage,
   renderQuestions,
   renderResult,
+  renderSkeleton,
 } from '../lib/render/quizViews.js';
 import { scoreQuiz } from '../lib/scoring.js';
 
@@ -62,6 +63,7 @@ async function main() {
   // Send any attempt that could not be saved last time (offline, closed tab, …).
   saver?.flush().catch(() => {});
 
+  show(renderSkeleton());
   const result = await loadQuiz(quizIdFromLocation(window.location), (url) => fetch(url));
   if (result.status === 'not-found') {
     document.title = 'Quiz not found | QuizCraft';

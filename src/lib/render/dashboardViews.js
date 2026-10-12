@@ -25,6 +25,21 @@ function emptyState(iconName, message, action) {
 }
 
 /**
+ * Shown from first paint until Firebase Auth reports whether a session exists — before
+ * that, whether `refresh()` or `showSignIn()` comes next isn't known yet, so this stays
+ * generic (not shaped like either) rather than guessing and flashing the wrong one.
+ */
+export function renderSkeleton() {
+  const block = (cls) => el('div', { class: `skeleton-block ${cls}` });
+  return el('section', { class: 'skeleton skeleton-generic', 'aria-hidden': 'true' }, [
+    el('div', { class: 'card skeleton-card' }, [
+      block('skeleton-field-label'),
+      block('skeleton-field'),
+    ]),
+  ]);
+}
+
+/**
  * Password-only sign-in form.
  * @param {{ onSubmit: (password: string) => void }} handlers
  */
