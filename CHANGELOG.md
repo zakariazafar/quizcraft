@@ -2,6 +2,10 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-10-13
+
+- docs: add `docs/UI_REVAMP_PLAN.md` — a design + engineering review of a UI polish pass (dashboard hierarchy, loading/empty states, result-screen tone, AI-slop check, motion, accessibility), with an outside-voice challenge that caught a dead CSS transition before implementation
+
 ## 2026-10-12
 
 - chore: add a "Skill routing" section to `CLAUDE.md` so Claude Code invokes the right gstack skill (`/ship`, `/review`, `/qa`, `/investigate`, etc.) for matching requests in this repo
