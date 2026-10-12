@@ -279,6 +279,16 @@ describe('scoreRing', () => {
     expect(scoreRing(40).getAttribute('aria-hidden')).toBe('true');
     expect(scoreRing(40).querySelector('svg').namespaceURI).toBe('http://www.w3.org/2000/svg');
   });
+  it('lands on the final value immediately when requestAnimationFrame is unavailable', () => {
+    const raf = globalThis.requestAnimationFrame;
+    // @ts-expect-error - simulating an environment with no requestAnimationFrame
+    delete globalThis.requestAnimationFrame;
+    try {
+      expect(offset(scoreRing(50))).toBeCloseTo(full / 2, 1);
+    } finally {
+      globalThis.requestAnimationFrame = raf;
+    }
+  });
   it('keeps values between 0 and 100', () => {
     expect(scoreRing(140).querySelector('.ring-percent').textContent).toBe('100%');
     expect(scoreRing(-5).querySelector('.ring-percent').textContent).toBe('0%');
