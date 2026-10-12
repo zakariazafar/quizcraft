@@ -1,4 +1,5 @@
 import '../styles/fonts.js';
+import { registerServiceWorker } from '../lib/registerServiceWorker.js';
 import {
   SAVE_MESSAGES,
   buildAttemptRecord,
@@ -15,6 +16,8 @@ import {
   renderResult,
 } from '../lib/render/quizViews.js';
 import { scoreQuiz } from '../lib/scoring.js';
+
+if (import.meta.env.PROD) registerServiceWorker(navigator);
 
 const app = /** @type {HTMLElement} */ (document.getElementById('app'));
 const config = readConfig(import.meta.env);

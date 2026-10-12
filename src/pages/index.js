@@ -1,5 +1,8 @@
 import '../styles/fonts.js';
+import { registerServiceWorker } from '../lib/registerServiceWorker.js';
 import { el } from '../lib/render/dom.js';
+
+if (import.meta.env.PROD) registerServiceWorker(navigator);
 
 const app = /** @type {HTMLElement} */ (document.getElementById('app'));
 app.append(

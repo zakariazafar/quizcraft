@@ -65,6 +65,8 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
 | Dashboard password                       | **Firebase Authentication** (email/password) with one shared dashboard account                                                                                                   | The password is checked by Google's servers, so it can't be read from the page source |
 | Abuse protection (optional, recommended) | **Firebase App Check** with reCAPTCHA v3                                                                                                                                         | Makes it harder for scripts to spam fake attempts                                     |
 | Arabic font                              | **KFGQPC Uthmanic Script HAFS** (self-hosted original OTF with its licence; Amiri Quran as fallback and for the Arabic comma, semicolon and question mark) + **Figtree** (Latin) | No external CDN; the Uthmanic script requested for this project                       |
+| Installability / offline                 | Hand-written **service worker** (`public/sw.js`) + **Web App Manifest** (`public/manifest.webmanifest`); no framework/plugin                                                     | Matches the "no framework" rule; small enough to read and test directly               |
+| Colour theme                             | `prefers-color-scheme` **dark mode**, no in-app toggle; same tokens, checked for WCAG AA in both                                                                                 | Matches the device/browser setting with no extra UI                                   |
 | Unit/integration tests                   | **Vitest** + **jsdom**                                                                                                                                                           | Fast, runs in CI                                                                      |
 | Security‑rule tests                      | **@firebase/rules-unit-testing** + **Firebase Emulator Suite**                                                                                                                   | Proves who can read and write                                                         |
 | End‑to‑end tests                         | **Playwright** against the built site + emulators                                                                                                                                | Full taker and dashboard flows                                                        |
@@ -223,13 +225,17 @@ quizcraft/
 │   │   ├── exportData.js       # JSON + CSV (BOM) export
 │   │   ├── share.js            # public URL + clipboard copy with fallback
 │   │   ├── bidi.js             # dir/lang helpers, Arabic detection
+│   │   ├── registerServiceWorker.js  # registers public/sw.js (production builds only)
 │   │   └── render/             # small DOM render functions (escape all text!)
 │   └── styles/  app.css  fonts.css
 ├── public/fonts/               # KFGQPC Uthmanic Script HAFS (OTF) + its licence
+├── public/manifest.webmanifest public/sw.js public/icons/  # PWA: install + offline
 ├── index.html  quiz.html  dashboard.html  404.html
 ├── scripts/
 │   ├── build-quiz-index.mjs    # writes public/quizzes/ (copies + index.json)
 │   ├── new-quiz.mjs            # scaffolds a quiz file
+│   ├── render-icons.mjs        # regenerates PWA icon PNGs from the brand SVGs (by hand)
+│   ├── check-dist.mjs          # CI/build: CSP compatibility + PWA file consistency
 │   └── check-changelog.mjs     # CI: every commit touches CHANGELOG.md
 ├── firestore.rules  firestore.indexes.json  firebase.json  .firebaserc
 ├── tests/
