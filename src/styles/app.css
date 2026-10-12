@@ -1277,6 +1277,13 @@ table.data .empty {
   .progress .button {
     padding-inline: 0.9rem;
   }
+  /* 44px touch-target minimum (WCAG 2.5.5 / Apple HIG) — mobile only. .button.small is
+     also the dashboard's dense desktop inline-action style (table row Answers/Hide,
+     toolbar Refresh/Sign out, export bar), so this stays scoped to where touch applies
+     instead of inflating every row at desktop/mouse widths. */
+  .button.small {
+    min-height: 44px;
+  }
   /* On phones the bar becomes a full-width strip along the top of the panel. */
   .progress {
     justify-content: space-between;
