@@ -14,6 +14,7 @@ import {
   renderQuizList,
   renderShell,
   renderSignIn,
+  renderSkeleton,
   shareButton,
 } from '../../src/lib/render/dashboardViews.js';
 import { rawAttempts } from '../fixtures/attempts.js';
@@ -47,6 +48,16 @@ const flush = () => new Promise((r) => setTimeout(r, 0));
 
 beforeEach(() => document.body.replaceChildren());
 afterEach(() => vi.useRealTimers());
+
+describe('renderSkeleton', () => {
+  it('is a generic placeholder, hidden from screen readers, with no sign-in form or data', () => {
+    const view = renderSkeleton();
+    expect(view.getAttribute('aria-hidden')).toBe('true');
+    expect(view.querySelector('form')).toBeNull();
+    expect(view.querySelector('table')).toBeNull();
+    expect(view.querySelectorAll('.skeleton-block').length).toBeGreaterThan(0);
+  });
+});
 
 describe('renderSignIn', () => {
   it('submits the password and shows busy and error states', () => {
@@ -143,10 +154,11 @@ describe('renderQuizList', () => {
     expect(trs[0].querySelector('.bidi').getAttribute('dir')).toBe('rtl');
   });
 
-  it('explains an empty site', () => {
-    expect(renderQuizList([], { onOpen: vi.fn(), share: vi.fn() }).textContent).toContain(
-      'No quizzes are published yet',
-    );
+  it('explains an empty site with an icon and no quiz table', () => {
+    const view = renderQuizList([], { onOpen: vi.fn(), share: vi.fn() });
+    expect(view.textContent).toContain('No quizzes published yet');
+    expect(view.querySelector('.empty-icon')).not.toBeNull();
+    expect(view.querySelector('table')).toBeNull();
   });
 });
 
@@ -224,7 +236,7 @@ describe('renderQuizDetail', () => {
     expect(names(view)).toEqual(['Amina']);
     search.value = 'nobody';
     search.dispatchEvent(new Event('input'));
-    expect(view.querySelector('.empty').textContent).toBe('No attempts match.');
+    expect(view.querySelector('.empty').textContent).toContain('No attempts match your filters.');
     expect(view.querySelector('.count').textContent).toBe('0 attempts');
     search.value = '';
     search.dispatchEvent(new Event('input'));
@@ -236,6 +248,31 @@ describe('renderQuizDetail', () => {
     to.dispatchEvent(new Event('change'));
     expect(names(view)).toEqual(['Amina']);
     expect(view.querySelector('.count').textContent).toBe('1 attempt');
+  });
+
+  it('empty state says "no one has taken this quiz yet" when there are no attempts at all', () => {
+    const { view } = detail({ attempts: [], summary: summarise([]) });
+    expect(view.querySelector('.empty').textContent).toContain('No one has taken this quiz yet.');
+    expect(view.querySelector('.empty .share')).not.toBeNull();
+  });
+
+  it('Clear filters resets search/dates/hidden but not the "one row per taker" view', () => {
+    const { view } = detail();
+    const byTaker = view.querySelector('#f-taker');
+    byTaker.checked = true;
+    byTaker.dispatchEvent(new Event('change'));
+    const search = view.querySelector('#f-search');
+    search.value = 'nobody-matches-this';
+    search.dispatchEvent(new Event('input'));
+    expect(view.querySelector('.empty').textContent).toContain('No attempts match your filters.');
+
+    view.querySelector('.empty button').click();
+
+    expect(search.value).toBe('');
+    expect(view.querySelector('.empty')).toBeNull();
+    expect(view.querySelector('.count').textContent).not.toBe('0 takers');
+    // byTaker is a view choice, not a filter — Clear filters must not reset it.
+    expect(byTaker.checked).toBe(true);
   });
 
   it('opens and closes the answers of one attempt', () => {
@@ -300,6 +337,15 @@ describe('renderQuizDetail', () => {
       'Most chosen wrong answer: نَصْبٌ (2)',
     );
     expect(items[1].querySelector('.qstat-wrong')).toBeNull();
+  });
+
+  it('collapses per-question stats into a closed-by-default disclosure', () => {
+    const { view } = detail();
+    const details = view.querySelector('details.question-stats');
+    expect(details).not.toBeNull();
+    expect(details.open).toBe(false);
+    expect(details.querySelector('summary').textContent).toBe('How each question went');
+    expect(details.querySelectorAll('.qstat')).toHaveLength(5);
   });
 
   it('copes with a closed quiz and no attempts', () => {

@@ -39,6 +39,10 @@
   --radius-control: 10px;
   --radius-panel: 18px;
   --shadow-panel: 0 1px 2px rgb(21 35 31 / 0.04), 0 8px 24px -12px rgb(21 35 31 / 0.12);
+  /* Timing isn't theme-dependent, so these live in the light :root only. */
+  --duration-base: 160ms;
+  --duration-emphasis: 600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Dark mode follows the OS/browser setting; there is no in-app toggle. Colour pairs are
@@ -81,6 +85,18 @@ body {
   font-size: 1.0625rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  caret-color: var(--accent);
+}
+
+/* Browser surfaces carry the design too: the native blue selection colour clashes with
+   the green/gold palette in both themes. --green, not --accent: this needs a background
+   white text stays readable on in both themes, which is exactly --green's job (--accent
+   is deliberately bright in dark mode for readability as text, which would make white-on
+   -accent selection hard to read there — checked: 2.3:1, fails AA; --green stays 8.4:1
+   in both themes). */
+::selection {
+  background: var(--green);
+  color: #fff;
 }
 
 h1,
@@ -245,6 +261,63 @@ h1 .ar {
 }
 
 /* ---------- Quiz intro ---------- */
+/* ---------- Loading skeleton ---------- */
+/* Shown from first paint until real content arrives (quiz.js: the quiz JSON; dashboard.js:
+   Firebase Auth's first callback) — grey blocks instead of a blank page. A slow pulse
+   (not --duration-base, which is tuned for hover/focus transitions, not a breathing loop)
+   says "still loading", not "frozen". */
+@keyframes skeleton-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.skeleton-block {
+  background: var(--line);
+  border-radius: var(--radius-control);
+  animation: skeleton-pulse calc(var(--duration-emphasis) * 2) var(--ease-out) infinite;
+}
+
+.skeleton-title {
+  inline-size: 60%;
+  block-size: 2rem;
+  margin-block-end: 1rem;
+}
+
+.skeleton-chip {
+  inline-size: 6rem;
+  block-size: 1.5rem;
+  border-radius: 999px;
+}
+
+.skeleton-card {
+  margin-block-start: 2rem;
+  display: grid;
+  gap: 0.5rem;
+  max-inline-size: 30rem;
+}
+
+.skeleton-field-label {
+  inline-size: 30%;
+  block-size: 0.9rem;
+}
+
+.skeleton-field {
+  block-size: 2.75rem;
+  margin-block-end: 0.75rem;
+}
+
+.skeleton-button {
+  inline-size: 8rem;
+  block-size: 2.5rem;
+  margin-block-start: 0.5rem;
+}
+
+.skeleton-generic .skeleton-card {
+  margin-inline: auto;
+  margin-block-start: 3rem;
+}
+
 .hero {
   position: relative;
   margin: -2rem -1rem 1.5rem;
@@ -290,7 +363,7 @@ h1 .ar {
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--ink);
-  transition: border-color 120ms ease;
+  transition: border-color var(--duration-base) ease;
 }
 
 .field input:hover {
@@ -337,8 +410,8 @@ h1 .ar {
   justify-self: start;
   text-decoration: none;
   transition:
-    background-color 120ms ease,
-    border-color 120ms ease;
+    background-color var(--duration-base) ease,
+    border-color var(--duration-base) ease;
 }
 
 .button:hover {
@@ -456,8 +529,8 @@ h1 .ar {
   background: var(--surface);
   cursor: pointer;
   transition:
-    border-color 120ms ease,
-    background-color 120ms ease;
+    border-color var(--duration-base) ease,
+    background-color var(--duration-base) ease;
 }
 
 /* Letter badge (A, B, C, D; أ ب ج د in Arabic quizzes) in place of the radio circle. */
@@ -547,7 +620,7 @@ h1 .ar {
   inline-size: 0;
   background: var(--green);
   border-radius: 4px;
-  transition: inline-size 200ms ease;
+  transition: inline-size var(--duration-base) ease;
 }
 
 .progress-text {
@@ -577,11 +650,19 @@ h1 .ar {
 }
 
 /* ---------- Result ---------- */
+@keyframes result-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
 .result-summary {
   display: flex;
   align-items: center;
   gap: clamp(1.25rem, 1rem + 2vw, 2.25rem);
   margin-block-end: 2rem;
+  animation: result-in var(--duration-emphasis) var(--ease-out);
 }
 
 .score-ring {
@@ -603,7 +684,7 @@ h1 .ar {
 
 .ring-value {
   stroke: var(--green);
-  transition: stroke-dashoffset 600ms ease;
+  transition: stroke-dashoffset var(--duration-emphasis) var(--ease-out);
 }
 
 .ring-label {
@@ -639,6 +720,11 @@ h1 .ar {
 .score-figure {
   font-weight: 700;
   color: var(--accent);
+}
+
+.result-tier {
+  color: var(--muted);
+  margin-block: 0 0.85rem;
 }
 
 .save-status {
@@ -762,45 +848,50 @@ h1 .ar {
   margin-inline: auto;
 }
 
+/* A vertical list, not a 3-card grid: a large number (not in a circle) reads as
+   guidance, not a feature pitch. Same content, same "3" — just a different shape. */
 .home-steps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin: 2.5rem 0 2rem;
+  gap: 1.5rem;
+  margin-block: 2.5rem 2rem;
+  margin-inline: auto;
   padding: 0;
   list-style: none;
   text-align: start;
   counter-reset: step;
+  max-inline-size: 30rem;
 }
 
 .home-steps li {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-panel);
-  padding: 1.1rem 1.2rem;
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 1rem;
+  border-inline-start: 2px solid var(--line);
+  padding-inline-start: 1.1rem;
+  padding-block: 0.15rem;
   counter-increment: step;
 }
 
 .home-steps li::before {
   content: counter(step);
-  display: inline-grid;
-  place-items: center;
-  inline-size: 1.75rem;
-  block-size: 1.75rem;
-  border-radius: 50%;
-  background: var(--green-soft);
-  color: var(--accent);
+  grid-row: 1 / 3;
+  align-self: center;
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 0.85rem;
-  margin-block-end: 0.5rem;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 .home-steps strong {
+  grid-column: 2;
   display: block;
   margin-block-end: 0.2rem;
 }
 
 .home-steps span {
+  grid-column: 2;
   color: var(--muted);
   font-size: 0.95rem;
 }
@@ -954,6 +1045,32 @@ table.data .empty {
   text-align: center;
 }
 
+/* Empty state: icon, one sentence, an optional action — used for the quiz list, the
+   attempts table with no attempts yet, and the attempts table with no filter matches. */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding-block: 2rem;
+  color: var(--muted);
+}
+
+.empty-icon {
+  color: var(--muted);
+}
+
+.empty-state p {
+  margin: 0;
+  max-inline-size: 24rem;
+}
+
+/* .button normally self-aligns start (for form contexts); center it here so it lines up
+   under the centered icon/text above it. */
+.empty-state .button,
+.empty-state .share {
+  justify-self: center;
+}
+
 .sort {
   font: inherit;
   color: inherit;
@@ -1026,19 +1143,15 @@ table.data .empty {
   gap: 0.5rem;
 }
 
-/* Summary: plain numbers in a row of cards */
+/* Summary: one slim stat row, not 5 boxed cards — a top/bottom rule reads as "one
+   bar" without giving each number its own card chrome. */
 .tiles {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.75rem;
   margin: 1.5rem 0 0;
-}
-
-.tile {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-panel);
-  padding: 1rem 1.1rem;
+  padding-block: 0.85rem;
+  border-block: 1px solid var(--line);
 }
 
 .tile dt {
@@ -1049,10 +1162,28 @@ table.data .empty {
 
 .tile dd {
   margin: 0.2rem 0 0;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
+}
+
+/* "How each question went": a native <details> disclosure, closed by default so it
+   doesn't compete with the attempts table above it. The <summary> is styled to read
+   like the h2 it replaces. */
+.question-stats {
+  margin-block-start: 2.5rem;
+}
+
+.question-stats summary {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  cursor: pointer;
+}
+
+.question-stats[open] summary {
+  margin-block-end: 0.75rem;
 }
 
 .filters {
@@ -1197,9 +1328,6 @@ table.data .empty {
   .tiles {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .home-steps {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 30rem) {
@@ -1225,6 +1353,13 @@ table.data .empty {
   .progress .button {
     padding-inline: 0.9rem;
   }
+  /* 44px touch-target minimum (WCAG 2.5.5 / Apple HIG) — mobile only. .button.small is
+     also the dashboard's dense desktop inline-action style (table row Answers/Hide,
+     toolbar Refresh/Sign out, export bar), so this stays scoped to where touch applies
+     instead of inflating every row at desktop/mouse widths. */
+  .button.small {
+    min-height: 44px;
+  }
   /* On phones the bar becomes a full-width strip along the top of the panel. */
   .progress {
     justify-content: space-between;
@@ -1249,5 +1384,10 @@ table.data .empty {
   .button,
   .field input {
     transition: none;
+  }
+
+  .result-summary,
+  .skeleton-block {
+    animation: none;
   }
 }

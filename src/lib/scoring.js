@@ -54,6 +54,20 @@ export function scoreQuiz(quiz, answers) {
 }
 
 /**
+ * A short, honest line for the result screen, tiered by score — never for a perfect
+ * score, which gets its own congratulation instead of this. Reads as coaching, not a
+ * report card: no false cheer at the bottom, no flat "see below" at the top.
+ * @param {number} percent
+ * @param {number} reviewCount how many questions are listed below to review
+ * @returns {string}
+ */
+export function resultTier(percent, reviewCount) {
+  if (percent >= 80) return `Strong result — review the ${reviewCount} below to close the gap.`;
+  if (percent >= 50) return `Good effort. ${reviewCount} questions to review below.`;
+  return `${reviewCount} to review below — that's exactly what this is for.`;
+}
+
+/**
  * Ids of questions with no valid answer yet.
  * @param {Quiz} quiz
  * @param {Record<string, string | null | undefined>} answers

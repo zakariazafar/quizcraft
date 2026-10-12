@@ -25,6 +25,7 @@ import {
   renderQuizList,
   renderShell,
   renderSignIn,
+  renderSkeleton,
 } from '../lib/render/dashboardViews.js';
 import { copyText, quizUrl } from '../lib/share.js';
 
@@ -204,6 +205,7 @@ function main() {
     );
     return;
   }
+  show(renderSkeleton());
   dashboardAuth = createDashboardAuth({
     auth: getAuthClient(config),
     email: config.dashboardEmail,

@@ -51,3 +51,44 @@ export function svgEl(tag, attrs = {}, children = []) {
   node.append(...children);
   return node;
 }
+
+/** Shapes for {@link icon}, one `name` per empty state. */
+const ICON_SHAPES = {
+  list: () => [
+    svgEl('rect', { x: '4', y: '3', width: '16', height: '18', rx: '2' }),
+    svgEl('path', { d: 'M8 8h8M8 12h8M8 16h5' }),
+  ],
+  search: () => [
+    svgEl('circle', { cx: '10.5', cy: '10.5', r: '6.5' }),
+    svgEl('path', { d: 'M19 19l-4.3-4.3' }),
+  ],
+  share: () => [
+    svgEl('circle', { cx: '12', cy: '12', r: '9' }),
+    svgEl('path', { d: 'M12 8v8M8.5 11.5 12 8l3.5 3.5' }),
+  ],
+};
+
+/**
+ * A small hand-drawn line icon for an empty state: stroke-based, no fill, same
+ * line-cap/-join style as the brand mark. Colour comes from CSS (`currentColor`).
+ * Decorative only — always pair with real text, never the only content.
+ * @param {'list' | 'search' | 'share'} name
+ */
+export function icon(name) {
+  return svgEl(
+    'svg',
+    {
+      viewBox: '0 0 24 24',
+      width: '28',
+      height: '28',
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': '1.75',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'aria-hidden': 'true',
+      class: 'empty-icon',
+    },
+    ICON_SHAPES[name](),
+  );
+}

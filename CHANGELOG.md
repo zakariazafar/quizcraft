@@ -2,6 +2,20 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-10-13
+
+- style(theme): theme `::selection` and `caret-color` globally so they match the brand palette instead of the browser's native blue — uses `--green` (not `--accent`), the token that stays white-text-readable in both themes; `--accent` alone would fail contrast in dark mode (checked: 2.3:1) (T6)
+- style(home): replace the 3-card "how it works" grid (numbered circle + bold title + description, repeated 3x) with a vertical numbered list — same content, same 3 steps, but no longer the most recognizable AI-generated layout pattern; markup unchanged, CSS only (T5)
+- feat(quiz): score-tiered encouragement line under a non-perfect result (100% keeps its existing congratulation; 80-99% "Strong result"; 50-79% "Good effort"; below 50% matter-of-fact, no false cheer) — new pure `resultTier()` in `src/lib/scoring.js` (T4)
+- feat(loading): show a skeleton from first paint instead of a blank page: `quiz.js` renders the real intro shape (title, chip row, form card) while the quiz JSON loads; `dashboard.js` renders a generic neutral placeholder (not shaped like either the sign-in card or the signed-in dashboard, since which one applies isn't known until Firebase Auth's first callback) while that's pending. Both pulse subtly and respect `prefers-reduced-motion` (T2, Decision 16)
+- fix(a11y): `.button.small` (dashboard's Refresh/Sign out/Share/export/Answers/Hide buttons) gets a 44px touch-target `min-height` on phones (`@media (max-width: 30rem)`), scoped to mobile only so the dense desktop attempts table doesn't grow (T9)
+- test(quiz): cover `scoreRing`'s no-`requestAnimationFrame` fallback branch — deletes `globalThis.requestAnimationFrame` for one assertion and restores it in a `finally` block (T7 follow-up, caught by the coverage gate)
+- feat(dashboard): designed empty states — a small hand-drawn icon (new `icon()` helper in `src/lib/render/dom.js`, no new dependency), one specific sentence and a primary action for all 3 empty cases: no quizzes published, no attempts yet (Share button), and no attempts matching the current filters (Clear filters button, which resets search/dates/hidden but leaves the "one row per taker" view untouched since it's a view choice, not a filter) (T3)
+- style(dashboard): collapse the 5 boxed summary cards into one slim stat row (reuses the grid's existing 5/3/2-column responsive breakpoints, no new CSS wrap logic) and move "How each question went" into a closed-by-default `<details>` disclosure so it doesn't compete with the attempts table (T1)
+- style(motion): add `--duration-base`/`--duration-emphasis`/`--ease-out` tokens and migrate every existing `transition` (`.field input`, `.button`, `.option`, `.progress-fill`, and the score ring) to them (T8)
+- feat(quiz): wire up the score ring's entrance animation — it already had a CSS `transition` that never fired because the final value was set at creation; `scoreRing()` now mounts the ring empty and flips to the real value a frame later (double `requestAnimationFrame`) so it actually draws in; the result card fades/translates up on arrival. Both respect `prefers-reduced-motion` (T7)
+- docs: add `docs/UI_REVAMP_PLAN.md` — a design + engineering review of a UI polish pass (dashboard hierarchy, loading/empty states, result-screen tone, AI-slop check, motion, accessibility), with an outside-voice challenge that caught a dead CSS transition before implementation
+
 ## 2026-10-12
 
 - chore: add a "Skill routing" section to `CLAUDE.md` so Claude Code invokes the right gstack skill (`/ship`, `/review`, `/qa`, `/investigate`, etc.) for matching requests in this repo
