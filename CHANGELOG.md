@@ -4,6 +4,7 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-12
 
+- chore: add a "Skill routing" section to `CLAUDE.md` so Claude Code invokes the right gstack skill (`/ship`, `/review`, `/qa`, `/investigate`, etc.) for matching requests in this repo
 - feat(brand): QuizCraft logo (Rub el Hizb star with a gold check mark) as `public/logo.svg` and favicon; site header with the logo on every page; faint star pattern behind the quiz intro
 - feat(fonts): Arabic now uses KFGQPC Uthmanic Script HAFS (original file from the King Fahd Glorious Quran Printing Complex, unmodified, licence in `public/fonts/LICENSE-KFGQPC.txt`), with Amiri Quran as fallback and for the Arabic comma, semicolon and question mark; Latin text moves from Noto Sans to Figtree
 - feat(ui): quiz intro with chips (questions, format, time) and a form card; each question in its own card with lettered answer tiles (A to D, or أ ب ج د in Arabic quizzes) that are fully clickable; floating progress bar that becomes a top strip on phones
