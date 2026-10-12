@@ -4,6 +4,8 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-13
 
+- style(motion): add `--duration-base`/`--duration-emphasis`/`--ease-out` tokens and migrate every existing `transition` (`.field input`, `.button`, `.option`, `.progress-fill`, and the score ring) to them (T8)
+- feat(quiz): wire up the score ring's entrance animation — it already had a CSS `transition` that never fired because the final value was set at creation; `scoreRing()` now mounts the ring empty and flips to the real value a frame later (double `requestAnimationFrame`) so it actually draws in; the result card fades/translates up on arrival. Both respect `prefers-reduced-motion` (T7)
 - docs: add `docs/UI_REVAMP_PLAN.md` — a design + engineering review of a UI polish pass (dashboard hierarchy, loading/empty states, result-screen tone, AI-slop check, motion, accessibility), with an outside-voice challenge that caught a dead CSS transition before implementation
 
 ## 2026-10-12

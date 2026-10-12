@@ -39,6 +39,10 @@
   --radius-control: 10px;
   --radius-panel: 18px;
   --shadow-panel: 0 1px 2px rgb(21 35 31 / 0.04), 0 8px 24px -12px rgb(21 35 31 / 0.12);
+  /* Timing isn't theme-dependent, so these live in the light :root only. */
+  --duration-base: 160ms;
+  --duration-emphasis: 600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Dark mode follows the OS/browser setting; there is no in-app toggle. Colour pairs are
@@ -290,7 +294,7 @@ h1 .ar {
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--ink);
-  transition: border-color 120ms ease;
+  transition: border-color var(--duration-base) ease;
 }
 
 .field input:hover {
@@ -337,8 +341,8 @@ h1 .ar {
   justify-self: start;
   text-decoration: none;
   transition:
-    background-color 120ms ease,
-    border-color 120ms ease;
+    background-color var(--duration-base) ease,
+    border-color var(--duration-base) ease;
 }
 
 .button:hover {
@@ -456,8 +460,8 @@ h1 .ar {
   background: var(--surface);
   cursor: pointer;
   transition:
-    border-color 120ms ease,
-    background-color 120ms ease;
+    border-color var(--duration-base) ease,
+    background-color var(--duration-base) ease;
 }
 
 /* Letter badge (A, B, C, D; أ ب ج د in Arabic quizzes) in place of the radio circle. */
@@ -547,7 +551,7 @@ h1 .ar {
   inline-size: 0;
   background: var(--green);
   border-radius: 4px;
-  transition: inline-size 200ms ease;
+  transition: inline-size var(--duration-base) ease;
 }
 
 .progress-text {
@@ -577,11 +581,19 @@ h1 .ar {
 }
 
 /* ---------- Result ---------- */
+@keyframes result-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
 .result-summary {
   display: flex;
   align-items: center;
   gap: clamp(1.25rem, 1rem + 2vw, 2.25rem);
   margin-block-end: 2rem;
+  animation: result-in var(--duration-emphasis) var(--ease-out);
 }
 
 .score-ring {
@@ -603,7 +615,7 @@ h1 .ar {
 
 .ring-value {
   stroke: var(--green);
-  transition: stroke-dashoffset 600ms ease;
+  transition: stroke-dashoffset var(--duration-emphasis) var(--ease-out);
 }
 
 .ring-label {
@@ -1249,5 +1261,9 @@ table.data .empty {
   .button,
   .field input {
     transition: none;
+  }
+
+  .result-summary {
+    animation: none;
   }
 }

@@ -114,6 +114,34 @@ export function scoreRing(percent) {
   const r = 52;
   const c = 2 * Math.PI * r;
   const clamped = Math.min(100, Math.max(0, percent));
+  const valueRing = svgEl('circle', {
+    class: 'ring-value',
+    cx: '60',
+    cy: '60',
+    r: String(r),
+    fill: 'none',
+    'stroke-width': '10',
+    'stroke-linecap': 'round',
+    'stroke-dasharray': c.toFixed(2),
+    // Starts empty (full circumference) so `.ring-value`'s CSS transition has something
+    // to animate from once flipped to the real offset below. Under
+    // prefers-reduced-motion the transition is `none`, so the flip still lands on the
+    // right value, just without the animation — no separate branch needed here.
+    'stroke-dashoffset': c.toFixed(2),
+    transform: 'rotate(-90 60 60)',
+  });
+  if (typeof requestAnimationFrame === 'function') {
+    // Flip one frame after the empty state has painted (double rAF for reliability in
+    // Safari), so the transition actually fires instead of jumping straight there.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        valueRing.setAttribute('stroke-dashoffset', (c * (1 - clamped / 100)).toFixed(2));
+      });
+    });
+  } else {
+    // No rAF (e.g. a non-browser test environment): land on the final value directly.
+    valueRing.setAttribute('stroke-dashoffset', (c * (1 - clamped / 100)).toFixed(2));
+  }
   return el('div', { class: 'score-ring', 'aria-hidden': 'true' }, [
     svgEl('svg', { viewBox: '0 0 120 120' }, [
       svgEl('circle', {
@@ -124,18 +152,7 @@ export function scoreRing(percent) {
         fill: 'none',
         'stroke-width': '10',
       }),
-      svgEl('circle', {
-        class: 'ring-value',
-        cx: '60',
-        cy: '60',
-        r: String(r),
-        fill: 'none',
-        'stroke-width': '10',
-        'stroke-linecap': 'round',
-        'stroke-dasharray': c.toFixed(2),
-        'stroke-dashoffset': (c * (1 - clamped / 100)).toFixed(2),
-        transform: 'rotate(-90 60 60)',
-      }),
+      valueRing,
     ]),
     el('div', { class: 'ring-label' }, [
       el('span', { class: 'ring-percent' }, [`${clamped}%`]),

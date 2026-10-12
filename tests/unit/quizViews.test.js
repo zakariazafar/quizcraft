@@ -256,10 +256,26 @@ describe('scoreRing', () => {
   const offset = (ring) =>
     Number(ring.querySelector('.ring-value').getAttribute('stroke-dashoffset'));
   const full = 2 * Math.PI * 52;
-  it('fills the ring in proportion to the score and is hidden from screen readers', () => {
-    expect(offset(scoreRing(0))).toBeCloseTo(full, 1);
-    expect(offset(scoreRing(50))).toBeCloseTo(full / 2, 1);
-    expect(offset(scoreRing(100))).toBeCloseTo(0, 1);
+  // The entrance animation needs a starting point to transition from: the ring mounts
+  // fully undrawn, then flips to the real value one frame later (double rAF).
+  const flushFrames = () =>
+    new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+  it('mounts empty, then draws in to the right proportion a frame later', async () => {
+    const ring0 = scoreRing(0);
+    const ring50 = scoreRing(50);
+    const ring100 = scoreRing(100);
+    expect(offset(ring0)).toBeCloseTo(full, 1);
+    expect(offset(ring50)).toBeCloseTo(full, 1);
+    expect(offset(ring100)).toBeCloseTo(full, 1);
+
+    await flushFrames();
+
+    expect(offset(ring0)).toBeCloseTo(full, 1);
+    expect(offset(ring50)).toBeCloseTo(full / 2, 1);
+    expect(offset(ring100)).toBeCloseTo(0, 1);
+  });
+  it('is hidden from screen readers and uses real SVG markup', () => {
     expect(scoreRing(40).getAttribute('aria-hidden')).toBe('true');
     expect(scoreRing(40).querySelector('svg').namespaceURI).toBe('http://www.w3.org/2000/svg');
   });
