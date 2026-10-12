@@ -85,6 +85,18 @@ body {
   font-size: 1.0625rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  caret-color: var(--accent);
+}
+
+/* Browser surfaces carry the design too: the native blue selection colour clashes with
+   the green/gold palette in both themes. --green, not --accent: this needs a background
+   white text stays readable on in both themes, which is exactly --green's job (--accent
+   is deliberately bright in dark mode for readability as text, which would make white-on
+   -accent selection hard to read there — checked: 2.3:1, fails AA; --green stays 8.4:1
+   in both themes). */
+::selection {
+  background: var(--green);
+  color: #fff;
 }
 
 h1,

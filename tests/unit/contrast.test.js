@@ -62,7 +62,7 @@ describe.each([
   it('white text on the green-strong button hover state is readable', () => {
     expect(contrast('#ffffff', token(palette, 'green-strong'))).toBeGreaterThanOrEqual(4.5);
   });
-  it('white text on the solid green button is readable', () => {
+  it('white text on the solid green button (and ::selection, same token) is readable', () => {
     expect(contrast('#ffffff', token(palette, 'green'))).toBeGreaterThanOrEqual(4.5);
   });
   it('the gold focus ring stands out from the page (3:1 for UI)', () => {
