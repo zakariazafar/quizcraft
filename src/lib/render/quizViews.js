@@ -2,7 +2,7 @@
 import { containerDirection } from '../bidi.js';
 import { unansweredQuestions } from '../scoring.js';
 import { EMAIL_MAX, NAME_MAX, validateTaker } from '../takerForm.js';
-import { el, richText } from './dom.js';
+import { el, richText, svgEl } from './dom.js';
 
 /**
  * @typedef {import('../validate.js').Quiz} Quiz
@@ -91,11 +91,56 @@ export function renderIntro(quiz, { onStart, initial = {} }) {
     onStart(check.values);
   });
 
+  const minutes = Math.max(1, Math.ceil(count / 2));
   return el('section', { class: 'intro' }, [
-    richText(quiz.title, 'h1'),
-    quiz.description ? richText(quiz.description, 'p', { class: 'lede' }) : null,
-    el('p', { class: 'meta' }, [`${count} question${count === 1 ? '' : 's'} · multiple choice`]),
-    form,
+    el('div', { class: 'hero' }, [
+      richText(quiz.title, 'h1'),
+      quiz.description ? richText(quiz.description, 'p', { class: 'lede' }) : null,
+      el('ul', { class: 'chips', 'aria-label': 'About this quiz' }, [
+        el('li', { class: 'chip' }, [`${count} question${count === 1 ? '' : 's'}`]),
+        el('li', { class: 'chip' }, ['Multiple choice']),
+        el('li', { class: 'chip' }, [`About ${minutes} min`]),
+      ]),
+    ]),
+    el('div', { class: 'card' }, [el('p', { class: 'form-title' }, ['Before you start']), form]),
+  ]);
+}
+
+/**
+ * Circular score indicator (decorative; the score is also written out in text).
+ * @param {number} percent
+ */
+export function scoreRing(percent) {
+  const r = 52;
+  const c = 2 * Math.PI * r;
+  const clamped = Math.min(100, Math.max(0, percent));
+  return el('div', { class: 'score-ring', 'aria-hidden': 'true' }, [
+    svgEl('svg', { viewBox: '0 0 120 120' }, [
+      svgEl('circle', {
+        class: 'ring-track',
+        cx: '60',
+        cy: '60',
+        r: String(r),
+        fill: 'none',
+        'stroke-width': '10',
+      }),
+      svgEl('circle', {
+        class: 'ring-value',
+        cx: '60',
+        cy: '60',
+        r: String(r),
+        fill: 'none',
+        'stroke-width': '10',
+        'stroke-linecap': 'round',
+        'stroke-dasharray': c.toFixed(2),
+        'stroke-dashoffset': (c * (1 - clamped / 100)).toFixed(2),
+        transform: 'rotate(-90 60 60)',
+      }),
+    ]),
+    el('div', { class: 'ring-label' }, [
+      el('span', { class: 'ring-percent' }, [`${clamped}%`]),
+      el('span', { class: 'ring-caption' }, ['score']),
+    ]),
   ]);
 }
 
@@ -225,6 +270,7 @@ export function renderResult(quiz, taker, result, { onRestart } = {}) {
           { class: 'review-list', ...containerDirection(quiz.language) },
           result.review.map((item) =>
             el('li', { class: 'review-item', value: String(item.number) }, [
+              el('span', { class: 'review-number' }, [`Question ${item.number}`]),
               richText(item.question, 'p', { class: 'q-text' }),
               el('dl', {}, [
                 el('dt', {}, ['Your answer']),
@@ -241,16 +287,27 @@ export function renderResult(quiz, taker, result, { onRestart } = {}) {
         ),
       ]);
 
+  const wrong = result.total - result.score - result.unanswered;
   return el('section', { class: 'result' }, [
-    richText(quiz.title, 'p', { class: 'meta' }),
-    el('h1', {}, ['Your result']),
-    el('p', { class: 'score' }, [
-      richText(taker.name, 'strong'),
-      `, you scored `,
-      el('span', { class: 'score-figure' }, [`${result.score} out of ${result.total}`]),
-      ` (${result.percent}%).`,
+    el('div', { class: 'card result-summary' }, [
+      scoreRing(result.percent),
+      el('div', { class: 'result-text' }, [
+        richText(quiz.title, 'p', { class: 'meta' }),
+        el('h1', {}, ['Your result']),
+        el('p', { class: 'score' }, [
+          richText(taker.name, 'strong'),
+          `, you scored `,
+          el('span', { class: 'score-figure' }, [`${result.score} out of ${result.total}`]),
+          ` (${result.percent}%).`,
+        ]),
+        el('ul', { class: 'chips breakdown', 'aria-label': 'Breakdown' }, [
+          el('li', { class: 'chip right' }, [`${result.score} right`]),
+          el('li', { class: 'chip wrong' }, [`${wrong} wrong`]),
+          el('li', { class: 'chip neutral' }, [`${result.unanswered} not answered`]),
+        ]),
+        el('p', { class: 'save-status', 'aria-live': 'polite', id: 'save-status' }),
+      ]),
     ]),
-    el('p', { class: 'save-status', 'aria-live': 'polite', id: 'save-status' }),
     review,
     restart,
   ]);

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">QuizCraft</title>
+  <!-- Rub el Hizb: the eight-pointed star that marks sections of the Mushaf -->
+  <path fill="#1d5741" stroke="#1d5741" stroke-width="2.5" stroke-linejoin="round"
+    d="M32 5.1 39.9 13H51v11.1l7.9 7.9-7.9 7.9V51H39.9L32 58.9 24.1 51H13V39.9L5.1 32 13 24.1V13h11.1Z"/>
+  <!-- inner ring of the star -->
+  <path fill="none" stroke="#3f7a62" stroke-width="1.5" stroke-linejoin="round"
+    d="M32 11.6 37.4 17h9.6v9.6l5.4 5.4-5.4 5.4V47h-9.6L32 52.4 26.6 47H17v-9.6L11.6 32l5.4-5.4V17h9.6Z"/>
+  <!-- the check mark: a correct answer -->
+  <path fill="none" stroke="#e6c46a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+    d="M22.5 32.5 29 39l12.5-14"/>
+</svg>

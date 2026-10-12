@@ -7,6 +7,7 @@ import {
   renderMessage,
   renderQuestions,
   renderResult,
+  scoreRing,
 } from '../../src/lib/render/quizViews.js';
 import { scoreQuiz } from '../../src/lib/scoring.js';
 
@@ -79,7 +80,11 @@ describe('renderIntro', () => {
   it('says "1 question" and omits a missing description', () => {
     const one = { ...english, description: undefined, questions: english.questions.slice(0, 1) };
     const view = renderIntro(one, { onStart: vi.fn() });
-    expect(view.textContent).toContain('1 question ·');
+    expect([...view.querySelectorAll('.chip')].map((c) => c.textContent)).toEqual([
+      '1 question',
+      'Multiple choice',
+      'About 1 min',
+    ]);
     expect(view.querySelector('.lede')).toBeNull();
   });
 
@@ -213,10 +218,17 @@ describe('renderResult', () => {
     const items = view.querySelectorAll('.review-item');
     expect(items).toHaveLength(2);
     expect(items[0].getAttribute('value')).toBe('7');
+    expect(items[0].querySelector('.review-number').textContent).toBe('Question 7');
+    expect([...view.querySelectorAll('.breakdown .chip')].map((c) => c.textContent)).toEqual([
+      '18 right',
+      '1 wrong',
+      '1 not answered',
+    ]);
+    expect(view.querySelector('.ring-percent').textContent).toBe('90%');
     expect(items[0].querySelector('.right').textContent).toBe('Dual (a pair), in رَفْعَ status');
     expect(items[0].querySelector('.why').textContent).toContain('مُسْلِمَيْنِ');
     expect(items[1].querySelector('.not-answered').textContent).toBe('Not answered');
-    expectBidiOn(view, '.q-text, .right, .why, dd.wrong:not(.not-answered), strong');
+    expectBidiOn(view, '.q-text, dd.right, .why, dd.wrong:not(.not-answered), strong');
     expect(view.querySelector('#save-status')).not.toBeNull();
     // An English explanation that starts with an Arabic word still reads left to right.
     expect(items[1].querySelector('.why').getAttribute('dir')).toBe('ltr');
@@ -237,5 +249,22 @@ describe('renderResult', () => {
   it('has no restart button without a handler', () => {
     const view = renderResult(english, taker, scoreQuiz(english, {}));
     expect(view.querySelector('button')).toBeNull();
+  });
+});
+
+describe('scoreRing', () => {
+  const offset = (ring) =>
+    Number(ring.querySelector('.ring-value').getAttribute('stroke-dashoffset'));
+  const full = 2 * Math.PI * 52;
+  it('fills the ring in proportion to the score and is hidden from screen readers', () => {
+    expect(offset(scoreRing(0))).toBeCloseTo(full, 1);
+    expect(offset(scoreRing(50))).toBeCloseTo(full / 2, 1);
+    expect(offset(scoreRing(100))).toBeCloseTo(0, 1);
+    expect(scoreRing(40).getAttribute('aria-hidden')).toBe('true');
+    expect(scoreRing(40).querySelector('svg').namespaceURI).toBe('http://www.w3.org/2000/svg');
+  });
+  it('keeps values between 0 and 100', () => {
+    expect(scoreRing(140).querySelector('.ring-percent').textContent).toBe('100%');
+    expect(scoreRing(-5).querySelector('.ring-percent').textContent).toBe('0%');
   });
 });

@@ -87,7 +87,7 @@ describe('renderShell', () => {
       onSignOut,
       status: 'Updated 10:00',
     });
-    const [refresh, signOut] = shell.querySelectorAll('.topbar button');
+    const [refresh, signOut] = shell.querySelectorAll('.toolbar button');
     refresh.click();
     signOut.click();
     expect(onRefresh).toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe('renderShell', () => {
     expect(shell.textContent).toContain('Updated 10:00');
     expect(
       renderShell(document.createElement('p'), { onRefresh, onSignOut }).textContent,
-    ).toContain('QuizCraft results');
+    ).toContain('Results dashboard');
   });
 });
 
@@ -134,7 +134,7 @@ describe('renderQuizList', () => {
     expect(trs[0].textContent).toContain('65%');
     expect(trs[0].querySelector('.status').textContent).toBe('Open');
     expect(trs[1].querySelector('.status').textContent).toBe('Closed');
-    expect(trs[1].textContent).toContain('—');
+    expect(trs[1].textContent).toContain('n/a');
     expect(trs[2].querySelector('.status').textContent).toBe('Removed');
     expect(trs[2].querySelector('[data-share]')).toBeNull();
     expect(trs[0].querySelector('[data-share="arabic-sample"]')).not.toBeNull();
@@ -185,7 +185,9 @@ describe('renderQuizDetail', () => {
     const tiles = [...view.querySelectorAll('.tile')].map((t) => t.textContent);
     expect(tiles).toEqual(['Attempts4', 'Takers3', 'Average65%', 'Highest100%', 'Lowest20%']);
     expect(view.querySelector('h1').textContent).toBe(arabic.title);
-    expect(view.textContent).toContain('version 1 · Open');
+    expect(
+      [...view.querySelectorAll('div.meta > .chip, div.meta > .status')].map((e) => e.textContent),
+    ).toEqual(['5 questions', 'Version 1', 'Open']);
   });
 
   it('lists attempts newest first, with corrected-score and older-version flags', () => {

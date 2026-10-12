@@ -61,7 +61,7 @@ async function main() {
 
   const result = await loadQuiz(quizIdFromLocation(window.location), (url) => fetch(url));
   if (result.status === 'not-found') {
-    document.title = 'Quiz not found · QuizCraft';
+    document.title = 'Quiz not found | QuizCraft';
     show(
       renderMessage(
         'Quiz not found',
@@ -75,7 +75,7 @@ async function main() {
     return;
   }
   const quiz = result.quiz;
-  document.title = `${quiz.title} · QuizCraft`;
+  document.title = `${quiz.title} | QuizCraft`;
   if (result.status === 'closed') {
     show(renderMessage(quiz.title, 'This quiz is closed and no longer accepts answers.'));
     return;

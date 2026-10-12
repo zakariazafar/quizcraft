@@ -87,7 +87,7 @@ function shell(content) {
 function route() {
   const m = window.location.hash.match(/^#\/quiz\/([a-z0-9-]+)$/);
   if (!m) {
-    document.title = 'Results · QuizCraft';
+    document.title = 'Results | QuizCraft';
     show(
       shell(
         renderQuizList(quizRows(data.index, data.attempts), {
@@ -114,7 +114,7 @@ function route() {
     );
     return;
   }
-  document.title = `${quiz.title} · Results · QuizCraft`;
+  document.title = `${quiz.title} | Results | QuizCraft`;
   const attempts = data.attempts.filter((a) => a.quizId === id);
   show(
     shell(
@@ -178,7 +178,7 @@ async function refresh() {
 }
 
 function showSignIn() {
-  document.title = 'Sign in · QuizCraft';
+  document.title = 'Sign in | QuizCraft';
   const form = renderSignIn({
     onSubmit: async (password) => {
       form.setError('');

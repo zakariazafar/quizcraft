@@ -1,3 +1,5 @@
+<p><img src="docs/logo.svg" alt="QuizCraft logo" width="72"></p>
+
 # QuizCraft
 
 A static quiz website. Quizzes are JSON files in this repo (Arabic, English or mixed). Anyone with a quiz's public link enters their name and email, takes the quiz, and sees their score, the correct answers and an explanation for each mistake. Every attempt is saved as a JSON record in Firebase Firestore. A password‑protected dashboard shows all attempts, statistics, share links, and JSON/CSV downloads.
@@ -17,6 +19,10 @@ There is no server of our own: the site is static files on Render, attempts go t
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | ![Quiz intro with name and email](docs/screenshots/quiz-intro.png)  | ![Result screen with score and review](docs/screenshots/quiz-result.png) |
 | ![Questions with progress bar](docs/screenshots/quiz-questions.png) | ![Arabic quiz shown right to left](docs/screenshots/quiz-arabic.png)     |
+
+**Logo:** an eight-pointed star (Rub el Hizb, the sign that marks sections of the Mushaf) with a gold check mark inside: Quranic study and a correct answer. Files: `public/logo.svg` (also the favicon) and `docs/logo.svg`.
+
+![Home page](docs/screenshots/home.png)
 
 | Dashboard: quizzes                                                      | Dashboard: one quiz                                                                     |
 | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
@@ -199,10 +205,10 @@ Notes:
 
 ## 10. Arabic / RTL support
 
-- **Fonts:** Amiri Quran — a clean Uthmanic‑Hafs‑style Qur'anic typeface — for Arabic, and Noto Sans for Latin, both bundled with the site from npm (`@fontsource/*`, SIL Open Font License), so there's no external font CDN. Arabic text renders at 1.6× the Latin body size.
-- **Arabic inside English:** every piece of quiz or taker text is built with `richText()` (`src/lib/render/dom.js`). Arabic runs are wrapped in `<span class="ar" lang="ar">` and shown in Naskh, slightly larger and in green, so the studied words stand out.
+- **Fonts:** Arabic is set in **KFGQPC Uthmanic Script HAFS**, the Uthmanic typeface of the King Fahd Glorious Quran Printing Complex, at 1.6 times the Latin size. The font file is in `public/fonts/` exactly as published, with its licence in `public/fonts/LICENSE-KFGQPC.txt` (free to use and distribute, not to modify, so it is not converted or subset). Its Arabic comma, semicolon and question mark are Quranic signs, so those three characters come from **Amiri Quran** (OFL), which is also the fallback. Latin text uses **Figtree** (OFL). Everything is served from the site itself; there is no font CDN.
+- **Arabic inside English:** every piece of quiz or taker text is built with `richText()` (`src/lib/render/dom.js`). Arabic runs are wrapped in `<span class="ar" lang="ar">` and shown in the Uthmanic font, larger and in green, so the studied words stand out.
 - **Direction by main script:** each text element gets `dir="rtl"` when most of its letters are Arabic, otherwise `dir="ltr"` (`textDirection()` in `src/lib/bidi.js`). This keeps an English explanation that starts with an Arabic word reading left to right, which `dir="auto"` would get wrong. Diacritics are ignored when counting.
-- **Arabic quizzes** (`"language": "ar"`): the question list and the review list switch to right-to-left (radio buttons on the right). The interface labels and progress bar stay left to right so they read correctly.
+- **Arabic quizzes** (`"language": "ar"`): the question list and the review list switch to right-to-left, and the answer letters become أ ب ج د. The interface labels and progress bar stay left to right so they read correctly.
 - **Text is never altered:** quiz text must be NFC; diacritics are kept exactly. Name inputs use `dir="auto"` so typing Arabic works naturally.
 - Layout uses CSS logical properties (`margin-inline-start`, `inset-inline`) so it flips cleanly.
 
@@ -266,7 +272,7 @@ Published quizzes: `ism-four-properties` (20 questions, mixed), `tajweed-basics-
 
 **End‑to‑end tests** (`tests/e2e/`, Playwright) run the production build, with the production headers, against the Firebase Auth and Firestore emulators:
 
-- `taker.spec.js`: take a quiz and check the score, review and the saved Firestore record; Arabic quiz right to left with the Naskh font; unanswered‑questions warning; form errors; an attempt made offline is saved on the next visit; closed quiz, wrong quiz link and 404 page; security headers present and no CSP violations.
+- `taker.spec.js`: take a quiz and check the score, review and the saved Firestore record; Arabic quiz right to left with the Uthmanic font; unanswered‑questions warning; form errors; an attempt made offline is saved on the next visit; closed quiz, wrong quiz link and 404 page; security headers present and no CSP violations.
 - `dashboard.spec.js`: wrong password refused; quiz list, summary and re‑checked scores; answers view and search; Share copies the link (and the fallback when copying is blocked); CSV and JSON downloads (Arabic intact, formulas neutralised); sign‑out.
 
 ## 14. CI pipeline
@@ -347,6 +353,7 @@ quizcraft/
 ├── src/styles/       CSS
 ├── quizzes/          quiz JSON files
 ├── schema/           quiz JSON Schema
+├── public/           logo.svg, favicon.svg, pattern.svg, fonts/ (KFGQPC font + licence)
 ├── scripts/          build and CI scripts (lib/ holds tested logic)
 ├── render.yaml       Render Blueprint: build, rewrites, security headers, env vars
 ├── firestore.rules   who can read/write attempts (tests in tests/rules/)
@@ -381,4 +388,4 @@ quizcraft/
 
 Possible next steps (from `docs/PLAN.md` §17): per‑quiz dashboard passwords, time limits, random question order or subsets, true/false and multi‑select questions, printable certificates, an Arabic interface, and importing quizzes from a spreadsheet.
 
-**Licence:** not chosen yet. Until the owner adds a `LICENSE` file, all rights are reserved. Fonts are under the SIL Open Font License (bundled from `@fontsource`).
+**Licence:** not chosen yet. Until the owner adds a `LICENSE` file, all rights are reserved. Figtree and Amiri Quran are under the SIL Open Font License (bundled from `@fontsource`). KFGQPC Uthmanic Script HAFS is © King Fahd Glorious Quran Printing Complex and is distributed unmodified under its own licence (`public/fonts/LICENSE-KFGQPC.txt`).
