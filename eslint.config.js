@@ -13,6 +13,11 @@ export default [
     languageOptions: { globals: { ...globals.node } },
   },
   {
+    // Service worker: a separate global scope from the page (self, caches, …), no DOM.
+    files: ['public/sw.js'],
+    languageOptions: { globals: { ...globals.serviceworker } },
+  },
+  {
     files: ['tests/**/*.js'],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },

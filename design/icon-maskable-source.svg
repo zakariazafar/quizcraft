@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">QuizCraft</title>
+  <rect width="64" height="64" fill="#1d5741"/>
+  <!-- Rub el Hizb star, scaled and centred inside the maskable safe zone (inner 80%) -->
+  <g transform="translate(6.4 6.4) scale(0.8)">
+    <path fill="#f4f5f0" stroke="#f4f5f0" stroke-width="2.5" stroke-linejoin="round"
+      d="M32 5.1 39.9 13H51v11.1l7.9 7.9-7.9 7.9V51H39.9L32 58.9 24.1 51H13V39.9L5.1 32 13 24.1V13h11.1Z"/>
+    <path fill="none" stroke="#1d5741" stroke-width="1.5" stroke-linejoin="round"
+      d="M32 11.6 37.4 17h9.6v9.6l5.4 5.4-5.4 5.4V47h-9.6L32 52.4 26.6 47H17v-9.6L11.6 32l5.4-5.4V17h9.6Z"/>
+    <path fill="none" stroke="#a47e22" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+      d="M22.5 32.5 29 39l12.5-14"/>
+  </g>
+</svg>

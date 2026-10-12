@@ -1,4 +1,5 @@
 import '../styles/fonts.js';
+import { registerServiceWorker } from '../lib/registerServiceWorker.js';
 import { readConfig } from '../lib/config.js';
 import { createDashboardAuth } from '../lib/dashboardAuth.js';
 import {
@@ -26,6 +27,8 @@ import {
   renderSignIn,
 } from '../lib/render/dashboardViews.js';
 import { copyText, quizUrl } from '../lib/share.js';
+
+if (import.meta.env.PROD) registerServiceWorker(navigator);
 
 const app = /** @type {HTMLElement} */ (document.getElementById('app'));
 const config = readConfig(import.meta.env);

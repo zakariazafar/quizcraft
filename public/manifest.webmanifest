@@ -1,0 +1,22 @@
+{
+  "name": "QuizCraft",
+  "short_name": "QuizCraft",
+  "description": "Take short quizzes shared by link and see your score with an explanation for every mistake. Quiz owners can open the results dashboard.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f5f0",
+  "theme_color": "#1d5741",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    {
+      "src": "/icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

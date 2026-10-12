@@ -30,6 +30,12 @@ There is no server of our own: the site is static files on Render, attempts go t
 
 ## 2. Features
 
+**The whole site**
+
+- **Installable (PWA):** a manifest and icons let a browser install QuizCraft as an app (add to home screen / app drawer), opening in its own window without browser chrome.
+- **Works offline:** a service worker caches the app shell and fonts, so a page you've already opened — including a quiz you've already started — still loads with no connection. Saving an attempt made offline still queues and retries automatically; see “For quiz takers” below.
+- **Dark mode:** colours follow the device/browser setting automatically (`prefers-color-scheme`); there is no in-app toggle. Both palettes meet WCAG AA contrast (checked by tests).
+
 **For quiz takers** (`/q/<quiz-id>`)
 
 - Enter name and email, then answer all questions on one page (one choice per question).
@@ -58,6 +64,7 @@ There is no server of our own: the site is static files on Render, attempts go t
 - Render serves the static site built by Vite.
 - Quiz files live in `quizzes/` and are published with the site.
 - Attempts are written to Firebase Firestore; the dashboard reads them after signing in with Firebase Authentication.
+- `public/sw.js` (a service worker, registered from each page in production builds only) caches the app shell, fonts and icons on first visit (cache-first), and quiz files with a stale-while-revalidate strategy so a quiz you've opened before still works offline while still fetching the latest version when online. It never intercepts Firebase/Auth/reCAPTCHA requests. `scripts/check-dist.mjs` fails the build if the manifest or the service worker's precache list points at a file that wasn't built.
 
 Full design: [`docs/PLAN.md`](docs/PLAN.md).
 
@@ -258,13 +265,16 @@ See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Fire
 | `npm run quizzes`          | Validate quizzes and write `public/quizzes/`     |
 | `npm run new-quiz -- <id>` | Scaffold a new quiz file                         |
 
-| Module                                | Test file                           |
-| ------------------------------------- | ----------------------------------- |
-| `scripts/lib/changelog.js`            | `tests/unit/changelog.test.js`      |
-| `src/lib/validate.js` (+ JSON Schema) | `tests/unit/validate.test.js`       |
-| `scripts/lib/quizIndex.js`            | `tests/unit/quizIndex.test.js`      |
-| `scripts/lib/newQuiz.js`              | `tests/unit/newQuiz.test.js`        |
-| every real quiz in `quizzes/`         | `tests/quizzes/all-quizzes.test.js` |
+| Module                                             | Test file                                  |
+| -------------------------------------------------- | ------------------------------------------ |
+| `scripts/lib/changelog.js`                         | `tests/unit/changelog.test.js`             |
+| `src/lib/validate.js` (+ JSON Schema)              | `tests/unit/validate.test.js`              |
+| `scripts/lib/quizIndex.js`                         | `tests/unit/quizIndex.test.js`             |
+| `scripts/lib/newQuiz.js`                           | `tests/unit/newQuiz.test.js`               |
+| `src/lib/registerServiceWorker.js`                 | `tests/unit/registerServiceWorker.test.js` |
+| `scripts/lib/distCheck.js` (CSP + PWA file checks) | `tests/unit/distCheck.test.js`             |
+| colour tokens, light and dark (WCAG AA)            | `tests/unit/contrast.test.js`              |
+| every real quiz in `quizzes/`                      | `tests/quizzes/all-quizzes.test.js`        |
 
 Test fixtures (an Arabic quiz with diacritics, an English quiz, a copy of the mixed Ism quiz, 13 deliberately invalid quizzes, and sample attempt documents including a faked score and an older-version attempt) live in `tests/fixtures/`.
 
@@ -274,6 +284,7 @@ Published quizzes: `ism-four-properties` (20 questions, mixed), `tajweed-basics-
 
 - `taker.spec.js`: take a quiz and check the score, review and the saved Firestore record; Arabic quiz right to left with the Uthmanic font; unanswered‑questions warning; form errors; an attempt made offline is saved on the next visit; closed quiz, wrong quiz link and 404 page; security headers present and no CSP violations.
 - `dashboard.spec.js`: wrong password refused; quiz list, summary and re‑checked scores; answers view and search; Share copies the link (and the fallback when copying is blocked); CSV and JSON downloads (Arabic intact, formulas neutralised); sign‑out.
+- `pwa.spec.js` (no emulators needed): every page links a valid manifest and an apple‑touch‑icon, every manifest icon is actually served; the service worker registers and activates; a page already visited still renders with the network turned off.
 
 ## 14. CI pipeline
 
@@ -353,8 +364,11 @@ quizcraft/
 ├── src/styles/       CSS
 ├── quizzes/          quiz JSON files
 ├── schema/           quiz JSON Schema
-├── public/           logo.svg, favicon.svg, pattern.svg, fonts/ (KFGQPC font + licence)
-├── scripts/          build and CI scripts (lib/ holds tested logic)
+├── public/           logo.svg, favicon.svg, pattern.svg, fonts/ (KFGQPC font + licence),
+│                     manifest.webmanifest, sw.js, icons/ (PWA)
+├── design/           source files for generated assets (e.g. the maskable icon SVG)
+├── scripts/          build and CI scripts (lib/ holds tested logic); render-icons.mjs
+│                     regenerates the PWA icon PNGs from the brand SVGs (run by hand)
 ├── render.yaml       Render Blueprint: build, rewrites, security headers, env vars
 ├── firestore.rules   who can read/write attempts (tests in tests/rules/)
 ├── tests/unit/       Vitest tests

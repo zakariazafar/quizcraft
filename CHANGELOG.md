@@ -5,6 +5,13 @@ All notable changes to this project are recorded here, grouped by date (newest f
 ## 2026-10-12
 
 - chore: add a "Skill routing" section to `CLAUDE.md` so Claude Code invokes the right gstack skill (`/ship`, `/review`, `/qa`, `/investigate`, etc.) for matching requests in this repo
+- feat(pwa): add a Web App Manifest (`public/manifest.webmanifest`) and PWA icons (`public/icons/`, `public/apple-touch-icon.png`, rendered from the brand SVGs with `scripts/render-icons.mjs`), so browsers can install QuizCraft as an app
+- feat(pwa): add a hand-written service worker (`public/sw.js`, registered by `src/lib/registerServiceWorker.js` in production builds only) that caches the app shell, fonts and icons (cache-first) and quiz files (stale-while-revalidate), so a page — including a quiz already opened — still renders offline; it never touches Firebase/Auth/reCAPTCHA requests
+- feat(build): `scripts/check-dist.mjs` also fails the build if the manifest's icons or the service worker's precache list point at a file that wasn't built (`scripts/lib/distCheck.js#findPwaProblems`)
+- test(e2e): add `tests/e2e/pwa.spec.js` — manifest and icons served, service worker registers and activates, a previously visited page still renders offline
+- style(theme): add automatic dark mode (`prefers-color-scheme`, no in-app toggle); split the brand-green token in two (`--green` stays button-safe for white text on top, `--accent` is the brand-green text colour) because dark mode needs opposite values for each role; `tests/unit/contrast.test.js` now checks WCAG AA contrast for both the light and dark palettes
+- feat(security): `render.yaml` CSP adds explicit `worker-src 'self'` and `manifest-src 'self'`; `/sw.js` and `/manifest.webmanifest` get `Cache-Control: no-cache` so updates are picked up promptly
+- docs: README and `docs/PLAN.md` document the PWA (install, offline, dark mode) and its new files
 - feat(brand): QuizCraft logo (Rub el Hizb star with a gold check mark) as `public/logo.svg` and favicon; site header with the logo on every page; faint star pattern behind the quiz intro
 - feat(fonts): Arabic now uses KFGQPC Uthmanic Script HAFS (original file from the King Fahd Glorious Quran Printing Complex, unmodified, licence in `public/fonts/LICENSE-KFGQPC.txt`), with Amiri Quran as fallback and for the Arabic comma, semicolon and question mark; Latin text moves from Noto Sans to Figtree
 - feat(ui): quiz intro with chips (questions, format, time) and a form card; each question in its own card with lettered answer tiles (A to D, or أ ب ج د in Arabic quizzes) that are fully clickable; floating progress bar that becomes a top strip on phones
