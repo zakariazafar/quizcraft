@@ -524,8 +524,10 @@ export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
     count,
     tableArea,
     exportBar,
-    el('h2', {}, ['How each question went']),
-    renderQuestionStats(data.stats, quiz),
+    el('details', { class: 'question-stats' }, [
+      el('summary', {}, ['How each question went']),
+      renderQuestionStats(data.stats, quiz),
+    ]),
   ]);
 }
 

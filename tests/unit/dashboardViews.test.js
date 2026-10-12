@@ -302,6 +302,15 @@ describe('renderQuizDetail', () => {
     expect(items[1].querySelector('.qstat-wrong')).toBeNull();
   });
 
+  it('collapses per-question stats into a closed-by-default disclosure', () => {
+    const { view } = detail();
+    const details = view.querySelector('details.question-stats');
+    expect(details).not.toBeNull();
+    expect(details.open).toBe(false);
+    expect(details.querySelector('summary').textContent).toBe('How each question went');
+    expect(details.querySelectorAll('.qstat')).toHaveLength(5);
+  });
+
   it('copes with a closed quiz and no attempts', () => {
     const { view } = detail({
       row: { ...rows[0], active: false },

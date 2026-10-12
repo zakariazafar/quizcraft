@@ -1038,19 +1038,15 @@ table.data .empty {
   gap: 0.5rem;
 }
 
-/* Summary: plain numbers in a row of cards */
+/* Summary: one slim stat row, not 5 boxed cards — a top/bottom rule reads as "one
+   bar" without giving each number its own card chrome. */
 .tiles {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.75rem;
   margin: 1.5rem 0 0;
-}
-
-.tile {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-panel);
-  padding: 1rem 1.1rem;
+  padding-block: 0.85rem;
+  border-block: 1px solid var(--line);
 }
 
 .tile dt {
@@ -1061,10 +1057,28 @@ table.data .empty {
 
 .tile dd {
   margin: 0.2rem 0 0;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
+}
+
+/* "How each question went": a native <details> disclosure, closed by default so it
+   doesn't compete with the attempts table above it. The <summary> is styled to read
+   like the h2 it replaces. */
+.question-stats {
+  margin-block-start: 2.5rem;
+}
+
+.question-stats summary {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  cursor: pointer;
+}
+
+.question-stats[open] summary {
+  margin-block-end: 0.75rem;
 }
 
 .filters {
