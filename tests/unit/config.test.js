@@ -40,4 +40,18 @@ describe('readConfig', () => {
   it('ignores non-string values', () => {
     expect(readConfig({ VITE_USE_EMULATORS: true }).useEmulators).toBe(false);
   });
+
+  it('is email-configured only once all three EmailJS values are set', () => {
+    expect(readConfig({}).emailConfigured).toBe(false);
+    expect(
+      readConfig({ VITE_EMAILJS_SERVICE_ID: 's', VITE_EMAILJS_TEMPLATE_ID: 't' }).emailConfigured,
+    ).toBe(false);
+    const c = readConfig({
+      VITE_EMAILJS_SERVICE_ID: 's',
+      VITE_EMAILJS_TEMPLATE_ID: 't',
+      VITE_EMAILJS_PUBLIC_KEY: 'k',
+    });
+    expect(c.emailConfigured).toBe(true);
+    expect(c.emailjs).toEqual({ serviceId: 's', templateId: 't', publicKey: 'k' });
+  });
 });

@@ -2,6 +2,8 @@ import '../styles/fonts.js';
 import { registerServiceWorker } from '../lib/registerServiceWorker.js';
 import { readConfig } from '../lib/config.js';
 import { createDashboardAuth } from '../lib/dashboardAuth.js';
+import { resultEmailParams } from '../lib/email.js';
+import { emailjsResultSender } from '../lib/emailClient.js';
 import {
   createHiddenStore,
   prepareAttempts,
@@ -19,6 +21,7 @@ import {
 import { fetchAllAttempts } from '../lib/firebase.js';
 import { authApi, getAuthClient } from '../lib/firebaseAuth.js';
 import { loadQuiz } from '../lib/quizLoader.js';
+import { scoreQuiz } from '../lib/scoring.js';
 import {
   renderDashboardMessage,
   renderQuizDetail,
@@ -43,6 +46,7 @@ function safeStorage() {
   }
 }
 const hiddenStore = createHiddenStore(safeStorage());
+const emailSender = config.emailConfigured ? emailjsResultSender(config) : null;
 
 /** @type {{ index: any[], quizzes: Map<string, any>, attempts: any[], loadedAt: Date | null }} */
 const data = { index: [], quizzes: new Map(), attempts: [], loadedAt: null };
@@ -62,6 +66,23 @@ function show(view) {
 async function share(quizId) {
   const url = quizUrl(config.siteUrl, window.location.origin, quizId);
   return { url, result: await copyText(url, navigator.clipboard) };
+}
+
+/** @param {import('../lib/dashboardData.js').CheckedAttempt} attempt */
+async function emailResult(attempt) {
+  if (!emailSender) return false;
+  const quiz = data.quizzes.get(attempt.quizId);
+  if (!quiz) return false;
+  const answers = Object.fromEntries(attempt.answers.map((a) => [a.questionId, a.selected]));
+  const scored = scoreQuiz(quiz, answers);
+  try {
+    await emailSender(
+      resultEmailParams(quiz, { name: attempt.takerName, email: attempt.takerEmail }, scored),
+    );
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function loadData() {
@@ -134,6 +155,7 @@ function route() {
         {
           share,
           onToggleHidden: (aid) => (hiddenStore.toggle(aid), hiddenStore.all()),
+          onEmailResult: emailSender ? emailResult : undefined,
           onExport: (format, shown) => {
             if (format === 'json') {
               downloadFile(

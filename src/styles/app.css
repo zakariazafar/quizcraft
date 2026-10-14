@@ -746,6 +746,26 @@ h1 .ar {
   color: var(--wrong);
 }
 
+.email-action {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 0.5rem 0;
+}
+
+.email-note:empty {
+  display: none;
+}
+
+.email-note[data-state='sent'] {
+  color: var(--right);
+}
+
+.email-note[data-state='failed'] {
+  color: var(--wrong);
+}
+
 .perfect {
   font-size: 1.1rem;
   padding: 1rem 1.25rem;
@@ -1025,7 +1045,8 @@ table.data .actions {
   text-align: end;
 }
 
-table.data .actions .button + .button {
+table.data .actions .button + .button,
+table.data .actions .button + .email-result {
   margin-inline-start: 0.4rem;
 }
 
@@ -1110,7 +1131,8 @@ table.data .empty {
   color: var(--muted);
 }
 
-.share {
+.share,
+.email-result {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;

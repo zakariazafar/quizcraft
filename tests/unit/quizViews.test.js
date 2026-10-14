@@ -288,6 +288,46 @@ describe('renderResult', () => {
     const view = renderResult(english, taker, scoreQuiz(english, {}));
     expect(view.querySelector('button')).toBeNull();
   });
+
+  it('has no email button without a handler', () => {
+    const view = renderResult(english, taker, scoreQuiz(english, {}));
+    expect(view.querySelector('.email-action')).toBeNull();
+  });
+
+  it('emails the result on click, showing sending then sent, and disables while busy', async () => {
+    let resolveSend;
+    const onEmailResult = vi.fn(
+      () =>
+        new Promise((r) => {
+          resolveSend = r;
+        }),
+    );
+    const view = renderResult(english, taker, scoreQuiz(english, {}), { onEmailResult });
+    const button = /** @type {HTMLButtonElement} */ (view.querySelector('.email-action button'));
+    expect(button.textContent).toBe('Email me this result');
+    button.click();
+    expect(onEmailResult).toHaveBeenCalledTimes(1);
+    expect(button.disabled).toBe(true);
+    expect(view.querySelector('.email-note').textContent).toBe('Sending…');
+    resolveSend(true);
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(view.querySelector('.email-note').textContent).toBe('Emailed to you.');
+    expect(view.querySelector('.email-note').dataset.state).toBe('sent');
+    expect(button.disabled).toBe(true);
+  });
+
+  it('re-enables the button and shows a failure note when sending fails', async () => {
+    const onEmailResult = vi.fn(() => Promise.resolve(false));
+    const view = renderResult(english, taker, scoreQuiz(english, {}), { onEmailResult });
+    const button = /** @type {HTMLButtonElement} */ (view.querySelector('.email-action button'));
+    button.click();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(view.querySelector('.email-note').textContent).toBe('Could not send the email.');
+    expect(view.querySelector('.email-note').dataset.state).toBe('failed');
+    expect(button.disabled).toBe(false);
+  });
 });
 
 describe('scoreRing', () => {

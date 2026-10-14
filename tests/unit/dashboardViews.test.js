@@ -162,7 +162,7 @@ describe('renderQuizList', () => {
   });
 });
 
-function detail(overrides = {}, onExport = undefined) {
+function detail(overrides = {}, onExport = undefined, onEmailResult = undefined) {
   const onToggleHidden = vi.fn();
   let hidden = new Set();
   onToggleHidden.mockImplementation((id) => {
@@ -181,7 +181,7 @@ function detail(overrides = {}, onExport = undefined) {
       hidden: new Set(),
       ...overrides,
     },
-    { share: vi.fn(), onToggleHidden, onExport },
+    { share: vi.fn(), onToggleHidden, onExport, onEmailResult },
   );
   document.body.append(view);
   return { view, onToggleHidden };
@@ -283,6 +283,54 @@ describe('renderQuizDetail', () => {
     expect(view.querySelector('[data-view="a2"]').getAttribute('aria-expanded')).toBe('true');
     view.querySelector('[data-view="a2"]').click();
     expect(view.querySelector('tr.detail')).toBeNull();
+  });
+
+  it("emails one attempt's result, showing sent, when a handler is given", async () => {
+    let resolveSend;
+    const onEmailResult = vi.fn(
+      () =>
+        new Promise((r) => {
+          resolveSend = r;
+        }),
+    );
+    const { view } = detail({}, undefined, onEmailResult);
+    const row = view.querySelector('[data-hide="a2"]').closest('tr');
+    const button = /** @type {HTMLButtonElement} */ (row.querySelector('[data-email="a2"]'));
+    expect(button.disabled).toBe(false);
+    button.click();
+    expect(onEmailResult).toHaveBeenCalledWith(expect.objectContaining({ id: 'a2' }));
+    expect(button.disabled).toBe(true);
+    expect(row.querySelector('.email-note').textContent).toBe('Sending…');
+    resolveSend(true);
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(row.querySelector('.email-note').textContent).toBe('Emailed');
+    expect(row.querySelector('.email-note').dataset.state).toBe('sent');
+  });
+
+  it('disables the email button for an attempt on an older quiz version', () => {
+    const { view } = detail({}, undefined, vi.fn());
+    const row = view.querySelector('[data-hide="a4"]').closest('tr');
+    expect(row.querySelector('[data-email="a4"]').disabled).toBe(true);
+  });
+
+  it('re-enables the email button and shows a failure note when sending fails', async () => {
+    const onEmailResult = vi.fn(() => Promise.resolve(false));
+    const { view } = detail({}, undefined, onEmailResult);
+    const row = view.querySelector('[data-hide="a2"]').closest('tr');
+    const button = /** @type {HTMLButtonElement} */ (row.querySelector('[data-email="a2"]'));
+    button.click();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(row.querySelector('.email-note').textContent).toBe('Failed');
+    expect(row.querySelector('.email-note').dataset.state).toBe('failed');
+    expect(button.disabled).toBe(false);
+  });
+
+  it('disables the email button when no handler is given', () => {
+    const { view } = detail();
+    const row = view.querySelector('[data-hide="a2"]').closest('tr');
+    expect(row.querySelector('[data-email="a2"]').disabled).toBe(true);
   });
 
   it('hides an attempt as spam and can show hidden ones again', () => {

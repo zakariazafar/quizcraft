@@ -2,6 +2,11 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-10-15
+
+- feat(email): "Email me this result" on the quiz result screen sends the taker's own score and review to their inbox via **EmailJS** (new dependency `@emailjs/browser`: a client-callable email API, since this static site has no backend of its own to send mail from). Hidden unless `VITE_EMAILJS_SERVICE_ID`/`_TEMPLATE_ID`/`_PUBLIC_KEY` are set; best-effort, not retried like saving an attempt is. CSP `connect-src` now allows `https://api.emailjs.com`. Reinstates the "result emails" the v1→v2 plan had deliberately dropped (`docs/PLAN.md`), now that a no-backend way to send them exists.
+- feat(dashboard): "Email result" on each attempt row re-scores that attempt from its saved answers and emails the result to its taker, reusing the same EmailJS setup. Disabled for attempts taken on an older quiz version, since they can't be reliably re-scored.
+
 ## 2026-10-14
 
 - quiz: add fragments (20 questions, mixed English/Arabic) on إِضَافَة, pronouns, حرف جر, حرف نصب, special مُضَاف words, مَوْصُوف صِفَة and pointing words, every Arabic example from the Quran with its reference; 4 of 20 questions (20%) are chains of several fragments; correct answers spread 5/5/5/5

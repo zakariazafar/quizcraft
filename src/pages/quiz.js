@@ -7,6 +7,8 @@ import {
   getClientId,
 } from '../lib/attempts.js';
 import { readConfig } from '../lib/config.js';
+import { resultEmailParams } from '../lib/email.js';
+import { emailjsResultSender } from '../lib/emailClient.js';
 import { firestoreAttemptWriter } from '../lib/firebase.js';
 import { loadQuiz, quizIdFromLocation } from '../lib/quizLoader.js';
 import {
@@ -38,6 +40,7 @@ const saver = config.configured
   : null;
 if (!config.configured)
   console.warn('QuizCraft: Firebase is not configured; attempts are not saved.');
+const emailSender = config.emailConfigured ? emailjsResultSender(config) : null;
 
 /** @param {HTMLElement} view */
 function show(view) {
@@ -97,7 +100,17 @@ async function main() {
             renderQuestions(quiz, taker, {
               onSubmit: (answers) => {
                 const scored = scoreQuiz(quiz, answers);
-                show(renderResult(quiz, taker, scored, { onRestart: () => start(taker) }));
+                show(
+                  renderResult(quiz, taker, scored, {
+                    onRestart: () => start(taker),
+                    onEmailResult: emailSender
+                      ? () =>
+                          emailSender(resultEmailParams(quiz, taker, scored))
+                            .then(() => true)
+                            .catch(() => false)
+                      : undefined,
+                  }),
+                );
                 if (!saver) {
                   setSaveStatus('disabled');
                   return;

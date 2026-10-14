@@ -10,13 +10,13 @@
 A **static website** (HTML, CSS, JavaScript; no server of our own, no database server, no Python).
 
 - **Quizzes are made by code**: each quiz is a JSON file in the GitHub repo (`quizzes/<quiz-id>.json`). New quizzes are written by Claude Code from content you give it, validated by automated tests, and published by pushing to GitHub. Render rebuilds the site automatically.
-- **Quiz takers** open a quiz's public link, enter their **name and email**, answer the questions, and **see their result on screen**: total score, plus the correct answer and an explanation for every wrong answer. **No emails are sent.**
+- **Quiz takers** open a quiz's public link, enter their **name and email**, answer the questions, and **see their result on screen**: total score, plus the correct answer and an explanation for every wrong answer. **Result emails are optional** (§2.2): a taker can email their own result to themselves, and the dashboard can email an attempt's result to its taker — both through EmailJS (a client‑callable email API), since the site has no backend of its own to send mail from.
 - **Every attempt is saved as a JSON record** (taker name, email, answers, score, time) in **Firebase Firestore**, a Google‑hosted document store with a free tier. Nothing to run or maintain.
-- **Dashboard**: anyone with the dashboard password can open `/dashboard`, pick a quiz and see all its attempts, statistics, details of each attempt, and download the data as JSON or CSV. Each quiz has a **Share** button that copies its public link.
+- **Dashboard**: anyone with the dashboard password can open `/dashboard`, pick a quiz and see all its attempts, statistics, details of each attempt, and download the data as JSON or CSV. Each quiz has a **Share** button that copies its public link, and each attempt row has an **Email result** button.
 - Questions and options can be in **Arabic** (or mixed Arabic/English) and display correctly right‑to‑left with a proper Arabic font.
 - Hosted as a **Render Static Site**; code in **GitHub**; every functional module covered by tests; README documents the product; `CHANGELOG.md` gets a dated entry with every commit.
 
-**Removed from v1:** sign‑up/sign‑in, maker accounts, FastAPI backend, PostgreSQL, AI generation inside the app, result emails.
+**Removed from v1:** sign‑up/sign‑in, maker accounts, FastAPI backend, PostgreSQL, AI generation inside the app. (Result emails were also removed from v1, since sending mail needs a backend the static-site design doesn't have — reinstated 2026-10-15 via EmailJS, a client-side email API, once a no-backend way to send them was chosen.)
 
 ---
 
@@ -40,6 +40,7 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
    - for each wrong or unanswered question: the question, _your answer_, _correct answer_, and _why it's correct_ (explanation);
    - a congratulation message if all answers are right.
 5. At the same moment, the attempt is saved to Firestore. If saving fails (offline, etc.) the result is still shown, the attempt is kept in the browser and retried automatically (up to 3 times, then again on the next visit), and a small notice says "Result not yet saved, retrying…".
+6. **Email me this result** (shown only when EmailJS is configured): sends the same score and review to the taker's own email via EmailJS. Best-effort, not retried; a failed send shows a button to try again.
 
 ### 2.3 Dashboard (password protected)
 
@@ -51,28 +52,30 @@ A **static website** (HTML, CSS, JavaScript; no server of our own, no database s
    - **Attempt detail**: every question with the taker's choice, the correct choice, and whether it was right.
    - **Per‑question stats**: % answered correctly, most‑chosen wrong option (shows which questions are hard).
    - **Download** JSON (the raw attempt records) and CSV (UTF‑8 with BOM so Excel shows Arabic correctly).
+   - **Email result** (shown only when EmailJS is configured): re-scores the attempt from its saved answers and emails that result to the taker. Disabled for attempts on an older quiz version, since they can't be reliably re-scored.
 4. **Sign out**. The session lasts until sign‑out or browser close (configurable).
 
 ---
 
 ## 3. Technology choices
 
-| Concern                                  | Choice                                                                                                                                                                           | Why                                                                                   |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Site                                     | Plain **HTML + CSS + JavaScript (ES modules)**, built with **Vite** (multi‑page)                                                                                                 | No framework needed; Vite bundles the Firebase SDK and injects config                 |
-| Quiz content                             | JSON files in `quizzes/`, validated with **JSON Schema (Ajv)**                                                                                                                   | "Made by code", reviewable in pull requests                                           |
-| Attempt storage                          | **Firebase Firestore** (free Spark plan)                                                                                                                                         | No server to run; security rules control who can read/write                           |
-| Dashboard password                       | **Firebase Authentication** (email/password) with one shared dashboard account                                                                                                   | The password is checked by Google's servers, so it can't be read from the page source |
-| Abuse protection (optional, recommended) | **Firebase App Check** with reCAPTCHA v3                                                                                                                                         | Makes it harder for scripts to spam fake attempts                                     |
-| Arabic font                              | **KFGQPC Uthmanic Script HAFS** (self-hosted original OTF with its licence; Amiri Quran as fallback and for the Arabic comma, semicolon and question mark) + **Figtree** (Latin) | No external CDN; the Uthmanic script requested for this project                       |
-| Installability / offline                 | Hand-written **service worker** (`public/sw.js`) + **Web App Manifest** (`public/manifest.webmanifest`); no framework/plugin                                                     | Matches the "no framework" rule; small enough to read and test directly               |
-| Colour theme                             | `prefers-color-scheme` **dark mode**, no in-app toggle; same tokens, checked for WCAG AA in both                                                                                 | Matches the device/browser setting with no extra UI                                   |
-| Unit/integration tests                   | **Vitest** + **jsdom**                                                                                                                                                           | Fast, runs in CI                                                                      |
-| Security‑rule tests                      | **@firebase/rules-unit-testing** + **Firebase Emulator Suite**                                                                                                                   | Proves who can read and write                                                         |
-| End‑to‑end tests                         | **Playwright** against the built site + emulators                                                                                                                                | Full taker and dashboard flows                                                        |
-| Lint/format                              | **ESLint** + **Prettier**                                                                                                                                                        | Consistent code                                                                       |
-| CI                                       | **GitHub Actions**                                                                                                                                                               | Lint, tests, coverage gate, changelog check, rules deploy                             |
-| Hosting                                  | **Render Static Site** via `render.yaml`                                                                                                                                         | Auto‑deploy from GitHub, free                                                         |
+| Concern                                  | Choice                                                                                                                                                                           | Why                                                                                                                |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Site                                     | Plain **HTML + CSS + JavaScript (ES modules)**, built with **Vite** (multi‑page)                                                                                                 | No framework needed; Vite bundles the Firebase SDK and injects config                                              |
+| Quiz content                             | JSON files in `quizzes/`, validated with **JSON Schema (Ajv)**                                                                                                                   | "Made by code", reviewable in pull requests                                                                        |
+| Attempt storage                          | **Firebase Firestore** (free Spark plan)                                                                                                                                         | No server to run; security rules control who can read/write                                                        |
+| Dashboard password                       | **Firebase Authentication** (email/password) with one shared dashboard account                                                                                                   | The password is checked by Google's servers, so it can't be read from the page source                              |
+| Abuse protection (optional, recommended) | **Firebase App Check** with reCAPTCHA v3                                                                                                                                         | Makes it harder for scripts to spam fake attempts                                                                  |
+| Result emails (optional)                 | **EmailJS** (client-callable email API)                                                                                                                                          | Sends mail without a backend of our own; public key isn't secret, EmailJS restricts abuse by domain and rate limit |
+| Arabic font                              | **KFGQPC Uthmanic Script HAFS** (self-hosted original OTF with its licence; Amiri Quran as fallback and for the Arabic comma, semicolon and question mark) + **Figtree** (Latin) | No external CDN; the Uthmanic script requested for this project                                                    |
+| Installability / offline                 | Hand-written **service worker** (`public/sw.js`) + **Web App Manifest** (`public/manifest.webmanifest`); no framework/plugin                                                     | Matches the "no framework" rule; small enough to read and test directly                                            |
+| Colour theme                             | `prefers-color-scheme` **dark mode**, no in-app toggle; same tokens, checked for WCAG AA in both                                                                                 | Matches the device/browser setting with no extra UI                                                                |
+| Unit/integration tests                   | **Vitest** + **jsdom**                                                                                                                                                           | Fast, runs in CI                                                                                                   |
+| Security‑rule tests                      | **@firebase/rules-unit-testing** + **Firebase Emulator Suite**                                                                                                                   | Proves who can read and write                                                                                      |
+| End‑to‑end tests                         | **Playwright** against the built site + emulators                                                                                                                                | Full taker and dashboard flows                                                                                     |
+| Lint/format                              | **ESLint** + **Prettier**                                                                                                                                                        | Consistent code                                                                                                    |
+| CI                                       | **GitHub Actions**                                                                                                                                                               | Lint, tests, coverage gate, changelog check, rules deploy                                                          |
+| Hosting                                  | **Render Static Site** via `render.yaml`                                                                                                                                         | Auto‑deploy from GitHub, free                                                                                      |
 
 ---
 
@@ -174,7 +177,9 @@ Collection path: `attempts/{attemptId}`, where `attemptId` is a random id create
 
 **Privacy:** taker emails are personal data. They are readable only through the dashboard. The quiz start page shows a one‑line notice: "Your name, email and answers are saved so the quiz owner can see results."
 
-**Headers:** Render `headers` in `render.yaml`: Content‑Security‑Policy (self + Firebase/Google domains needed by the SDK and reCAPTCHA), `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`.
+**Headers:** Render `headers` in `render.yaml`: Content‑Security‑Policy (self + Firebase/Google domains needed by the SDK and reCAPTCHA, plus `https://api.emailjs.com` for result emails), `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`.
+
+**Result emails:** sent through EmailJS from the browser, since the site has no backend to send mail from itself. The EmailJS public key is bundled in the built site, same as the Firebase web config — not a secret; EmailJS restricts abuse by allowed domain and rate limits on their side, not by hiding the key. Sending is best-effort and not retried (unlike saving an attempt): a failed send shows a button to try again, never blocks the result screen or the dashboard.
 
 ---
 
@@ -220,6 +225,8 @@ quizcraft/
 │   │   ├── scoring.js          # pure scoring + review list
 │   │   ├── takerForm.js        # name/email validation, NFC
 │   │   ├── attempts.js         # build record, save, retry queue (localStorage)
+│   │   ├── email.js            # pure: result email body + EmailJS template params
+│   │   ├── emailClient.js      # thin EmailJS SDK wrapper (send one result email)
 │   │   ├── dashboardAuth.js    # sign in/out with fixed email + password
 │   │   ├── dashboardData.js    # query attempts, re-score, stats, per-question stats
 │   │   ├── exportData.js       # JSON + CSV (BOM) export
@@ -260,16 +267,19 @@ quizcraft/
 
 Build‑time environment variables (set in Render and `.env` locally). Firebase web config values are **not secret**; protection comes from the security rules.
 
-| Variable                    | Example                          | Notes                                                  |
-| --------------------------- | -------------------------------- | ------------------------------------------------------ |
-| `VITE_FIREBASE_API_KEY`     | `AIza...`                        | From Firebase project settings                         |
-| `VITE_FIREBASE_AUTH_DOMAIN` | `quizcraft-xxxx.firebaseapp.com` |                                                        |
-| `VITE_FIREBASE_PROJECT_ID`  | `quizcraft-xxxx`                 |                                                        |
-| `VITE_FIREBASE_APP_ID`      | `1:...:web:...`                  |                                                        |
-| `VITE_DASHBOARD_EMAIL`      | `dashboard@quizcraft.local`      | Fixed account the dashboard password signs into        |
-| `VITE_RECAPTCHA_SITE_KEY`   |                                  | Only if App Check is enabled                           |
-| `VITE_SITE_URL`             | `https://quizcraft.onrender.com` | Used for share links (falls back to `location.origin`) |
-| `VITE_USE_EMULATORS`        | `false`                          | `true` in tests/local dev                              |
+| Variable                    | Example                          | Notes                                                                                |
+| --------------------------- | -------------------------------- | ------------------------------------------------------------------------------------ |
+| `VITE_FIREBASE_API_KEY`     | `AIza...`                        | From Firebase project settings                                                       |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `quizcraft-xxxx.firebaseapp.com` |                                                                                      |
+| `VITE_FIREBASE_PROJECT_ID`  | `quizcraft-xxxx`                 |                                                                                      |
+| `VITE_FIREBASE_APP_ID`      | `1:...:web:...`                  |                                                                                      |
+| `VITE_DASHBOARD_EMAIL`      | `dashboard@quizcraft.local`      | Fixed account the dashboard password signs into                                      |
+| `VITE_RECAPTCHA_SITE_KEY`   |                                  | Only if App Check is enabled                                                         |
+| `VITE_EMAILJS_SERVICE_ID`   | `service_abc123`                 | EmailJS service id; all three EmailJS values are needed to show result-email buttons |
+| `VITE_EMAILJS_TEMPLATE_ID`  | `template_xyz789`                | EmailJS template id                                                                  |
+| `VITE_EMAILJS_PUBLIC_KEY`   |                                  | EmailJS public key (not secret, see §6)                                              |
+| `VITE_SITE_URL`             | `https://quizcraft.onrender.com` | Used for share links (falls back to `location.origin`)                               |
+| `VITE_USE_EMULATORS`        | `false`                          | `true` in tests/local dev                                                            |
 
 GitHub Actions secret (only for deploying rules): `FIREBASE_TOKEN` or a service‑account JSON (`FIREBASE_SERVICE_ACCOUNT`). The dashboard UID goes into `firestore.rules` (not secret).
 
@@ -284,6 +294,8 @@ GitHub Actions secret (only for deploying rules): `FIREBASE_TOKEN` or a service�
 | `scoring`                    | unit                    | all right, all wrong, partial, unanswered, unknown option ignored, review list has question/your answer/correct answer/explanation, Arabic preserved                                                                                                                                                                                                |
 | `takerForm`                  | unit                    | name required/trimmed/NFC/max length, email validation, Arabic names allowed                                                                                                                                                                                                                                                                        |
 | `attempts`                   | unit (mocked Firestore) | record has exact fields/types; save success; failure → queued in localStorage; retry on next load; no duplicates after retry                                                                                                                                                                                                                        |
+| `email`                      | unit                    | plain-text body for a perfect result (no review block) and a partial one (review lines per question, Arabic preserved); template params match quiz/taker/result                                                                                                                                                                                     |
+| `emailClient`                | unit (mocked EmailJS)   | sends with the configured service/template/public key; a send failure propagates to the caller                                                                                                                                                                                                                                                      |
 | `share`                      | unit (jsdom)            | URL built from `VITE_SITE_URL` or origin; clipboard success shows toast; clipboard blocked → fallback input selected                                                                                                                                                                                                                                |
 | `bidi`                       | unit                    | Arabic detection; `dir`/`lang` for `ar` quizzes; `quizTextDir` by quiz language; `textDirection` by main script for names                                                                                                                                                                                                                           |
 | `render/*`                   | unit (jsdom)            | intro, questions, result screen; text inserted with `textContent` (script tags in names don't execute); every text container has `.bidi` and a `dir`                                                                                                                                                                                                |
