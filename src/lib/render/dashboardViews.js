@@ -10,6 +10,7 @@ import { el, icon, richText } from './dom.js';
  * @typedef {ReturnType<typeof import('../dashboardData.js').summarise>} Summary
  * @typedef {ReturnType<typeof import('../dashboardData.js').questionStats>} QuestionStats
  * @typedef {(quizId: string) => Promise<{ result: 'copied' | 'manual', url: string }>} ShareFn
+ * @typedef {(attempt: CheckedAttempt) => Promise<boolean>} EmailResultFn
  */
 
 const pct = (/** @type {number | null} */ v) => (v === null ? 'n/a' : `${v}%`);
@@ -141,6 +142,36 @@ export function shareButton(quizId, share) {
     }
   });
   return el('span', { class: 'share' }, [button, note]);
+}
+
+/**
+ * A button that emails one attempt's result to its taker, with an inline status note.
+ * Disabled when the attempt can't be reliably re-scored (older quiz version, or the quiz
+ * is no longer published) — same condition `renderAttemptDetail` uses to hide answers.
+ * @param {CheckedAttempt} attempt
+ * @param {EmailResultFn} [onEmailResult]
+ */
+function emailResultButton(attempt, onEmailResult) {
+  const canEmail = Boolean(onEmailResult) && !attempt.checked.versionChanged;
+  const button = el(
+    'button',
+    { type: 'button', class: 'button small quiet', 'data-email': attempt.id },
+    ['Email result'],
+  );
+  if (!canEmail) button.setAttribute('disabled', '');
+  const note = el('span', { class: 'email-note', role: 'status' });
+  if (onEmailResult) {
+    button.addEventListener('click', async () => {
+      button.setAttribute('disabled', '');
+      note.dataset.state = '';
+      note.replaceChildren('Sending…');
+      const ok = await onEmailResult(attempt);
+      note.dataset.state = ok ? 'sent' : 'failed';
+      note.replaceChildren(ok ? 'Emailed' : 'Failed');
+      if (!ok) button.removeAttribute('disabled');
+    });
+  }
+  return el('span', { class: 'email-result' }, [button, note]);
 }
 
 /**
@@ -320,9 +351,10 @@ function flags(a) {
  * @param {{ quiz: Quiz, row: QuizRow, attempts: CheckedAttempt[], summary: Summary,
  *   stats: QuestionStats, hidden: Set<string> }} data
  * @param {{ share: ShareFn, onToggleHidden: (id: string) => Set<string>,
- *   onExport?: (format: 'csv' | 'answers' | 'json', attempts: CheckedAttempt[]) => void }} handlers
+ *   onExport?: (format: 'csv' | 'answers' | 'json', attempts: CheckedAttempt[]) => void,
+ *   onEmailResult?: EmailResultFn }} handlers
  */
-export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
+export function renderQuizDetail(data, { share, onToggleHidden, onExport, onEmailResult }) {
   const { quiz, row } = data;
   let hidden = data.hidden;
   /** @type {{ search: string, from: string, to: string, showHidden: boolean, byTaker: boolean,
@@ -521,7 +553,7 @@ export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
         el('td', { class: 'num' }, [`${a.checked.score} / ${a.checked.total}`]),
         el('td', { class: 'num' }, [`${a.checked.percent}%`, ...flags(a)]),
         el('td', { class: 'when' }, [formatDateTime(a.submittedAt)]),
-        el('td', { class: 'actions' }, [view, hide]),
+        el('td', { class: 'actions' }, [view, hide, emailResultButton(a, onEmailResult)]),
       ]);
       if (!isOpen) return [tr];
       return [

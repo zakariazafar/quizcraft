@@ -18,6 +18,11 @@ export function readConfig(env) {
     projectId: str('VITE_FIREBASE_PROJECT_ID') || (useEmulators ? EMULATOR_PROJECT_ID : ''),
     appId: str('VITE_FIREBASE_APP_ID') || (useEmulators ? 'demo-app' : ''),
   };
+  const emailjs = {
+    serviceId: str('VITE_EMAILJS_SERVICE_ID'),
+    templateId: str('VITE_EMAILJS_TEMPLATE_ID'),
+    publicKey: str('VITE_EMAILJS_PUBLIC_KEY'),
+  };
   return {
     firebase,
     /** True when attempts can be saved (real project configured, or emulators). */
@@ -27,6 +32,9 @@ export function readConfig(env) {
     dashboardEmail: str('VITE_DASHBOARD_EMAIL'),
     recaptchaSiteKey: str('VITE_RECAPTCHA_SITE_KEY'),
     siteUrl: str('VITE_SITE_URL').replace(/\/+$/, ''),
+    emailjs,
+    /** True when "Email me this result" / dashboard "Email result" can be offered. */
+    emailConfigured: Boolean(emailjs.serviceId && emailjs.templateId && emailjs.publicKey),
   };
 }
 

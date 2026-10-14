@@ -291,14 +291,31 @@ export function renderQuestions(quiz, taker, { onSubmit }) {
  * @param {Quiz} quiz
  * @param {Taker} taker
  * @param {Result} result
- * @param {{ onRestart?: () => void }} [opts]
+ * @param {{ onRestart?: () => void, onEmailResult?: () => Promise<boolean> }} [opts]
  */
-export function renderResult(quiz, taker, result, { onRestart } = {}) {
+export function renderResult(quiz, taker, result, { onRestart, onEmailResult } = {}) {
   const perfect = result.review.length === 0;
   const restart = onRestart
     ? el('button', { type: 'button', class: 'button' }, ['Take the quiz again'])
     : null;
   restart?.addEventListener('click', () => onRestart?.());
+
+  const emailNote = el('span', { class: 'email-note', role: 'status' });
+  const emailButton = onEmailResult
+    ? el('button', { type: 'button', class: 'button small' }, ['Email me this result'])
+    : null;
+  emailButton?.addEventListener('click', async () => {
+    emailButton.setAttribute('disabled', '');
+    emailNote.dataset.state = '';
+    emailNote.replaceChildren('Sending…');
+    const ok = await onEmailResult();
+    emailNote.dataset.state = ok ? 'sent' : 'failed';
+    emailNote.replaceChildren(ok ? 'Emailed to you.' : 'Could not send the email.');
+    if (!ok) emailButton.removeAttribute('disabled');
+  });
+  const emailAction = emailButton
+    ? el('p', { class: 'email-action' }, [emailButton, emailNote])
+    : null;
 
   const review = perfect
     ? el('p', { class: 'perfect' }, ['Every answer is right. Well done!'])
@@ -354,6 +371,7 @@ export function renderResult(quiz, taker, result, { onRestart } = {}) {
           el('li', { class: 'chip neutral' }, [`${result.unanswered} not answered`]),
         ]),
         el('p', { class: 'save-status', 'aria-live': 'polite', id: 'save-status' }),
+        emailAction,
       ]),
     ]),
     review,

@@ -41,6 +41,7 @@ There is no server of our own: the site is static files on Render, attempts go t
 - Enter name and email, then answer all questions on one page (one choice per question).
 - A progress bar shows how many questions are answered. Submitting with gaps shows which questions are unanswered and asks to go back or submit anyway (unanswered counts as wrong).
 - The result screen shows the score (e.g. “18 out of 20 (90%)”) and, for every wrong or unanswered question, your answer, the correct answer and why it is correct. A perfect score gets a short congratulation. “Take the quiz again” starts over with the same name and email.
+- **Email me this result** (optional, shown only when EmailJS is configured — see §12) sends the same score and review to the taker's own inbox.
 - Clear messages for a mistyped link (“Quiz not found”), a closed quiz, or a loading problem.
 - Every submission is saved to Firestore as one JSON record. A line under the score says “Your result has been saved.” If the taker is offline, the attempt is kept in the browser and sent automatically next time a quiz page opens; the result screen never waits for saving.
 
@@ -49,6 +50,7 @@ There is no server of our own: the site is static files on Render, attempts go t
 - Sign in with the dashboard password (checked by Firebase; the session ends when the browser closes).
 - **Quiz list:** every published quiz with its number of questions and attempts, average score and status (Open / Closed / Removed), plus a **Share** button that copies the public link (“Link copied”; if the browser blocks copying, the link is shown selected).
 - **Quiz page:** attempts, takers, average, highest and lowest score; a table of every attempt (name, email, score, %, time) with search by name or email, date range, sorting, and an **Answers** view showing each question as right ✓ or wrong ✗ with the correct answer.
+- **Email result** (optional, shown only when EmailJS is configured) sends one attempt's score and review to that taker's email, re-scored from its saved answers. Disabled for attempts taken on an older quiz version, since they can't be reliably re-scored.
 - **One row per taker** groups attempts by email (attempts, best and latest score).
 - **Re-scoring:** every attempt is scored again from its saved answers against the quiz file. A score that doesn't match (e.g. faked in the browser) is corrected and marked “⚠ score corrected”; attempts on an older quiz version are marked “older version”.
 - **How each question went:** share of right answers per question (bar with the value written beside it) and the most chosen wrong answer, to spot hard questions.
@@ -197,6 +199,7 @@ Notes:
 - **Firestore rules** (`firestore.rules`, tested in `tests/rules/`): anyone can _add_ an attempt, but only with exactly the expected fields, types and sizes and a server timestamp; nobody can change or delete attempts from the site; only the dashboard account can read them.
 - **Dashboard password** is checked by Firebase Authentication. It is not in the site code, the repo, the README or the tests (tests use the emulator with a test password).
 - **App Check** (optional, recommended): with `VITE_RECAPTCHA_SITE_KEY` set and enforcement turned on for Firestore in the Firebase console, Firestore only accepts requests from this site (reCAPTCHA v3, invisible to takers). This makes scripted spam much harder.
+- **Result emails** (optional) go through **EmailJS**, a client-callable email API, since this site has no backend of its own to send mail from. Its public key is not secret — abuse is limited by EmailJS's allowed-domain restriction and rate limits, not by hiding the key. `render.yaml`'s Content-Security-Policy allows `connect-src` to `https://api.emailjs.com` only for this.
 - **Security headers** (in `render.yaml`, also applied by `npm run preview`): a strict Content‑Security‑Policy (no inline scripts or styles, only this site plus the Firebase and reCAPTCHA endpoints), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy` and HSTS. After every build, `scripts/check-dist.mjs` fails if a page contains anything the policy would block.
 - **No HTML injection:** all quiz and taker text is inserted as text (`textContent`), never as HTML; ESLint forbids `innerHTML`, and tests feed `<script>` and `<img onerror>` names through every screen.
 - **CSV exports** neutralise spreadsheet formulas typed by takers (see §8).
@@ -209,6 +212,7 @@ Notes:
 - **Scores can be faked in the browser**, but the dashboard re‑scores every attempt from its answers and shows the real score (“⚠ score corrected”).
 - **Spam:** anyone with a link can submit attempts. App Check and the rules' size limits keep this reasonable; the dashboard can hide spam attempts.
 - **Privacy:** taker names and emails are personal data. Only the dashboard account can read them; the quiz start page tells takers they are saved.
+- **Result emails are best-effort**, not retried: a failed send just shows "Could not send the email" with a button to try again, and EmailJS's free tier caps how many can be sent per month.
 
 ## 10. Arabic / RTL support
 
@@ -244,17 +248,20 @@ Without emulators or Firebase settings the quiz still works; results show but ar
 
 See [`.env.example`](.env.example). All are build‑time (`VITE_*`) values. Firebase web config is not secret; the dashboard password is **never** stored in the repo.
 
-| Variable                    | Required         | Purpose                                                              |
-| --------------------------- | ---------------- | -------------------------------------------------------------------- |
-| `VITE_FIREBASE_API_KEY`     | yes              | Firebase web config                                                  |
-| `VITE_FIREBASE_AUTH_DOMAIN` | yes              | Firebase web config                                                  |
-| `VITE_FIREBASE_PROJECT_ID`  | yes              | Firebase web config                                                  |
-| `VITE_FIREBASE_APP_ID`      | yes              | Firebase web config                                                  |
-| `VITE_DASHBOARD_EMAIL`      | yes              | Fixed account the dashboard password signs into                      |
-| `VITE_RECAPTCHA_SITE_KEY`   | no (recommended) | reCAPTCHA v3 site key; turns on Firebase App Check (spam protection) |
-| `VITE_SITE_URL`             | no               | Base URL for share links (defaults to current origin)                |
-| `VITE_USE_EMULATORS`        | no               | `true` to use local Firebase emulators                               |
-| `VITE_EMULATOR_HOST`        | no               | Emulator host (default `127.0.0.1`)                                  |
+| Variable                    | Required         | Purpose                                                                                                           |
+| --------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `VITE_FIREBASE_API_KEY`     | yes              | Firebase web config                                                                                               |
+| `VITE_FIREBASE_AUTH_DOMAIN` | yes              | Firebase web config                                                                                               |
+| `VITE_FIREBASE_PROJECT_ID`  | yes              | Firebase web config                                                                                               |
+| `VITE_FIREBASE_APP_ID`      | yes              | Firebase web config                                                                                               |
+| `VITE_DASHBOARD_EMAIL`      | yes              | Fixed account the dashboard password signs into                                                                   |
+| `VITE_RECAPTCHA_SITE_KEY`   | no (recommended) | reCAPTCHA v3 site key; turns on Firebase App Check (spam protection)                                              |
+| `VITE_SITE_URL`             | no               | Base URL for share links (defaults to current origin)                                                             |
+| `VITE_EMAILJS_SERVICE_ID`   | no               | EmailJS service id; all three EmailJS values are needed to show "Email me this result" / dashboard "Email result" |
+| `VITE_EMAILJS_TEMPLATE_ID`  | no               | EmailJS template id (variables: `to_email`, `to_name`, `quiz_title`, `score`, `total`, `percent`, `message`)      |
+| `VITE_EMAILJS_PUBLIC_KEY`   | no               | EmailJS public key (not secret: EmailJS restricts abuse by allowed domain and rate limits)                        |
+| `VITE_USE_EMULATORS`        | no               | `true` to use local Firebase emulators                                                                            |
+| `VITE_EMULATOR_HOST`        | no               | Emulator host (default `127.0.0.1`)                                                                               |
 
 ## 13. Testing
 
@@ -325,6 +332,16 @@ Render serves the site; Firebase stores attempts and checks the dashboard passwo
 3. Put the **site key** in Render as `VITE_RECAPTCHA_SITE_KEY` (Step 4).
 4. After deploying, open App Check → _APIs → Cloud Firestore_. When the metrics show requests as verified, press **Enforce**. From then on Firestore only accepts requests from your site.
 
+### Step 3.5: Result emails with EmailJS (optional)
+
+Skip this to leave "Email me this result" and the dashboard's "Email result" hidden.
+
+1. Create a free account at [emailjs.com](https://www.emailjs.com), add an **Email Service** (e.g. Gmail), and note its **Service ID**.
+2. Create an **Email Template** with the variables `{{to_email}}`, `{{to_name}}`, `{{quiz_title}}`, `{{score}}`, `{{total}}`, `{{percent}}` and `{{message}}` (the template body is yours to design; `message` carries the whole score breakdown and review as plain text). Note its **Template ID**.
+3. _Account → General_ → note the **Public Key**.
+4. Restrict abuse: _Account → Security_ → add your site's domain(s) to the allowed origins.
+5. Put the three values in Render as `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID` and `VITE_EMAILJS_PUBLIC_KEY` (Step 4).
+
 ### Step 4: Publish on Render
 
 1. At [dashboard.render.com](https://dashboard.render.com): **New → Blueprint**, connect GitHub and pick this repository. Render reads `render.yaml` (a static site built with `npm ci && npm run build`, published from `dist`, with the rewrites and security headers).
@@ -335,6 +352,7 @@ Render serves the site; Firebase stores attempts and checks the dashboard passwo
 | `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` | from Step 1.2                                                                                                     |
 | `VITE_DASHBOARD_EMAIL`                                                                                   | the dashboard user's email from Step 1.4 (not the password)                                                       |
 | `VITE_RECAPTCHA_SITE_KEY`                                                                                | from Step 3 (leave empty to skip App Check)                                                                       |
+| `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, `VITE_EMAILJS_PUBLIC_KEY`                         | from Step 3.5 (leave empty to skip result emails)                                                                 |
 | `VITE_SITE_URL`                                                                                          | the site address, e.g. `https://quizcraft.onrender.com` (fill in after the first deploy if you don't know it yet) |
 
 3. **Apply**. When the first deploy finishes, note the site address. If you set or change any `VITE_*` value afterwards, run _Manual Deploy → Deploy latest commit_: these values are baked in at build time.
