@@ -56,6 +56,8 @@ describe('dom helpers', () => {
     expect(richText('رَفْعَ').getAttribute('dir')).toBe('rtl');
     const ar = node.querySelector('span.ar');
     expect(ar.getAttribute('lang')).toBe('ar');
+    expect(ar.getAttribute('dir')).toBe('rtl');
+    expect(richText('رَفْعَ', 'span', { dir: 'ltr' }).getAttribute('dir')).toBe('ltr');
     expect(ar.textContent).toBe('مُسْلِمٌ');
   });
 });
@@ -66,6 +68,32 @@ describe('renderSkeleton', () => {
     expect(view.getAttribute('aria-hidden')).toBe('true');
     expect(view.querySelector('h1')).toBeNull();
     expect(view.querySelectorAll('.skeleton-block').length).toBeGreaterThan(0);
+  });
+});
+
+describe('direction of quiz text', () => {
+  // An English question that quotes so much Arabic that Arabic letters outnumber English ones.
+  const heavy =
+    'Fragment chain: in الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (Al-Fatihah 1:2), why is رَبِّ الْعَالَمِينَ a صِفَة of اللَّهِ?';
+
+  it('keeps an Arabic-heavy English sentence left to right in a mixed quiz', () => {
+    const quiz = { ...mixed, questions: [{ ...mixed.questions[0], text: heavy }] };
+    const form = renderQuestions(quiz, taker, { onSubmit: vi.fn() });
+    const qText = form.querySelector('.q-text');
+    expect(qText.getAttribute('dir')).toBe('ltr');
+    for (const run of qText.querySelectorAll('.ar')) expect(run.getAttribute('dir')).toBe('rtl');
+    expect(form.querySelector('.option-text').getAttribute('dir')).toBe('ltr');
+  });
+
+  it('reads question and option text right to left in an Arabic quiz', () => {
+    const form = renderQuestions(arabic, taker, { onSubmit: vi.fn() });
+    expect(form.querySelector('.q-text').getAttribute('dir')).toBe('rtl');
+    expect(form.querySelector('.option-text').getAttribute('dir')).toBe('rtl');
+  });
+
+  it('still detects the direction of free text such as a taker name', () => {
+    const form = renderQuestions(mixed, { name: 'مريم', email: 'm@x.io' }, { onSubmit: vi.fn() });
+    expect(form.querySelector('strong').getAttribute('dir')).toBe('rtl');
   });
 });
 

@@ -62,12 +62,12 @@ describe('scoreQuiz', () => {
 
 describe('resultTier', () => {
   it('picks the right tier at and around each boundary', () => {
-    expect(resultTier(99, 1)).toBe('Strong result — review the 1 below to close the gap.');
-    expect(resultTier(80, 2)).toBe('Strong result — review the 2 below to close the gap.');
-    expect(resultTier(79, 3)).toBe('Good effort. 3 questions to review below.');
-    expect(resultTier(50, 4)).toBe('Good effort. 4 questions to review below.');
-    expect(resultTier(49, 5)).toBe("5 to review below — that's exactly what this is for.");
-    expect(resultTier(0, 10)).toBe("10 to review below — that's exactly what this is for.");
+    expect(resultTier(99, 1)).toBe('Well done. Review the 1 question below.');
+    expect(resultTier(80, 2)).toBe('Well done. Review the 2 questions below.');
+    expect(resultTier(79, 3)).toBe('Good effort. Review the 3 questions below.');
+    expect(resultTier(50, 4)).toBe('Good effort. Review the 4 questions below.');
+    expect(resultTier(49, 5)).toBe('Keep going. The 5 questions below show what to study next.');
+    expect(resultTier(0, 10)).toBe('Keep going. The 10 questions below show what to study next.');
   });
 });
 

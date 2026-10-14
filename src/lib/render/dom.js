@@ -22,9 +22,10 @@ export function el(tag, attrs = {}, children = []) {
 }
 
 /**
- * Text from a quiz or a taker. Gets class .bidi and a dir from its main script
- * (see textDirection), and Arabic runs are wrapped in <span class="ar" lang="ar"> so they
- * use the Arabic font.
+ * Text from a quiz or a taker. Gets class .bidi and a dir: the one passed in attrs.dir (quiz
+ * text uses its quiz's language, see quizTextDir) or else the text's main script (see
+ * textDirection, used for free text such as names). Arabic runs are wrapped in
+ * <span class="ar" lang="ar" dir="rtl"> so they use the Arabic font and keep their own order.
  * @param {string} text
  * @param {string} [tag]
  * @param {Record<string, string | boolean | undefined>} [attrs]
@@ -32,9 +33,10 @@ export function el(tag, attrs = {}, children = []) {
 export function richText(text, tag = 'span', attrs = {}) {
   const cls = ['bidi', attrs.class].filter(Boolean).join(' ');
   const runs = splitRuns(text).map((r) =>
-    r.arabic ? el('span', { class: 'ar', lang: 'ar' }, [r.text]) : r.text,
+    r.arabic ? el('span', { class: 'ar', lang: 'ar', dir: 'rtl' }, [r.text]) : r.text,
   );
-  return el(tag, { ...attrs, dir: textDirection(text), class: cls }, runs);
+  const dir = typeof attrs.dir === 'string' ? attrs.dir : textDirection(text);
+  return el(tag, { ...attrs, dir, class: cls }, runs);
 }
 
 const SVG_NS = 'http://www.w3.org/2000/svg';

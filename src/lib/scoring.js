@@ -54,17 +54,17 @@ export function scoreQuiz(quiz, answers) {
 }
 
 /**
- * A short, honest line for the result screen, tiered by score — never for a perfect
- * score, which gets its own congratulation instead of this. Reads as coaching, not a
- * report card: no false cheer at the bottom, no flat "see below" at the top.
+ * A short line for the result screen, tiered by score. Not used for a perfect score,
+ * which gets its own congratulation. Plain wording, no dashes.
  * @param {number} percent
  * @param {number} reviewCount how many questions are listed below to review
  * @returns {string}
  */
 export function resultTier(percent, reviewCount) {
-  if (percent >= 80) return `Strong result — review the ${reviewCount} below to close the gap.`;
-  if (percent >= 50) return `Good effort. ${reviewCount} questions to review below.`;
-  return `${reviewCount} to review below — that's exactly what this is for.`;
+  const items = `${reviewCount} question${reviewCount === 1 ? '' : 's'}`;
+  if (percent >= 80) return `Well done. Review the ${items} below.`;
+  if (percent >= 50) return `Good effort. Review the ${items} below.`;
+  return `Keep going. The ${items} below show what to study next.`;
 }
 
 /**

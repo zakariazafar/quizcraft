@@ -28,7 +28,7 @@ QuizCraft is a **static site** (Vite + vanilla JS, no backend, no framework) hos
 6. **XSS**: insert all quiz and taker text with `textContent` / `createTextNode`, never `innerHTML` with data.
 7. **Arabic safety**:
    - NFC‑normalise text; never strip Arabic diacritics.
-   - Every element showing quiz or taker text is built with `richText()` (class `bidi`, `dir` from the text's main script via `textDirection()`, Arabic runs wrapped in `<span class="ar" lang="ar">`). Text inputs use `dir="auto"`. Quizzes with `language: "ar"` get `dir="rtl" lang="ar"` on the quiz container.
+   - Every element showing quiz or taker text is built with `richText()` (class `bidi`, Arabic runs wrapped in `<span class="ar" lang="ar" dir="rtl">`). Quiz text (titles, questions, options, explanations) takes its `dir` from the quiz language with `quizTextDir()`: `ar` is RTL, `en` and `mixed` are LTR. Free text such as taker names uses `textDirection()` (main script). Text inputs use `dir="auto"`. Quizzes with `language: "ar"` get `dir="rtl" lang="ar"` on the quiz container.
    - CSS logical properties only (`margin-inline-start`, `text-align: start`).
    - Add an Arabic fixture to tests for any new text‑handling path.
 8. **Firestore rules** change only together with rules tests covering the change.

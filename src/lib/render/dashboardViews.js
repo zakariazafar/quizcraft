@@ -1,5 +1,5 @@
 // @ts-check
-import { containerDirection } from '../bidi.js';
+import { containerDirection, quizTextDir } from '../bidi.js';
 import { filterAttempts, formatDateTime, groupByTaker, sortAttempts } from '../dashboardData.js';
 import { el, icon, richText } from './dom.js';
 
@@ -156,7 +156,7 @@ export function renderQuizList(rows, { onOpen, share }) {
   }
   const body = rows.map((r) => {
     const open = el('button', { type: 'button', class: 'link-button', 'data-open': r.id }, [
-      richText(r.title),
+      richText(r.title, 'span', { dir: quizTextDir(r.language) }),
     ]);
     open.addEventListener('click', () => onOpen(r.id));
     const status = !r.published ? 'Removed' : r.active ? 'Open' : 'Closed';
@@ -221,7 +221,7 @@ function renderQuestionStats(stats, quiz) {
       const bar = el('span', { class: 'qbar-fill' });
       bar.style.inlineSize = `${s.correctPct ?? 0}%`;
       return el('li', { class: 'qstat', value: String(s.number) }, [
-        richText(s.text, 'p', { class: 'qstat-text' }),
+        richText(s.text, 'p', { class: 'qstat-text', dir: quizTextDir(quiz.language) }),
         el('div', { class: 'qbar-row' }, [
           el(
             'span',
@@ -240,7 +240,7 @@ function renderQuestionStats(stats, quiz) {
         s.mostChosenWrong
           ? el('p', { class: 'qstat-wrong' }, [
               'Most chosen wrong answer: ',
-              richText(s.mostChosenWrong.text),
+              richText(s.mostChosenWrong.text, 'span', { dir: quizTextDir(quiz.language) }),
               ` (${s.mostChosenWrong.count})`,
             ])
           : null,
@@ -271,12 +271,19 @@ export function renderAttemptDetail(quiz, a) {
       const right = /** @type {{ text: string }} */ (q.options.find((o) => o.id === q.correct));
       const ok = sel === q.correct;
       return el('li', { class: ok ? 'answer ok' : 'answer bad', value: String(i + 1) }, [
-        richText(q.text, 'p', { class: 'q-text' }),
+        richText(q.text, 'p', { class: 'q-text', dir: quizTextDir(quiz.language) }),
         el('p', {}, [
           el('span', { class: 'mark', 'aria-hidden': 'true' }, [ok ? '✓' : '✗']),
           el('span', { class: 'visually-hidden' }, [ok ? 'Right: ' : 'Wrong: ']),
-          chosen ? richText(chosen.text) : el('em', {}, ['Not answered']),
-          ok ? null : el('span', { class: 'correct-hint' }, ['Correct: ', richText(right.text)]),
+          chosen
+            ? richText(chosen.text, 'span', { dir: quizTextDir(quiz.language) })
+            : el('em', {}, ['Not answered']),
+          ok
+            ? null
+            : el('span', { class: 'correct-hint' }, [
+                'Correct: ',
+                richText(right.text, 'span', { dir: quizTextDir(quiz.language) }),
+              ]),
         ]),
       ]);
     }),
@@ -565,7 +572,7 @@ export function renderQuizDetail(data, { share, onToggleHidden, onExport }) {
   const status = row.active ? 'Open' : 'Closed';
   return el('section', { class: 'quiz-detail' }, [
     el('p', { class: 'back' }, [el('a', { href: '#/' }, ['All quizzes'])]),
-    richText(quiz.title, 'h1'),
+    richText(quiz.title, 'h1', { dir: quizTextDir(quiz.language) }),
     el('div', { class: 'meta' }, [
       el('span', { class: 'chip neutral' }, [`${quiz.questions.length} questions`]),
       el('span', { class: 'chip neutral' }, [`Version ${quiz.version}`]),
