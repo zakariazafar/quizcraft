@@ -2,6 +2,14 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-10-14
+
+- quiz: add fragments (20 questions, mixed English/Arabic) on إِضَافَة, pronouns, حرف جر, حرف نصب, special مُضَاف words, مَوْصُوف صِفَة and pointing words, every Arabic example from the Quran with its reference; 4 of 20 questions (20%) are chains of several fragments; correct answers spread 5/5/5/5
+- fix(arabic): quiz text now takes its direction from the quiz language (Arabic quizzes RTL, English and mixed LTR) instead of counting letters, so an English question that quotes a lot of Arabic no longer flips right to left; Arabic runs carry `dir="rtl"`; taker names still use detection
+- fix(copy): result messages rewritten without em dashes, with "1 question" for a single one
+- test: quiz-language direction (Arabic-heavy English sentence stays LTR, Arabic quiz RTL, names detected) and updated result messages; 306 tests
+- docs: direction rule in CLAUDE.md, README and PLAN
+
 ## 2026-10-13
 
 - style(theme): theme `::selection` and `caret-color` globally so they match the brand palette instead of the browser's native blue — uses `--green` (not `--accent`), the token that stays white-text-readable in both themes; `--accent` alone would fail contrast in dark mode (checked: 2.3:1) (T6)

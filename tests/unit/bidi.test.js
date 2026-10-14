@@ -3,6 +3,7 @@ import {
   arabicRatio,
   containerDirection,
   hasArabic,
+  quizTextDir,
   splitRuns,
   textDirection,
 } from '../../src/lib/bidi.js';
@@ -71,5 +72,15 @@ describe('containerDirection', () => {
     expect(containerDirection('ar')).toEqual({ dir: 'rtl', lang: 'ar' });
     expect(containerDirection('en')).toEqual({ dir: 'ltr', lang: 'en' });
     expect(containerDirection('mixed')).toEqual({ dir: 'ltr', lang: 'en' });
+  });
+});
+
+describe('quizTextDir', () => {
+  it('reads Arabic quizzes right to left and English or mixed quizzes left to right', () => {
+    expect(quizTextDir('ar')).toBe('rtl');
+    expect(quizTextDir('en')).toBe('ltr');
+    expect(quizTextDir('mixed')).toBe('ltr');
+    expect(quizTextDir('')).toBeUndefined();
+    expect(quizTextDir(undefined)).toBeUndefined();
   });
 });

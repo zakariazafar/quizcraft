@@ -67,3 +67,17 @@ export function splitRuns(text) {
 export function containerDirection(language) {
   return language === 'ar' ? { dir: 'rtl', lang: 'ar' } : { dir: 'ltr', lang: 'en' };
 }
+
+/**
+ * Base direction for text that belongs to a quiz (titles, questions, options, explanations).
+ * English and mixed quizzes are English sentences that quote Arabic, so they read left to
+ * right even when a sentence holds more Arabic letters than English ones; each Arabic run
+ * inside keeps its own right-to-left direction. Arabic quizzes read right to left.
+ * @param {string | undefined} language 'ar' | 'en' | 'mixed'
+ * @returns {'rtl' | 'ltr' | undefined} undefined when the language is unknown (detect instead)
+ */
+export function quizTextDir(language) {
+  if (language === 'ar') return 'rtl';
+  if (language === 'en' || language === 'mixed') return 'ltr';
+  return undefined;
+}

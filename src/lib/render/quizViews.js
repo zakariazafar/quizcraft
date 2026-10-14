@@ -1,5 +1,5 @@
 // @ts-check
-import { containerDirection } from '../bidi.js';
+import { containerDirection, quizTextDir } from '../bidi.js';
 import { resultTier, unansweredQuestions } from '../scoring.js';
 import { EMAIL_MAX, NAME_MAX, validateTaker } from '../takerForm.js';
 import { el, richText, svgEl } from './dom.js';
@@ -114,8 +114,10 @@ export function renderIntro(quiz, { onStart, initial = {} }) {
   const minutes = Math.max(1, Math.ceil(count / 2));
   return el('section', { class: 'intro' }, [
     el('div', { class: 'hero' }, [
-      richText(quiz.title, 'h1'),
-      quiz.description ? richText(quiz.description, 'p', { class: 'lede' }) : null,
+      richText(quiz.title, 'h1', { dir: quizTextDir(quiz.language) }),
+      quiz.description
+        ? richText(quiz.description, 'p', { class: 'lede', dir: quizTextDir(quiz.language) })
+        : null,
       el('ul', { class: 'chips', 'aria-label': 'About this quiz' }, [
         el('li', { class: 'chip' }, [`${count} question${count === 1 ? '' : 's'}`]),
         el('li', { class: 'chip' }, ['Multiple choice']),
@@ -200,7 +202,7 @@ export function renderQuestions(quiz, taker, { onSubmit }) {
         el('fieldset', {}, [
           el('legend', {}, [
             el('span', { class: 'q-number' }, [`Question ${i + 1} of ${total}`]),
-            richText(q.text, 'span', { class: 'q-text' }),
+            richText(q.text, 'span', { class: 'q-text', dir: quizTextDir(quiz.language) }),
           ]),
           el(
             'div',
@@ -208,7 +210,7 @@ export function renderQuestions(quiz, taker, { onSubmit }) {
             q.options.map((o) =>
               el('label', { class: 'option' }, [
                 el('input', { type: 'radio', name: q.id, value: o.id }),
-                richText(o.text, 'span', { class: 'option-text' }),
+                richText(o.text, 'span', { class: 'option-text', dir: quizTextDir(quiz.language) }),
               ]),
             ),
           ),
@@ -230,7 +232,7 @@ export function renderQuestions(quiz, taker, { onSubmit }) {
 
   const form = el('form', { class: 'quiz-form', novalidate: true }, [
     el('header', { class: 'quiz-header' }, [
-      richText(quiz.title, 'h1'),
+      richText(quiz.title, 'h1', { dir: quizTextDir(quiz.language) }),
       el('p', { class: 'meta' }, ['Answering as ', richText(taker.name, 'strong')]),
     ]),
     list,
@@ -308,16 +310,22 @@ export function renderResult(quiz, taker, result, { onRestart } = {}) {
           result.review.map((item) =>
             el('li', { class: 'review-item', value: String(item.number) }, [
               el('span', { class: 'review-number' }, [`Question ${item.number}`]),
-              richText(item.question, 'p', { class: 'q-text' }),
+              richText(item.question, 'p', { class: 'q-text', dir: quizTextDir(quiz.language) }),
               el('dl', {}, [
                 el('dt', {}, ['Your answer']),
                 item.yourAnswer === null
                   ? el('dd', { class: 'wrong not-answered' }, ['Not answered'])
-                  : richText(item.yourAnswer, 'dd', { class: 'wrong' }),
+                  : richText(item.yourAnswer, 'dd', {
+                      class: 'wrong',
+                      dir: quizTextDir(quiz.language),
+                    }),
                 el('dt', {}, ['Correct answer']),
-                richText(item.correctAnswer, 'dd', { class: 'right' }),
+                richText(item.correctAnswer, 'dd', {
+                  class: 'right',
+                  dir: quizTextDir(quiz.language),
+                }),
                 el('dt', {}, ['Why']),
-                richText(item.explanation, 'dd', { class: 'why' }),
+                richText(item.explanation, 'dd', { class: 'why', dir: quizTextDir(quiz.language) }),
               ]),
             ]),
           ),
@@ -329,7 +337,7 @@ export function renderResult(quiz, taker, result, { onRestart } = {}) {
     el('div', { class: 'card result-summary' }, [
       scoreRing(result.percent),
       el('div', { class: 'result-text' }, [
-        richText(quiz.title, 'p', { class: 'meta' }),
+        richText(quiz.title, 'p', { class: 'meta', dir: quizTextDir(quiz.language) }),
         el('h1', {}, ['Your result']),
         el('p', { class: 'score' }, [
           richText(taker.name, 'strong'),

@@ -1,0 +1,493 @@
+{
+  "$schema": "../schema/quiz.schema.json",
+  "id": "fragments",
+  "version": 1,
+  "active": true,
+  "title": "Fragments: Examples from the Quran",
+  "description": "20 questions on إِضَافَة, pronouns, حرف جر, حرف نصب, special مُضَاف words, مَوْصُوف صِفَة and pointing words. Four questions are chains of several fragments.",
+  "language": "mixed",
+  "createdAt": "2026-10-14",
+  "source": "Owner’s lesson notes on Fragments (lectures 1.02 and 1.03)",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Which of these is a rule of the مُضَاف (the word before \"of\") in an إِضَافَة?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It is light and it cannot take ال"
+        },
+        {
+          "id": "b",
+          "text": "It is always in جَرّ status"
+        },
+        {
+          "id": "c",
+          "text": "It always comes after the مُضَاف إِلَيْه"
+        },
+        {
+          "id": "d",
+          "text": "It must end in tanween"
+        }
+      ],
+      "correct": "a",
+      "explanation": "The مُضَاف has two rules: it is always light and it can never take ال. It is the مُضَاف إِلَيْه, the word after \"of\", that is always in جَرّ."
+    },
+    {
+      "id": "q2",
+      "text": "Which of these Quranic fragments is an إِضَافَة?",
+      "options": [
+        {
+          "id": "a",
+          "text": "عَذَابٌ أَلِيمٌ (Al-Baqarah 2:10)"
+        },
+        {
+          "id": "b",
+          "text": "نَارٌ حَامِيَةٌ (Al-Qariah 101:11)"
+        },
+        {
+          "id": "c",
+          "text": "رِحْلَةَ الشِّتَاءِ (Quraysh 106:2)"
+        },
+        {
+          "id": "d",
+          "text": "سِحْرٌ مُبِينٌ (Al-Maidah 5:110)"
+        }
+      ],
+      "correct": "c",
+      "explanation": "رِحْلَةَ is light and has no ال, and الشِّتَاءِ after it is in جَرّ, so it is an إِضَافَة: \"the journey of the winter\". In the other three the first word has tanween, so it is heavy and cannot be a مُضَاف."
+    },
+    {
+      "id": "q3",
+      "text": "In وَالْيَوْمِ الْمَوْعُودِ (Al-Buruj 85:2) both words are in جَرّ. Why is الْيَوْمِ الْمَوْعُودِ not an إِضَافَة?",
+      "options": [
+        {
+          "id": "a",
+          "text": "الْمَوْعُودِ is not in جَرّ status"
+        },
+        {
+          "id": "b",
+          "text": "الْيَوْمِ has ال, and a مُضَاف can never take ال"
+        },
+        {
+          "id": "c",
+          "text": "Another word comes between the two words"
+        },
+        {
+          "id": "d",
+          "text": "الْيَوْمِ is heavy because of tanween"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Check the مُضَاف first: it must be light and without ال. الْيَوْمِ has ال, so it fails, and the pair is not an إِضَافَة, even though الْمَوْعُودِ is in جَرّ."
+    },
+    {
+      "id": "q4",
+      "text": "Which English phrase hides an \"of\" of possession, so it would be an إِضَافَة in Arabic?",
+      "options": [
+        {
+          "id": "a",
+          "text": "a good boy"
+        },
+        {
+          "id": "b",
+          "text": "this is a toy"
+        },
+        {
+          "id": "c",
+          "text": "in the house"
+        },
+        {
+          "id": "d",
+          "text": "our classroom (the classroom of ours)"
+        }
+      ],
+      "correct": "d",
+      "explanation": "Possessive words like my, our, his and her carry a hidden \"of\": \"our classroom\" means \"the classroom of ours\". In Arabic every \"of\" is said with an إِضَافَة."
+    },
+    {
+      "id": "q5",
+      "text": "Fragment chain: in مَالِكِ يَوْمِ الدِّينِ (Al-Fatihah 1:4), what is the job of يَوْمِ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It is only the مُضَاف إِلَيْه of مَالِكِ"
+        },
+        {
+          "id": "b",
+          "text": "It is the مُضَاف إِلَيْه of مَالِكِ and the مُضَاف of الدِّينِ at the same time"
+        },
+        {
+          "id": "c",
+          "text": "It is the صِفَة of مَالِكِ"
+        },
+        {
+          "id": "d",
+          "text": "It is the مَجْرُور of a حرف جر"
+        }
+      ],
+      "correct": "b",
+      "explanation": "This is a chain of two إِضَافَة: \"the Master of the Day of the Judgement\". يَوْمِ is in جَرّ as the مُضَاف إِلَيْه of مَالِكِ, and it is also light with no ال as the مُضَاف of الدِّينِ."
+    },
+    {
+      "id": "q6",
+      "text": "In أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ (Al-Fil 105:2), which part of كَيْدَهُمْ is the مُضَاف إِلَيْه?",
+      "options": [
+        {
+          "id": "a",
+          "text": "هُمْ, the attached pronoun \"them\""
+        },
+        {
+          "id": "b",
+          "text": "كَيْدَ, the word \"plan\""
+        },
+        {
+          "id": "c",
+          "text": "None, because كَيْدَهُمْ is a single word"
+        },
+        {
+          "id": "d",
+          "text": "تَضْلِيلٍ, the word that comes later"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Whenever an Ism has an attached pronoun, the Ism is the مُضَاف and the pronoun is the مُضَاف إِلَيْه: كَيْدَهُمْ is \"their plan\", the plan of them."
+    },
+    {
+      "id": "q7",
+      "text": "Independent pronouns such as هُوَ and نَحْنُ are always in which status?",
+      "options": [
+        {
+          "id": "a",
+          "text": "نَصْب (Nasb)"
+        },
+        {
+          "id": "b",
+          "text": "جَرّ (Jarr)"
+        },
+        {
+          "id": "c",
+          "text": "نَصْب or جَرّ, depending on the sentence"
+        },
+        {
+          "id": "d",
+          "text": "رَفْعَ (Raf'a)"
+        }
+      ],
+      "correct": "d",
+      "explanation": "Independent pronouns are always رَفْعَ. It is the attached pronouns (like هُ, كَ, هُمْ) that are نَصْب or جَرّ depending on how they are used. The type of every pronoun is proper."
+    },
+    {
+      "id": "q8",
+      "text": "In الَّتِي فِي الصُّدُورِ (Al-Hajj 22:46), which word is the مَجْرُور?",
+      "options": [
+        {
+          "id": "a",
+          "text": "فِي, the word \"in\""
+        },
+        {
+          "id": "b",
+          "text": "Both words together"
+        },
+        {
+          "id": "c",
+          "text": "الصُّدُورِ, the word \"the chests\""
+        },
+        {
+          "id": "d",
+          "text": "None, because فِي is a حرف and has no جَرّ"
+        }
+      ],
+      "correct": "c",
+      "explanation": "فِي is a حرف جر. It is the جَار, and the Ism it acts on, الصُّدُورِ, is the مَجْرُور in جَرّ status: \"in the chests\"."
+    },
+    {
+      "id": "q9",
+      "text": "Why is it لَ in لَهُ (Al-Ikhlas 112:4) but لِ in لِرَبِّكَ (Al-Kawthar 108:2)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "ل takes a fatha when it is attached to a pronoun, and a kasra before any other Ism"
+        },
+        {
+          "id": "b",
+          "text": "لَ is a حرف نصب and لِ is a حرف جر"
+        },
+        {
+          "id": "c",
+          "text": "The vowel depends on whether the word is masculine or feminine"
+        },
+        {
+          "id": "d",
+          "text": "لَ is used in questions and لِ in statements"
+        }
+      ],
+      "correct": "a",
+      "explanation": "The حرف جر ل means \"for\". With a pronoun it is لَ (لَهُ, لَكُمْ), and with any other Ism it is لِ (لِرَبِّ)."
+    },
+    {
+      "id": "q10",
+      "text": "Fragment chain: which fragments are inside مِنْ شَرِّ الْوَسْوَاسِ (An-Nas 114:4)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Only a جَار مَجْرُور: مِنْ is the جَار and الْوَسْوَاسِ is the مَجْرُور"
+        },
+        {
+          "id": "b",
+          "text": "A مَوْصُوف صِفَة: شَرِّ is described by الْوَسْوَاسِ"
+        },
+        {
+          "id": "c",
+          "text": "An إِضَافَة in which مِنْ is the مُضَاف"
+        },
+        {
+          "id": "d",
+          "text": "A جَار مَجْرُور (مِنْ شَرِّ) and an إِضَافَة (شَرِّ الْوَسْوَاسِ), with شَرِّ in both"
+        }
+      ],
+      "correct": "d",
+      "explanation": "مِنْ puts شَرِّ in جَرّ as its مَجْرُور. شَرِّ is also light with no ال, and الْوَسْوَاسِ after it is in جَرّ, so شَرِّ is the مُضَاف of an إِضَافَة: \"from the evil of the whisperer\"."
+    },
+    {
+      "id": "q11",
+      "text": "In إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ (Al-Asr 103:2), what is the status of الْإِنْسَانَ, and why?",
+      "options": [
+        {
+          "id": "a",
+          "text": "رَفْعَ, because it is the doer"
+        },
+        {
+          "id": "b",
+          "text": "نَصْب, because it is the اسم of إِنَّ"
+        },
+        {
+          "id": "c",
+          "text": "جَرّ, because it comes after a حرف"
+        },
+        {
+          "id": "d",
+          "text": "نَصْب, because it is a مُضَاف إِلَيْه"
+        }
+      ],
+      "correct": "b",
+      "explanation": "إِنَّ is a حرف نصب (\"for sure\"). The Ism it acts on is called its اسم and is in نَصْب: الْإِنْسَانَ ends in the \"a\" sound."
+    },
+    {
+      "id": "q12",
+      "text": "In أَنَّ لَهُمْ أَجْرًا حَسَنًا (Al-Kahf 18:2), which word is the اسم of أَنَّ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "لَهُمْ, because it comes right after أَنَّ"
+        },
+        {
+          "id": "b",
+          "text": "حَسَنًا, the last word"
+        },
+        {
+          "id": "c",
+          "text": "أَجْرًا, even though لَهُمْ comes between them"
+        },
+        {
+          "id": "d",
+          "text": "There is none, because no Ism comes right after أَنَّ"
+        }
+      ],
+      "correct": "c",
+      "explanation": "A حرف نصب and its اسم do not have to be next to each other. لَهُمْ is a جَار مَجْرُور, and the اسم of أَنَّ is أَجْرًا, in نَصْب: \"that for them is a good reward\"."
+    },
+    {
+      "id": "q13",
+      "text": "Fragment chain: in أَمْ حَسِبْتَ أَنَّ أَصْحَابَ الْكَهْفِ (Al-Kahf 18:9), what is the job of أَصْحَابَ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It is the اسم of أَنَّ, so it is نَصْب, and the مُضَاف of الْكَهْفِ"
+        },
+        {
+          "id": "b",
+          "text": "It is the مُضَاف إِلَيْه of أَنَّ"
+        },
+        {
+          "id": "c",
+          "text": "It is the مَجْرُور of أَنَّ"
+        },
+        {
+          "id": "d",
+          "text": "It is a صِفَة that describes الْكَهْفِ"
+        }
+      ],
+      "correct": "a",
+      "explanation": "أَنَّ is a حرف نصب, so its اسم أَصْحَابَ is in نَصْب. أَصْحَابَ is also light with no ال, and الْكَهْفِ is in جَرّ, so together they are an إِضَافَة: \"the companions of the cave\"."
+    },
+    {
+      "id": "q14",
+      "text": "In لِلَّهِ الْأَمْرُ مِنْ قَبْلُ وَمِنْ بَعْدُ (Ar-Rum 30:4), why do قَبْلُ and بَعْدُ end in the \"u\" sound after مِنْ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "They are doers, so they are in رَفْعَ"
+        },
+        {
+          "id": "b",
+          "text": "Their مُضَاف إِلَيْه has been taken away, so they become non-flexible and end in \"u\""
+        },
+        {
+          "id": "c",
+          "text": "مِنْ puts the next word in رَفْعَ"
+        },
+        {
+          "id": "d",
+          "text": "They are the مُضَاف إِلَيْه of مِنْ"
+        }
+      ],
+      "correct": "b",
+      "explanation": "قَبْلَ and بَعْدَ are special مُضَاف words that always expect a مُضَاف إِلَيْه. When it is removed, they become non-flexible and end in \"u\": \"before and after\"."
+    },
+    {
+      "id": "q15",
+      "text": "In وَمَا بَيْنَهُمَا (Al-Furqan 25:59), what does بَيْنَهُمَا mean?",
+      "options": [
+        {
+          "id": "a",
+          "text": "around them"
+        },
+        {
+          "id": "b",
+          "text": "in front of them"
+        },
+        {
+          "id": "c",
+          "text": "behind the two of them"
+        },
+        {
+          "id": "d",
+          "text": "between the two of them"
+        }
+      ],
+      "correct": "d",
+      "explanation": "بَيْنَ is a special مُضَاف meaning \"between\", and هُمَا is the dual pronoun \"the two of them\", its مُضَاف إِلَيْه."
+    },
+    {
+      "id": "q16",
+      "text": "In a مَوْصُوف صِفَة, what must the صِفَة (the describing word) match?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Only its status"
+        },
+        {
+          "id": "b",
+          "text": "Only its gender and number"
+        },
+        {
+          "id": "c",
+          "text": "All four properties of the مَوْصُوف: status, number, gender and type"
+        },
+        {
+          "id": "d",
+          "text": "Nothing: like an English adjective, it never changes"
+        }
+      ],
+      "correct": "c",
+      "explanation": "In Arabic the مَوْصُوف comes first and the صِفَة second, and they must match in all four properties of an Ism. English adjectives never change, but Arabic ones do."
+    },
+    {
+      "id": "q17",
+      "text": "Which kind of fragment is عِيشَةٍ رَاضِيَةٍ in فَهُوَ فِي عِيشَةٍ رَاضِيَةٍ (Al-Qariah 101:7)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "إِضَافَة: \"the life of a pleased one\""
+        },
+        {
+          "id": "b",
+          "text": "جَار مَجْرُور"
+        },
+        {
+          "id": "c",
+          "text": "A pointing-word fragment"
+        },
+        {
+          "id": "d",
+          "text": "مَوْصُوف صِفَة: \"a pleasing life\""
+        }
+      ],
+      "correct": "d",
+      "explanation": "Both words are جَرّ, singular, feminine and common, so they match in all four properties. It cannot be an إِضَافَة because عِيشَةٍ has tanween, so it is heavy."
+    },
+    {
+      "id": "q18",
+      "text": "Fragment chain: in الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (Al-Fatihah 1:2), why is رَبِّ الْعَالَمِينَ a صِفَة of اللَّهِ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The إِضَافَة works as one unit led by رَبِّ, which matches اللَّهِ in all four properties: جَرّ, singular, masculine, proper"
+        },
+        {
+          "id": "b",
+          "text": "Because الْعَالَمِينَ is plural, just like اللَّهِ"
+        },
+        {
+          "id": "c",
+          "text": "Because every word after لِ is a صِفَة"
+        },
+        {
+          "id": "d",
+          "text": "Because رَبِّ has tanween, like a common word"
+        }
+      ],
+      "correct": "a",
+      "explanation": "لِ makes اللَّهِ a مَجْرُور. رَبِّ الْعَالَمِينَ is an إِضَافَة that cannot be split, and its مُضَاف رَبِّ is in the driving seat: جَرّ, singular, masculine and proper (because الْعَالَمِينَ has ال). That exactly matches اللَّهِ, so it describes Him: \"the Master of all the worlds\"."
+    },
+    {
+      "id": "q19",
+      "text": "Is ذَٰلِكَ الْكِتَابُ (Al-Baqarah 2:2) a fragment or a sentence?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A sentence: \"that is a book\""
+        },
+        {
+          "id": "b",
+          "text": "A fragment, because ذَٰلِكَ always makes a fragment"
+        },
+        {
+          "id": "c",
+          "text": "A fragment: \"that book\", because ال comes right after the pointing word"
+        },
+        {
+          "id": "d",
+          "text": "A sentence, because ذَٰلِكَ is singular"
+        }
+      ],
+      "correct": "c",
+      "explanation": "When ال comes right after a pointing word, it is a fragment and there is no \"is\" in the translation. Anything other than ال after it makes a sentence."
+    },
+    {
+      "id": "q20",
+      "text": "In هَٰذَا صِرَاطٌ مُسْتَقِيمٌ (Al Imran 3:51), how should هَٰذَا صِرَاطٌ be understood?",
+      "options": [
+        {
+          "id": "a",
+          "text": "As a fragment: \"this path\""
+        },
+        {
+          "id": "b",
+          "text": "As a sentence: \"this is a path\", because the word after هَٰذَا has no ال"
+        },
+        {
+          "id": "c",
+          "text": "As an إِضَافَة: \"the path of this\""
+        },
+        {
+          "id": "d",
+          "text": "As a جَار مَجْرُور"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Without ال right after the pointing word, it makes a sentence: \"this is a straight path\". With ال (هَٰذَا الصِّرَاطُ) it would be the fragment \"this path\"."
+    }
+  ]
+}
