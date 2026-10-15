@@ -2,6 +2,10 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-10-16
+
+- feat(email): the result email now lists every question with the answer given (marked correct/incorrect), not just the ones under review — previously it only listed wrong or unanswered questions, so a taker couldn't see what they'd answered for the ones they got right.
+
 ## 2026-10-15
 
 - feat(email): "Email me this result" on the quiz result screen sends the taker's own score and review to their inbox via **EmailJS** (new dependency `@emailjs/browser`: a client-callable email API, since this static site has no backend of its own to send mail from). Hidden unless `VITE_EMAILJS_SERVICE_ID`/`_TEMPLATE_ID`/`_PUBLIC_KEY` are set; best-effort, not retried like saving an attempt is. CSP `connect-src` now allows `https://api.emailjs.com`. Reinstates the "result emails" the v1→v2 plan had deliberately dropped (`docs/PLAN.md`), now that a no-backend way to send them exists.
