@@ -8,27 +8,40 @@ const allRight = Object.fromEntries(arabic.questions.map((q) => [q.id, q.correct
 const taker = { name: 'زكريا', email: 'someone@example.com' };
 
 describe('resultEmailBody', () => {
-  it('greets the taker and states the score for a perfect result, with no review block', () => {
+  it('greets the taker, states the score, and lists the answer and correct answer for a perfect result', () => {
     const result = scoreQuiz(arabic, allRight);
     const body = resultEmailBody(arabic, taker, result);
     expect(body).toContain('Hi زكريا,');
     expect(body).toContain(`Your result for "${arabic.title}": 5 out of 5 (100%).`);
     expect(body).toContain('5 right, 0 wrong, 0 not answered.');
     expect(body).toContain('Every answer is right. Well done!');
-    expect(body).not.toContain('to review:');
+    expect(body).not.toContain('to review below.');
+    expect(body).toContain('Your answers:');
+    expect(body).toContain('1. ما حالة كلمة «مُسْلِمٌ»؟');
+    expect(body).toContain('Your answer: رَفْعٌ (correct)');
+    expect(body).toContain('Correct answer: رَفْعٌ');
+    expect(body).not.toContain('Why:');
   });
 
-  it('lists each wrong or unanswered question with your answer, the correct one and why', () => {
+  it('lists every question with the answer given and the correct answer, adding why for mistakes', () => {
     const { q2: _skip, ...partial } = allRight;
     const result = scoreQuiz(arabic, { ...partial, q1: 'b' });
     const body = resultEmailBody(arabic, taker, result);
-    expect(body).toContain('2 to review:');
+    expect(body).toContain('2 to review below.');
+    expect(body).toContain('Your answers:');
     expect(body).toContain('1. ما حالة كلمة «مُسْلِمٌ»؟');
-    expect(body).toContain('Your answer: نَصْبٌ');
+    expect(body).toContain('Your answer: نَصْبٌ (incorrect)');
     expect(body).toContain('Correct answer: رَفْعٌ');
     expect(body).toContain('Why: الضمة والتنوين علامة الرفع.');
     expect(body).toContain('2. ما حالة كلمة «مُسْلِمًا»؟');
-    expect(body).toContain('Your answer: Not answered');
+    expect(body).toContain('Your answer: Not answered (incorrect)');
+    expect(body).toContain('Correct answer: نَصْبٌ');
+    // A correct answer still gets its own "Correct answer" line, but no "Why".
+    expect(body).toContain('3. ما حالة كلمة «مُسْلِمٍ»؟');
+    expect(body).toContain('Your answer: جَرٌّ (correct)');
+    const q3Index = body.indexOf('3. ما حالة كلمة «مُسْلِمٍ»؟');
+    const q4Index = body.indexOf('4. ما عدد «مُسْلِمَانِ»؟');
+    expect(body.slice(q3Index, q4Index)).not.toContain('Why:');
   });
 });
 
