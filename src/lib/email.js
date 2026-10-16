@@ -8,10 +8,10 @@
  */
 
 /**
- * Plain-text body: a greeting, the score line, then every question with the answer given
- * (right or wrong) — wrong or unanswered ones also get the correct answer and why. Works
- * for any number of questions, since EmailJS templates can't loop over a dynamic list
- * themselves — this builds the whole thing as one text field.
+ * Plain-text body: a greeting, the score line, then every question with the answer given,
+ * the correct answer, and (for a mistake) why. Works for any number of questions, since
+ * EmailJS templates can't loop over a dynamic list themselves — this builds the whole
+ * thing as one text field.
  * @param {Quiz} quiz
  * @param {Taker} taker
  * @param {Result} result
@@ -30,17 +30,19 @@ export function resultEmailBody(quiz, taker, result) {
     '',
     'Your answers:',
   ];
-  const reviewById = new Map(result.review.map((item) => [item.questionId, item]));
   quiz.questions.forEach((q, i) => {
     const answer = result.answers[i];
     const chosen = q.options.find((o) => o.id === answer.selected);
+    const correctOption = /** @type {{ text: string }} */ (
+      q.options.find((o) => o.id === q.correct)
+    );
     lines.push(
       '',
       `${i + 1}. ${q.text}`,
       `Your answer: ${chosen ? chosen.text : 'Not answered'} (${answer.correct ? 'correct' : 'incorrect'})`,
+      `Correct answer: ${correctOption.text}`,
     );
-    const review = reviewById.get(q.id);
-    if (review) lines.push(`Correct answer: ${review.correctAnswer}`, `Why: ${review.explanation}`);
+    if (!answer.correct) lines.push(`Why: ${q.explanation}`);
   });
   return lines.join('\n');
 }

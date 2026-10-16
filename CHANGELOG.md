@@ -4,6 +4,7 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-16
 
+- feat(email): the result email now also prints the correct answer under every question, not only the ones that were wrong (the explanation still appears only for mistakes).
 - feat(email): the result email now lists every question with the answer given (marked correct/incorrect), not just the ones under review — previously it only listed wrong or unanswered questions, so a taker couldn't see what they'd answered for the ones they got right.
 
 ## 2026-10-15
