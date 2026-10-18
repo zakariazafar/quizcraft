@@ -37,7 +37,7 @@ QuizCraft is a **static site** (Vite + vanilla JS, no backend, no framework) hos
 
 ## How to add a quiz (when the owner gives you content)
 
-1. Read the content carefully (text, PDF, Word, notes). Ask for: number of questions (default 10), difficulty (default medium), language (default: same as content), quiz id (default: slug of the title).
+1. Read the content carefully (text, PDF, Word, notes). Ask for: number of questions (default 20), difficulty (default medium), language (default: same as content), quiz id (default: slug of the title).
 2. `npm run new-quiz -- <quiz-id>` then fill `quizzes/<quiz-id>.json` per PLAN §4:
    - Questions **only** from the given content; 4 options each; exactly one correct; plausible distractors; no "all/none of the above".
    - Write questions, options and explanations in the quiz language; copy Arabic terms exactly **with their diacritics**.
