@@ -1,0 +1,373 @@
+{
+  "$schema": "../schema/quiz.schema.json",
+  "id": "noun-sentence-the-starter",
+  "version": 1,
+  "active": true,
+  "title": "Noun Sentence - The starter",
+  "description": "Find the invisible \"is\" in a noun sentence (جُمْلَة اسْمِيَّة): it goes where the chain of fragments first breaks. Every example is from the Quran.",
+  "language": "mixed",
+  "createdAt": "2026-10-18",
+  "source": "Owner’s lesson notes on the Noun Sentence: five ways to find the invisible \"is\"",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What is the main difference between a fragment and a noun sentence?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A noun sentence has an invisible \"is\"; a fragment does not"
+        },
+        {
+          "id": "b",
+          "text": "A noun sentence always starts with a verb"
+        },
+        {
+          "id": "c",
+          "text": "A fragment always has more words than a sentence"
+        },
+        {
+          "id": "d",
+          "text": "A fragment always ends with a word in رَفْعَ"
+        }
+      ],
+      "correct": "a",
+      "explanation": "The words of a fragment are joined to each other, so there is no \"is\" between them. A noun sentence has an invisible \"is\" (or are, am) where the chain of fragments first breaks."
+    },
+    {
+      "id": "q2",
+      "text": "A noun sentence can have more than one break in its chain. Where does the invisible \"is\" go?",
+      "options": [
+        {
+          "id": "a",
+          "text": "At the last break"
+        },
+        {
+          "id": "b",
+          "text": "At every break"
+        },
+        {
+          "id": "c",
+          "text": "At the first break only"
+        },
+        {
+          "id": "d",
+          "text": "Before the first word"
+        }
+      ],
+      "correct": "c",
+      "explanation": "Words joined by the five fragments form a chain. The invisible \"is\" goes at the first place where two words are not joined; later breaks do not get an \"is\"."
+    },
+    {
+      "id": "q3",
+      "text": "Which translation puts the invisible \"is\" in the right place in اللَّهُ لَطِيفٌ بِعِبَادِهِ (Ash-Shura 42:19)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Allah, the Subtle One, is with His servants."
+        },
+        {
+          "id": "b",
+          "text": "Allah, Subtle with His servants (no \"is\")."
+        },
+        {
+          "id": "c",
+          "text": "The Subtle One of the servants of Allah."
+        },
+        {
+          "id": "d",
+          "text": "Allah is Subtle with His servants."
+        }
+      ],
+      "correct": "d",
+      "explanation": "اللَّهُ is not joined to لَطِيفٌ by any fragment, so the first break, and the \"is\", comes right after اللَّهُ. Shortcut 1: a proper word (اللَّهُ) followed by a common word (لَطِيفٌ, with tanween). The break after لَطِيفٌ is a second break, so it gets no \"is\"."
+    },
+    {
+      "id": "q4",
+      "text": "In اللَّهُ خَالِقُ كُلِّ شَيْءٍ (Az-Zumar 39:62), where is the first break in the chain?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Between خَالِقُ and كُلِّ"
+        },
+        {
+          "id": "b",
+          "text": "Between اللَّهُ and خَالِقُ"
+        },
+        {
+          "id": "c",
+          "text": "Between كُلِّ and شَيْءٍ"
+        },
+        {
+          "id": "d",
+          "text": "There is no break; it is one long fragment"
+        }
+      ],
+      "correct": "b",
+      "explanation": "خَالِقُ كُلِّ شَيْءٍ is a chain of two إِضَافَة, so there is no break inside it, but اللَّهُ is not joined to خَالِقُ: \"Allah is the Creator of everything\". Shortcut 1: a proper word followed by a common word; خَالِقُ is common because the last word of its chain, شَيْءٍ, has tanween."
+    },
+    {
+      "id": "q5",
+      "text": "Where does the invisible \"is\" go in هُوَ اللَّهُ أَحَدٌ (Al-Ikhlas 112:1)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Right after هُوَ: \"He is Allah, One\""
+        },
+        {
+          "id": "b",
+          "text": "Right after اللَّهُ: \"He, Allah, is One\""
+        },
+        {
+          "id": "c",
+          "text": "Nowhere, because it is a fragment"
+        },
+        {
+          "id": "d",
+          "text": "Before هُوَ"
+        }
+      ],
+      "correct": "a",
+      "explanation": "هُوَ is an independent pronoun and is not joined to اللَّهُ by any fragment, so the first break is right after it. Shortcut 2: an independent pronoun is always followed by an invisible \"is\". The break between اللَّهُ and أَحَدٌ is a second break."
+    },
+    {
+      "id": "q6",
+      "text": "Which translation of أَنْتَ مَوْلَانَا (Al-Baqarah 2:286) is right?",
+      "options": [
+        {
+          "id": "a",
+          "text": "You, our Protector (a fragment with no \"is\")."
+        },
+        {
+          "id": "b",
+          "text": "The Protector of you and us."
+        },
+        {
+          "id": "c",
+          "text": "You are our Protector."
+        },
+        {
+          "id": "d",
+          "text": "You are the Protector of them."
+        }
+      ],
+      "correct": "c",
+      "explanation": "أَنْتَ stands alone and the chain breaks right after it; مَوْلَانَا (\"our Protector\") is an إِضَافَة of its own. Shortcut 2: an independent pronoun like أَنْتَ is always followed by an invisible \"are\"."
+    },
+    {
+      "id": "q7",
+      "text": "In قَالَ الْحَوَارِيُّونَ نَحْنُ أَنْصَارُ اللَّهِ (As-Saff 61:14), where is the first break in نَحْنُ أَنْصَارُ اللَّهِ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Between أَنْصَارُ and اللَّهِ"
+        },
+        {
+          "id": "b",
+          "text": "Between نَحْنُ and أَنْصَارُ"
+        },
+        {
+          "id": "c",
+          "text": "There is no break"
+        },
+        {
+          "id": "d",
+          "text": "After اللَّهِ"
+        }
+      ],
+      "correct": "b",
+      "explanation": "أَنْصَارُ اللَّهِ is an إِضَافَة, so there is no break inside it, but نَحْنُ is not joined to it: \"We are the helpers of Allah\". Shortcut 2: نَحْنُ is an independent pronoun, which is always followed by an invisible \"are\"."
+    },
+    {
+      "id": "q8",
+      "text": "Which translation of إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ (Al-Asr 103:2) puts the invisible \"is\" in the right place?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Surely the mankind of loss."
+        },
+        {
+          "id": "b",
+          "text": "Surely mankind in loss (no \"is\")."
+        },
+        {
+          "id": "c",
+          "text": "Surely, is mankind in loss?"
+        },
+        {
+          "id": "d",
+          "text": "Surely mankind is in loss."
+        }
+      ],
+      "correct": "d",
+      "explanation": "إِنَّ الْإِنْسَانَ is a حرف نصب with its اسم, one fragment. The chain breaks after الْإِنْسَانَ and لَفِي خُسْرٍ starts a new one (فِي خُسْرٍ is a جَار مَجْرُور). Shortcut 3: after a حرف نصب and its اسم there is always an invisible \"is\"."
+    },
+    {
+      "id": "q9",
+      "text": "In إِنَّ اللَّهَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (Al-Baqarah 2:20), where is the first break in the chain?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Between اللَّهَ and عَلَى"
+        },
+        {
+          "id": "b",
+          "text": "Between عَلَى and كُلِّ"
+        },
+        {
+          "id": "c",
+          "text": "Between شَيْءٍ and قَدِيرٌ"
+        },
+        {
+          "id": "d",
+          "text": "Between إِنَّ and اللَّهَ"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Chain 1 is إِنَّ اللَّهَ (a حرف نصب and its اسم); chain 2 is عَلَى كُلِّ شَيْءٍ (a جَار مَجْرُور joined to an إِضَافَة). The first break is after اللَّهَ: \"Surely Allah is capable over all things\"; the break before قَدِيرٌ is a second break. Shortcut 3: a حرف نصب and its اسم."
+    },
+    {
+      "id": "q10",
+      "text": "Where is the first break in the chain of إِنَّ وَعْدَ اللَّهِ حَقٌّ (Yunus 10:55)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Between وَعْدَ and اللَّهِ"
+        },
+        {
+          "id": "b",
+          "text": "Between إِنَّ and وَعْدَ"
+        },
+        {
+          "id": "c",
+          "text": "Between اللَّهِ and حَقٌّ"
+        },
+        {
+          "id": "d",
+          "text": "There is no break"
+        }
+      ],
+      "correct": "c",
+      "explanation": "وَعْدَ is the اسم of إِنَّ, and وَعْدَ اللَّهِ is an إِضَافَة, so the chain runs unbroken from إِنَّ to اللَّهِ. It first breaks before حَقٌّ: \"Surely the promise of Allah is true\". Shortcut 3: the \"is\" comes after the whole اسم of the حرف نصب, here وَعْدَ اللَّهِ (and اللَّهِ, proper, is followed by حَقٌّ, common: shortcut 1)."
+    },
+    {
+      "id": "q11",
+      "text": "Which translation of قَالَ هَٰذَا رَبِّي (Al-Anam 6:76) is right for هَٰذَا رَبِّي?",
+      "options": [
+        {
+          "id": "a",
+          "text": "This Lord of mine (a fragment with no \"is\")."
+        },
+        {
+          "id": "b",
+          "text": "This is my Lord."
+        },
+        {
+          "id": "c",
+          "text": "That is my Lord."
+        },
+        {
+          "id": "d",
+          "text": "These are my Lords."
+        }
+      ],
+      "correct": "b",
+      "explanation": "The word after هَٰذَا is رَبِّي, which has no ال, so هَٰذَا is not joined to it and the chain breaks right after هَٰذَا. Shortcut 4: a pointing word followed by anything other than ال has an invisible \"is\" after it."
+    },
+    {
+      "id": "q12",
+      "text": "In تِلْكَ آيَاتُ اللَّهِ (Al-Baqarah 2:252), where is the first break in the chain?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Between آيَاتُ and اللَّهِ"
+        },
+        {
+          "id": "b",
+          "text": "There is no break: \"those signs of Allah\""
+        },
+        {
+          "id": "c",
+          "text": "After اللَّهِ"
+        },
+        {
+          "id": "d",
+          "text": "Between تِلْكَ and آيَاتُ"
+        }
+      ],
+      "correct": "d",
+      "explanation": "آيَاتُ has no ال, so it does not join تِلْكَ in a pointing fragment, and the chain breaks after تِلْكَ. آيَاتُ اللَّهِ is an إِضَافَة: \"Those are the signs of Allah\". Shortcut 4: a pointing word not followed by ال."
+    },
+    {
+      "id": "q13",
+      "text": "Which translation of هَٰذَا صِرَاطٌ مُسْتَقِيمٌ (Al Imran 3:51) is right?",
+      "options": [
+        {
+          "id": "a",
+          "text": "This is a straight path."
+        },
+        {
+          "id": "b",
+          "text": "This straight path (no \"is\")."
+        },
+        {
+          "id": "c",
+          "text": "This path is straight."
+        },
+        {
+          "id": "d",
+          "text": "Is this a straight path?"
+        }
+      ],
+      "correct": "a",
+      "explanation": "صِرَاطٌ has no ال, so the chain breaks right after هَٰذَا. صِرَاطٌ مُسْتَقِيمٌ is a مَوْصُوف صِفَة (they match in all four properties), so there is no break, and no \"is\", between them. Shortcut 4: a pointing word not followed by ال."
+    },
+    {
+      "id": "q14",
+      "text": "In which of these is there no invisible \"is\" right after the pointing word?",
+      "options": [
+        {
+          "id": "a",
+          "text": "هَٰذِهِ نَاقَةُ اللَّهِ (Al-Araf 7:73)"
+        },
+        {
+          "id": "b",
+          "text": "تِلْكَ آيَاتُ اللَّهِ (Al-Baqarah 2:252)"
+        },
+        {
+          "id": "c",
+          "text": "ذَٰلِكَ الْكِتَابُ (Al-Baqarah 2:2)"
+        },
+        {
+          "id": "d",
+          "text": "هَٰذَا رَبِّي (Al-Anam 6:76)"
+        }
+      ],
+      "correct": "c",
+      "explanation": "ال right after the pointing word joins the two into one pointing fragment, so ذَٰلِكَ الْكِتَابُ is \"that book\" with no break. In the others the next word has no ال, so the chain breaks after the pointing word (shortcut 4)."
+    },
+    {
+      "id": "q15",
+      "text": "In الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (Al-Fatihah 1:2), where is the first break in the chain?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Between لِلَّهِ and رَبِّ"
+        },
+        {
+          "id": "b",
+          "text": "Between الْحَمْدُ and لِلَّهِ"
+        },
+        {
+          "id": "c",
+          "text": "Between رَبِّ and الْعَالَمِينَ"
+        },
+        {
+          "id": "d",
+          "text": "There is no break"
+        }
+      ],
+      "correct": "b",
+      "explanation": "الْحَمْدُ is not joined to لِلَّهِ by any fragment, while لِلَّهِ رَبِّ الْعَالَمِينَ is one chain (a جَار مَجْرُور, then رَبِّ الْعَالَمِينَ, an إِضَافَة that is its صِفَة): \"All praise is for Allah, the Lord of the worlds\". None of shortcuts 1 to 4 fits here (الْحَمْدُ is followed by a حرف جر), which is why the break in the chain is the rule that always works."
+    }
+  ]
+}
