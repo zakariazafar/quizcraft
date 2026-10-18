@@ -4,6 +4,8 @@ All notable changes to this project are recorded here, grouped by date (newest f
 
 ## 2026-10-18
 
+- quiz: extend noun-sentence-the-starter to 20 questions (one more per shortcut and a fragment-vs-sentence check); correct answers spread 5/5/5/5
+- docs: default number of questions for a new quiz is now 20 (CLAUDE.md)
 - quiz: add noun-sentence-the-starter (15 questions, mixed English/Arabic) on finding the invisible "is" in a noun sentence at the first break in the chain of fragments; every example from the Quran; each explanation shows the break and the matching shortcut (proper then common, independent pronoun, حرف نصب and its اسم, pointing word without ال); correct answers spread 4/4/4/3
 
 ## 2026-10-16

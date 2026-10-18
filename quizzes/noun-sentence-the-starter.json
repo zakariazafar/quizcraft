@@ -368,6 +368,126 @@
       ],
       "correct": "b",
       "explanation": "الْحَمْدُ is not joined to لِلَّهِ by any fragment, while لِلَّهِ رَبِّ الْعَالَمِينَ is one chain (a جَار مَجْرُور, then رَبِّ الْعَالَمِينَ, an إِضَافَة that is its صِفَة): \"All praise is for Allah, the Lord of the worlds\". None of shortcuts 1 to 4 fits here (الْحَمْدُ is followed by a حرف جر), which is why the break in the chain is the rule that always works."
+    },
+    {
+      "id": "q16",
+      "text": "Which shortcut tells you where the invisible \"is\" goes in وَاللَّهُ عَلِيمٌ بِالظَّالِمِينَ (Al-Baqarah 2:95)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Shortcut 2: an independent pronoun"
+        },
+        {
+          "id": "b",
+          "text": "Shortcut 3: a حرف نصب and its اسم"
+        },
+        {
+          "id": "c",
+          "text": "Shortcut 4: a pointing word not followed by ال"
+        },
+        {
+          "id": "d",
+          "text": "Shortcut 1: a proper word followed by a common word"
+        }
+      ],
+      "correct": "d",
+      "explanation": "اللَّهُ is proper and عَلِيمٌ is common (it has tanween), so they are not joined and the chain breaks after اللَّهُ: \"And Allah is All-Knowing of the wrongdoers\". Shortcut 1: a proper word followed by a common word."
+    },
+    {
+      "id": "q17",
+      "text": "In هُمْ فِيهَا خَالِدُونَ (Al-Baqarah 2:39), where is the first break in the chain?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Between هُمْ and فِيهَا"
+        },
+        {
+          "id": "b",
+          "text": "Between فِيهَا and خَالِدُونَ"
+        },
+        {
+          "id": "c",
+          "text": "There is no break"
+        },
+        {
+          "id": "d",
+          "text": "After خَالِدُونَ"
+        }
+      ],
+      "correct": "a",
+      "explanation": "هُمْ is an independent pronoun and is not joined to فِيهَا, so the first break is right after it: \"They are in it, abiding forever\". Shortcut 2: an independent pronoun is always followed by an invisible \"is\" (here \"are\"). The break before خَالِدُونَ is a second break."
+    },
+    {
+      "id": "q18",
+      "text": "Which translation of إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ (Al-Baqarah 2:173) puts the invisible \"is\" in the right place?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Surely Allah, the Forgiving, is Merciful."
+        },
+        {
+          "id": "b",
+          "text": "Surely Allah, Forgiving, Merciful (no \"is\")."
+        },
+        {
+          "id": "c",
+          "text": "Surely Allah is Forgiving, Merciful."
+        },
+        {
+          "id": "d",
+          "text": "Surely the forgiveness of Allah is merciful."
+        }
+      ],
+      "correct": "c",
+      "explanation": "إِنَّ اللَّهَ is a حرف نصب with its اسم, one fragment, and the chain breaks after اللَّهَ. The break between غَفُورٌ and رَحِيمٌ is a second break, so it gets no \"is\". Shortcut 3: after a حرف نصب and its اسم there is always an invisible \"is\"."
+    },
+    {
+      "id": "q19",
+      "text": "Which shortcut tells you where the invisible \"is\" goes in هَٰذَا رَحْمَةٌ مِنْ رَبِّي (Al-Kahf 18:98)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Shortcut 1: a proper word followed by a common word"
+        },
+        {
+          "id": "b",
+          "text": "Shortcut 4: a pointing word not followed by ال"
+        },
+        {
+          "id": "c",
+          "text": "Shortcut 2: an independent pronoun"
+        },
+        {
+          "id": "d",
+          "text": "None: it is a fragment with no \"is\""
+        }
+      ],
+      "correct": "b",
+      "explanation": "رَحْمَةٌ has no ال, so it does not join هَٰذَا in a pointing fragment and the chain breaks right after هَٰذَا: \"This is a mercy from my Lord\". Shortcut 4: a pointing word followed by anything other than ال has an invisible \"is\" after it."
+    },
+    {
+      "id": "q20",
+      "text": "Which of these is a fragment, with no break and so no invisible \"is\"?",
+      "options": [
+        {
+          "id": "a",
+          "text": "هُوَ الرَّحْمَٰنُ الرَّحِيمُ (Al-Hashr 59:22)"
+        },
+        {
+          "id": "b",
+          "text": "إِنَّ اللَّهَ سَمِيعٌ عَلِيمٌ (Al-Baqarah 2:181)"
+        },
+        {
+          "id": "c",
+          "text": "تِلْكَ حُدُودُ اللَّهِ (Al-Baqarah 2:229)"
+        },
+        {
+          "id": "d",
+          "text": "الصِّرَاطَ الْمُسْتَقِيمَ (Al-Fatihah 1:6)"
+        }
+      ],
+      "correct": "d",
+      "explanation": "الصِّرَاطَ الْمُسْتَقِيمَ is a مَوْصُوف صِفَة (they match in all four properties), so the two words stay joined: \"the straight path\". The others all break: after هُوَ (shortcut 2), after إِنَّ اللَّهَ (shortcut 3) and after تِلْكَ (shortcut 4)."
     }
   ]
 }
