@@ -109,13 +109,13 @@
       "id": "q9",
       "text": "In \"إِنَّ اللَّهَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ\" (Al-Baqarah 2:20, \"Indeed, Allah is able to do all things\"), what is the Mubtada?",
       "options": [
-        { "id": "a", "text": "اللَّهَ" },
-        { "id": "b", "text": "عَلَى كُلِّ شَيْءٍ" },
-        { "id": "c", "text": "قَدِيرٌ" },
-        { "id": "d", "text": "كُلِّ شَيْءٍ" }
+        { "id": "a", "text": "إِنَّ اللَّهَ" },
+        { "id": "b", "text": "اللَّهَ alone, without إِنَّ" },
+        { "id": "c", "text": "عَلَى كُلِّ شَيْءٍ" },
+        { "id": "d", "text": "قَدِيرٌ" }
       ],
       "correct": "a",
-      "explanation": "إِنَّ is the harf of Nasb, and اللَّهَ is its ism, so اللَّهَ is the Mubtada."
+      "explanation": "The Mubtada is the harf of Nasb together with its ism, including chain — so إِنَّ اللَّهَ (the whole chain) is the Mubtada, not اللَّهَ by itself."
     },
     {
       "id": "q10",
@@ -211,13 +211,13 @@
       "id": "q17",
       "text": "In \"إِنَّ الْإِنسَانَ لَفِي خُسْرٍ\" (Al-Asr 103:2, \"Indeed, mankind is in loss\"), what is the Mubtada?",
       "options": [
-        { "id": "a", "text": "الْإِنسَانَ" },
-        { "id": "b", "text": "خُسْرٍ" },
-        { "id": "c", "text": "لَفِي خُسْرٍ" },
-        { "id": "d", "text": "إِنَّ alone" }
+        { "id": "a", "text": "إِنَّ الْإِنسَانَ" },
+        { "id": "b", "text": "الْإِنسَانَ alone, without إِنَّ" },
+        { "id": "c", "text": "إِنَّ alone" },
+        { "id": "d", "text": "لَفِي خُسْرٍ" }
       ],
       "correct": "a",
-      "explanation": "إِنَّ is the harf of Nasb, and الْإِنسَانَ is its ism, so الْإِنسَانَ is the Mubtada."
+      "explanation": "The Mubtada is the harf of Nasb together with its ism, including chain — so إِنَّ الْإِنسَانَ (the whole chain) is the Mubtada, not الْإِنسَانَ or إِنَّ by itself."
     },
     {
       "id": "q18",
@@ -238,13 +238,13 @@
       "id": "q19",
       "text": "In \"إِنَّ اللَّهَ مَعَ الصَّابِرِينَ\" (Al-Baqarah 2:153, \"Indeed, Allah is with the patient\"), what is the Mubtada?",
       "options": [
-        { "id": "a", "text": "مَعَ الصَّابِرِينَ" },
-        { "id": "b", "text": "الصَّابِرِينَ alone" },
-        { "id": "c", "text": "اللَّهَ" },
+        { "id": "a", "text": "اللَّهَ alone, without إِنَّ" },
+        { "id": "b", "text": "مَعَ الصَّابِرِينَ" },
+        { "id": "c", "text": "إِنَّ اللَّهَ" },
         { "id": "d", "text": "إِنَّ alone" }
       ],
       "correct": "c",
-      "explanation": "إِنَّ is the harf of Nasb, and اللَّهَ is its ism, so اللَّهَ is the Mubtada."
+      "explanation": "The Mubtada is the harf of Nasb together with its ism, including chain — so إِنَّ اللَّهَ (the whole chain) is the Mubtada, not اللَّهَ or إِنَّ by itself."
     },
     {
       "id": "q20",
