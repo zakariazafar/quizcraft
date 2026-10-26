@@ -74,12 +74,15 @@
       "text": "What can function as the Muta'allaq bil khabar (MBK)?",
       "options": [
         { "id": "a", "text": "Only a second Khabar" },
-        { "id": "b", "text": "A Jaar Majroor including chain, or a special mudhaaf" },
+        {
+          "id": "b",
+          "text": "A Jaar Majroor including chain, or a special mudhaaf and its mudhaaf ilaih, including chain"
+        },
         { "id": "c", "text": "Only the harf of Nasb's ism" },
         { "id": "d", "text": "Only a Raf'a word" }
       ],
       "correct": "b",
-      "explanation": "The Muta'allaq bil khabar is additional information given as a Jaar Majroor (including chain) or a special mudhaaf."
+      "explanation": "The Muta'allaq bil khabar is additional information given as a Jaar Majroor (including chain) or a special mudhaaf and its mudhaaf ilaih (including chain)."
     },
     {
       "id": "q7",
@@ -194,7 +197,7 @@
     },
     {
       "id": "q16",
-      "text": "In the same ayah, \"الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ\", there is no Khabar. What role does لِلَّهِ رَبِّ الْعَالَمِينَ play?",
+      "text": "In the same ayah, \"الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ\", what role does لِلَّهِ رَبِّ الْعَالَمِينَ play?",
       "options": [
         { "id": "a", "text": "It is the Mubtada" },
         { "id": "b", "text": "It is still the Khabar" },
@@ -221,7 +224,7 @@
     },
     {
       "id": "q18",
-      "text": "In the same ayah, \"إِنَّ الْإِنسَانَ لَفِي خُسْرٍ\", there is no Khabar. What role does لَفِي خُسْرٍ play?",
+      "text": "In the same ayah, \"إِنَّ الْإِنسَانَ لَفِي خُسْرٍ\", what role does لَفِي خُسْرٍ play?",
       "options": [
         { "id": "a", "text": "It is the Khabar" },
         {
@@ -248,7 +251,7 @@
     },
     {
       "id": "q20",
-      "text": "In the same ayah, \"إِنَّ اللَّهَ مَعَ الصَّابِرِينَ\", there is no Khabar. What role does مَعَ الصَّابِرِينَ play, and what kind of word is مَعَ?",
+      "text": "In the same ayah, \"إِنَّ اللَّهَ مَعَ الصَّابِرِينَ\", what role does مَعَ الصَّابِرِينَ play, and what kind of word is مَعَ?",
       "options": [
         { "id": "a", "text": "It is the Khabar, and مَعَ is a harf of Nasb" },
         { "id": "b", "text": "It is the Mubtada, and مَعَ is a Jaar Majroor" },
