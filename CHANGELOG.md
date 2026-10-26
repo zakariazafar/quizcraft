@@ -2,6 +2,10 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-10-26
+
+- quiz: add noun-sentence-identifying-components (20 questions, mixed English/Arabic) on naming the 3 components of a noun sentence — Mubtada, Khabar, Muta'allaq bil khabar — including their definitions, 4 worked examples (one with the Khabar omitted and the Muta'allaq bil khabar standing in for it), and the special mudhaafs that often build the Muta'allaq bil khabar; correct answers spread 5/5/5/5
+
 ## 2026-10-18
 
 - quiz: extend noun-sentence-the-starter to 20 questions (one more per shortcut and a fragment-vs-sentence check); correct answers spread 5/5/5/5

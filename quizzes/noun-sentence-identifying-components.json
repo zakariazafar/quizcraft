@@ -1,0 +1,259 @@
+{
+  "$schema": "../schema/quiz.schema.json",
+  "id": "noun-sentence-identifying-components",
+  "version": 1,
+  "active": true,
+  "title": "Noun sentence - Identifying components",
+  "description": "Identify the 3 components of a noun sentence (جُمْلَة اسْمِيَّة) — Mubtada, Khabar, and Muta'allaq bil khabar — in worked examples, plus the special mudhaafs that often make up the Muta'allaq bil khabar.",
+  "language": "mixed",
+  "createdAt": "2026-10-26",
+  "source": "Owner's lesson notes on the noun sentence: Mubtada, Khabar, Muta'allaq bil khabar, and special mudhaafs",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What are the 3 components of a noun sentence?",
+      "options": [
+        { "id": "a", "text": "Mubtada, Khabar, and Muta'allaq bil khabar" },
+        { "id": "b", "text": "Harf of Nasb, Jaar Majroor, and Khabar" },
+        { "id": "c", "text": "Mubtada, Khabar, and Harf of Nasb" },
+        { "id": "d", "text": "Mubtada, Jaar Majroor, and special mudhaaf" }
+      ],
+      "correct": "a",
+      "explanation": "The three components of a noun sentence are Mubtada (M), Khabar (K), and Muta'allaq bil khabar (MBK)."
+    },
+    {
+      "id": "q2",
+      "text": "In the formula M(must) + is + K (optional) + MBK (optional), which component is the only one that is required?",
+      "options": [
+        { "id": "a", "text": "Khabar" },
+        { "id": "b", "text": "Mubtada" },
+        { "id": "c", "text": "Muta'allaq bil khabar" },
+        { "id": "d", "text": "Both Khabar and Muta'allaq bil khabar" }
+      ],
+      "correct": "b",
+      "explanation": "The formula marks Mubtada as \"must\", while Khabar and Muta'allaq bil khabar are both optional."
+    },
+    {
+      "id": "q3",
+      "text": "When a sentence begins with a harf of Nasb, what is the Mubtada?",
+      "options": [
+        { "id": "a", "text": "The first Raf'a in the sentence, regardless of the harf of Nasb" },
+        { "id": "b", "text": "The Khabar that follows the harf of Nasb" },
+        { "id": "c", "text": "The harf of Nasb and its ism, including chain" },
+        { "id": "d", "text": "The harf of Nasb alone, without its ism" }
+      ],
+      "correct": "c",
+      "explanation": "The Mubtada is a harf of Nasb and its ism including chain, when a harf of Nasb is present."
+    },
+    {
+      "id": "q4",
+      "text": "When there is no harf of Nasb in the sentence, what is the Mubtada?",
+      "options": [
+        { "id": "a", "text": "The Khabar" },
+        { "id": "b", "text": "The Muta'allaq bil khabar" },
+        { "id": "c", "text": "Whatever word comes first in the sentence, status aside" },
+        { "id": "d", "text": "The first Raf'a in the sentence, including chain" }
+      ],
+      "correct": "d",
+      "explanation": "Without a harf of Nasb, the Mubtada is simply the first Raf'a in the sentence, including its chain."
+    },
+    {
+      "id": "q5",
+      "text": "How is the Khabar defined?",
+      "options": [
+        { "id": "a", "text": "The first Raf'a after the Mubtada, including chain" },
+        { "id": "b", "text": "A Jaar Majroor that follows the Mubtada" },
+        { "id": "c", "text": "The ism of the harf of Nasb" },
+        { "id": "d", "text": "Any Raf'a anywhere in the sentence" }
+      ],
+      "correct": "a",
+      "explanation": "The Khabar is the first Raf'a that comes after the Mubtada (including its chain), and it gives information about the Mubtada."
+    },
+    {
+      "id": "q6",
+      "text": "What can function as the Muta'allaq bil khabar (MBK)?",
+      "options": [
+        { "id": "a", "text": "Only a second Khabar" },
+        { "id": "b", "text": "A Jaar Majroor including chain, or a special mudhaaf" },
+        { "id": "c", "text": "Only the harf of Nasb's ism" },
+        { "id": "d", "text": "Only a Raf'a word" }
+      ],
+      "correct": "b",
+      "explanation": "The Muta'allaq bil khabar is additional information given as a Jaar Majroor (including chain) or a special mudhaaf."
+    },
+    {
+      "id": "q7",
+      "text": "In \"إِنَّ رَسُولَ ٱللَّهِ كَرِيمٌ\" (\"Certainly the messenger of Allah is kind\"), what is the Mubtada?",
+      "options": [
+        { "id": "a", "text": "كَرِيمٌ" },
+        { "id": "b", "text": "إِنَّ alone" },
+        { "id": "c", "text": "رَسُولَ ٱللَّهِ" },
+        { "id": "d", "text": "ٱللَّهِ alone" }
+      ],
+      "correct": "c",
+      "explanation": "إِنَّ is the harf of Nasb, and رَسُولَ ٱللَّهِ (the mudhaaf and mudhaaf ilayh) is its ism, so the whole chain رَسُولَ ٱللَّهِ is the Mubtada."
+    },
+    {
+      "id": "q8",
+      "text": "In the same sentence, \"إِنَّ رَسُولَ ٱللَّهِ كَرِيمٌ\", what is the Khabar?",
+      "options": [
+        { "id": "a", "text": "إِنَّ" },
+        { "id": "b", "text": "رَسُولَ" },
+        { "id": "c", "text": "ٱللَّهِ" },
+        { "id": "d", "text": "كَرِيمٌ" }
+      ],
+      "correct": "d",
+      "explanation": "كَرِيمٌ (\"kind\") is the first Raf'a after the Mubtada and gives information about it, so it is the Khabar."
+    },
+    {
+      "id": "q9",
+      "text": "In \"ٱللَّهُ نُورُ ٱلسَّمَاوَاتِ وَٱلْأَرْضِ\" (\"Allah is the light of the skies and the earth\"), what is the Mubtada, and why?",
+      "options": [
+        {
+          "id": "a",
+          "text": "ٱللَّهُ, because there is no harf of Nasb, so the Mubtada is the first Raf'a"
+        },
+        { "id": "b", "text": "نُورُ ٱلسَّمَاوَاتِ, because it is a Jaar Majroor" },
+        { "id": "c", "text": "ٱلسَّمَاوَاتِ وَٱلْأَرْضِ, because it ends the chain" },
+        { "id": "d", "text": "ٱللَّهُ نُورُ, because it is the whole first half" }
+      ],
+      "correct": "a",
+      "explanation": "There is no harf of Nasb in this sentence, so the Mubtada is simply the first Raf'a, which is ٱللَّهُ."
+    },
+    {
+      "id": "q10",
+      "text": "In the same sentence, \"ٱللَّهُ نُورُ ٱلسَّمَاوَاتِ وَٱلْأَرْضِ\", what is the Khabar?",
+      "options": [
+        { "id": "a", "text": "ٱللَّهُ" },
+        { "id": "b", "text": "نُورُ ٱلسَّمَاوَاتِ وَٱلْأَرْضِ" },
+        { "id": "c", "text": "وَٱلْأَرْضِ alone" },
+        { "id": "d", "text": "There is no Khabar in this sentence" }
+      ],
+      "correct": "b",
+      "explanation": "نُورُ ٱلسَّمَاوَاتِ وَٱلْأَرْضِ is the first Raf'a after the Mubtada, including its whole chain, so it is the Khabar."
+    },
+    {
+      "id": "q11",
+      "text": "In \"ٱلسَّلَامُ عَلَيْكُمْ\" (\"Peace and blessings is on you\"), what is the Mubtada?",
+      "options": [
+        { "id": "a", "text": "عَلَيْكُمْ" },
+        { "id": "b", "text": "There is no Mubtada" },
+        { "id": "c", "text": "ٱلسَّلَامُ" },
+        { "id": "d", "text": "It is a harf of Nasb" }
+      ],
+      "correct": "c",
+      "explanation": "ٱلسَّلَامُ is the first Raf'a in the sentence, so it is the Mubtada."
+    },
+    {
+      "id": "q12",
+      "text": "In \"ٱلسَّلَامُ عَلَيْكُمْ\", the Khabar is left out. What role does عَلَيْكُمْ play?",
+      "options": [
+        { "id": "a", "text": "It is the Mubtada" },
+        { "id": "b", "text": "It is still the Khabar, just placed differently" },
+        { "id": "c", "text": "It is a harf of Nasb" },
+        {
+          "id": "d",
+          "text": "It is the Muta'allaq bil khabar, a Jaar Majroor standing in for the missing Khabar"
+        }
+      ],
+      "correct": "d",
+      "explanation": "Since Khabar is optional, عَلَيْكُمْ (a Jaar Majroor) functions here as the Muta'allaq bil khabar even though no separate Khabar is stated."
+    },
+    {
+      "id": "q13",
+      "text": "In \"إِنَّ ٱللَّهَ مَعَ ٱلصَّابِرِينَ\" (\"Surely Allah is with those who have patience\"), why is ٱللَّهَ the Mubtada?",
+      "options": [
+        { "id": "a", "text": "Because إِنَّ is a harf of Nasb and ٱللَّهَ is its ism" },
+        { "id": "b", "text": "Because ٱللَّهَ is a Jaar Majroor" },
+        { "id": "c", "text": "Because ٱللَّهَ is the Khabar of مَعَ" },
+        { "id": "d", "text": "Because ٱللَّهَ is a special mudhaaf" }
+      ],
+      "correct": "a",
+      "explanation": "إِنَّ is the harf of Nasb, and ٱللَّهَ is its ism, so together they form the Mubtada."
+    },
+    {
+      "id": "q14",
+      "text": "In the same sentence, \"إِنَّ ٱللَّهَ مَعَ ٱلصَّابِرِينَ\", what role does مَعَ ٱلصَّابِرِينَ play, since there is no separate Khabar?",
+      "options": [
+        { "id": "a", "text": "It is the Mubtada" },
+        { "id": "b", "text": "It is the Muta'allaq bil khabar" },
+        { "id": "c", "text": "It is the ism of إِنَّ" },
+        { "id": "d", "text": "It is a second harf of Nasb" }
+      ],
+      "correct": "b",
+      "explanation": "With no separate Khabar stated, مَعَ ٱلصَّابِرِينَ (built on the special mudhaaf مَعَ) functions as the Muta'allaq bil khabar, the same as عَلَيْكُمْ in ٱلسَّلَامُ عَلَيْكُمْ."
+    },
+    {
+      "id": "q15",
+      "text": "Which of these words is listed as a special mudhaaf — a word that always appears as a mudhaaf but does not necessarily mean possession or belonging?",
+      "options": [
+        { "id": "a", "text": "كَرِيمٌ" },
+        { "id": "b", "text": "رَسُولَ" },
+        { "id": "c", "text": "غَيْرُ" },
+        { "id": "d", "text": "عَلَيْكُمْ" }
+      ],
+      "correct": "c",
+      "explanation": "غَيْرُ (\"other than/non\") is one of the special mudhaafs, alongside words like كُلُّ, بَعْضُ, أَيُّ, نَفْسُ and the time/place words."
+    },
+    {
+      "id": "q16",
+      "text": "Which special mudhaaf means \"between\"?",
+      "options": [
+        { "id": "a", "text": "تَحْتَ" },
+        { "id": "b", "text": "فَوْقَ" },
+        { "id": "c", "text": "قَبْلَ" },
+        { "id": "d", "text": "بَيْنَ" }
+      ],
+      "correct": "d",
+      "explanation": "بَيْنَ means \"between\". تَحْتَ is \"under\", فَوْقَ is \"above\", and قَبْلَ is \"before\"."
+    },
+    {
+      "id": "q17",
+      "text": "Which special mudhaaf means \"under\"?",
+      "options": [
+        { "id": "a", "text": "تَحْتَ" },
+        { "id": "b", "text": "فَوْقَ" },
+        { "id": "c", "text": "خَلْفَ" },
+        { "id": "d", "text": "لَدَى" }
+      ],
+      "correct": "a",
+      "explanation": "تَحْتَ means \"under\", the opposite of فَوْقَ (\"above\")."
+    },
+    {
+      "id": "q18",
+      "text": "Which special mudhaaf means \"after\"?",
+      "options": [
+        { "id": "a", "text": "قَبْلَ" },
+        { "id": "b", "text": "بَعْدَ" },
+        { "id": "c", "text": "دُونَ" },
+        { "id": "d", "text": "عِنْدَ" }
+      ],
+      "correct": "b",
+      "explanation": "بَعْدَ means \"after\"; قَبْلَ means \"before\"."
+    },
+    {
+      "id": "q19",
+      "text": "Which special mudhaaf means \"has/with/at/by\"?",
+      "options": [
+        { "id": "a", "text": "حَوْلَ" },
+        { "id": "b", "text": "مِنْ لَدُنْ" },
+        { "id": "c", "text": "عِنْدَ" },
+        { "id": "d", "text": "وَرَاءَ" }
+      ],
+      "correct": "c",
+      "explanation": "عِنْدَ is glossed as \"has/with/at/by\" among the special mudhaafs."
+    },
+    {
+      "id": "q20",
+      "text": "What does غَيْرُهُ mean, as given among the special mudhaaf examples?",
+      "options": [
+        { "id": "a", "text": "Myself" },
+        { "id": "b", "text": "Same as him" },
+        { "id": "c", "text": "Some of" },
+        { "id": "d", "text": "Other than him" }
+      ],
+      "correct": "d",
+      "explanation": "غَيْرُهُ (\"other than him\") is one of the example forms shown for the special mudhaafs, alongside نَفْسِي (\"myself\") and مِثْلِه (\"same as him\")."
+    }
+  ]
+}
