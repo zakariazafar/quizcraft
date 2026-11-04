@@ -2,6 +2,10 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-11-04
+
+- quiz: add noun-sentence-order-of-components (20 questions, mixed English/Arabic) on the natural order M + K + MBK and the two allowed abnormal orders (MBK muqaddam + M muakkhar; M + MBK muqaddam + K muakkhar) with exclusivity (ONLY); 3 recap questions on the components and 17 on order; every example a Quranic ayah with its reference; correct answers spread 5/5/5/5
+
 ## 2026-10-26
 
 - quiz: noun-sentence-identifying-components no longer tells takers "there is no Khabar" inside the 3 khabar-omitted ayah questions (q16, q18, q20) — that was the answer to the question, stated up front; takers now have to work it out from the ayah and the options themselves
