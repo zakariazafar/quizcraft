@@ -1,0 +1,493 @@
+{
+  "$schema": "../schema/quiz.schema.json",
+  "id": "noun-sentence-double-mubtada",
+  "version": 1,
+  "active": true,
+  "title": "Noun sentence - Double mubtada",
+  "description": "The natural order M + K + MBK, the two allowed abnormal orders (مُقَدَّم and مُؤَخَّر), and the double Mubtada (M + M + K) that creates curiosity about the subject. Every example is a verbless noun sentence from the Quran with its reference.",
+  "language": "mixed",
+  "createdAt": "2026-11-09",
+  "source": "Owner's lesson notes: Noun sentence lessons 1 to 3 (PDF) and Lesson 4, Double Mubtada",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "In إِنَّ الْمُتَّقِينَ فِي جَنَّاتٍ وَعُيُونٍ (Al-Hijr 15:45), which component is not written in the ayah?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The Mubtada"
+        },
+        {
+          "id": "b",
+          "text": "The Muta'allaq bil khabar"
+        },
+        {
+          "id": "c",
+          "text": "None; all three are written"
+        },
+        {
+          "id": "d",
+          "text": "The Khabar"
+        }
+      ],
+      "correct": "d",
+      "explanation": "إِنَّ الْمُتَّقِينَ is the Mubtada and فِي جَنَّاتٍ وَعُيُونٍ is a Jaar Majroor, the Muta'allaq bil khabar. The Khabar is implied (\"present\"): \"Surely the righteous are (present) in gardens and springs\"."
+    },
+    {
+      "id": "q2",
+      "text": "What is the natural order of the 3 components of a noun sentence?",
+      "options": [
+        {
+          "id": "a",
+          "text": "MBK + M + K"
+        },
+        {
+          "id": "b",
+          "text": "M + K + MBK"
+        },
+        {
+          "id": "c",
+          "text": "M + MBK + K"
+        },
+        {
+          "id": "d",
+          "text": "K + M + MBK"
+        }
+      ],
+      "correct": "b",
+      "explanation": "The Mubtada comes first, then the Khabar, then the Muta'allaq bil khabar: M + K + MBK. A change in this order adds extra meaning to the sentence."
+    },
+    {
+      "id": "q3",
+      "text": "A component that comes before its normal position is called:",
+      "options": [
+        {
+          "id": "a",
+          "text": "مُقَدَّم (muqaddam)"
+        },
+        {
+          "id": "b",
+          "text": "مُؤَخَّر (muakkhar)"
+        },
+        {
+          "id": "c",
+          "text": "مُبْتَدَأ (Mubtada)"
+        },
+        {
+          "id": "d",
+          "text": "مُضَاف (mudhaaf)"
+        }
+      ],
+      "correct": "a",
+      "explanation": "A component placed earlier than its place in M + K + MBK is مُقَدَّم (muqaddam). One placed later than its normal place is مُؤَخَّر (muakkhar)."
+    },
+    {
+      "id": "q4",
+      "text": "Which two abnormal orders are allowed in a noun sentence?",
+      "options": [
+        {
+          "id": "a",
+          "text": "K (muqaddam) + M (muakkhar), and MBK + K + M"
+        },
+        {
+          "id": "b",
+          "text": "MBK (muqaddam) + M (muakkhar), and M + MBK (muqaddam) + K (muakkhar)"
+        },
+        {
+          "id": "c",
+          "text": "MBK (muqaddam) + K (muakkhar), and K + M + MBK"
+        },
+        {
+          "id": "d",
+          "text": "M + K + MBK, and K + MBK + M"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Only two abnormal orders are allowed: the Muta'allaq bil khabar moves before the Mubtada (MBK + M), or before the Khabar (M + MBK + K). In both, the MBK is the muqaddam."
+    },
+    {
+      "id": "q5",
+      "text": "What is the order of the components in وَاللَّهُ عَلِيمٌ بِالظَّالِمِينَ (Al-Baqarah 2:95)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "M + MBK (muqaddam) + K (muakkhar)"
+        },
+        {
+          "id": "b",
+          "text": "MBK (muqaddam) + M (muakkhar)"
+        },
+        {
+          "id": "c",
+          "text": "M + K + MBK, the natural order"
+        },
+        {
+          "id": "d",
+          "text": "M + M + K"
+        }
+      ],
+      "correct": "c",
+      "explanation": "اللَّهُ (M), then عَلِيمٌ (K), then بِالظَّالِمِينَ (MBK). Nothing has moved, so this is the natural order: \"Allah is All-Knowing of the wrongdoers\"."
+    },
+    {
+      "id": "q6",
+      "text": "What is the order of the components in هُمْ فِيهَا خَالِدُونَ (Al-Baqarah 2:39)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "M + MBK (muqaddam) + K (muakkhar)"
+        },
+        {
+          "id": "b",
+          "text": "M + K + MBK, the natural order"
+        },
+        {
+          "id": "c",
+          "text": "MBK (muqaddam) + M (muakkhar)"
+        },
+        {
+          "id": "d",
+          "text": "M + M + K"
+        }
+      ],
+      "correct": "a",
+      "explanation": "هُمْ is the Mubtada. The Jaar Majroor فِيهَا comes before its normal place (muqaddam) and the Khabar خَالِدُونَ comes after its normal place (muakkhar): \"They, in it, are abiding forever\"."
+    },
+    {
+      "id": "q7",
+      "text": "In إِنَّ اللَّهَ بِالنَّاسِ لَرَءُوفٌ رَحِيمٌ (Al-Baqarah 2:143), which component is muqaddam?",
+      "options": [
+        {
+          "id": "a",
+          "text": "بِالنَّاسِ, the Muta'allaq bil khabar"
+        },
+        {
+          "id": "b",
+          "text": "إِنَّ اللَّهَ, the Mubtada"
+        },
+        {
+          "id": "c",
+          "text": "لَرَءُوفٌ, the Khabar"
+        },
+        {
+          "id": "d",
+          "text": "None; it is in the natural order"
+        }
+      ],
+      "correct": "a",
+      "explanation": "The Jaar Majroor بِالنَّاسِ comes before the Khabar لَرَءُوفٌ, so the order is M + MBK (muqaddam) + K (muakkhar). The Mubtada إِنَّ اللَّهَ is first, its normal place."
+    },
+    {
+      "id": "q8",
+      "text": "In وَإِلَى اللَّهِ الْمَصِيرُ (Al Imran 3:28), which component is muakkhar?",
+      "options": [
+        {
+          "id": "a",
+          "text": "إِلَى اللَّهِ, the Muta'allaq bil khabar"
+        },
+        {
+          "id": "b",
+          "text": "اللَّهِ, the Khabar"
+        },
+        {
+          "id": "c",
+          "text": "الْمَصِيرُ, the Mubtada"
+        },
+        {
+          "id": "d",
+          "text": "None; it is in the natural order"
+        }
+      ],
+      "correct": "c",
+      "explanation": "الْمَصِيرُ is the Mubtada, so its normal place is first. It comes after إِلَى اللَّهِ, so it is muakkhar and إِلَى اللَّهِ is muqaddam: \"The return is ONLY to Allah\"."
+    },
+    {
+      "id": "q9",
+      "text": "Which translation shows the exclusivity in لَكُمْ دِينُكُمْ وَلِيَ دِينِ (Al-Kafirun 109:6)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "You have your religion, and I have mine."
+        },
+        {
+          "id": "b",
+          "text": "ONLY your religion is for you, and ONLY my religion is for me."
+        },
+        {
+          "id": "c",
+          "text": "Your religion is for you, and my religion is ONLY for me."
+        },
+        {
+          "id": "d",
+          "text": "For you ONLY is your religion, and for me ONLY is my religion."
+        }
+      ],
+      "correct": "d",
+      "explanation": "In both halves the Jaar Majroor (لَكُمْ, لِيَ) comes before the Mubtada (دِينُكُمْ, دِينِ): MBK muqaddam + M muakkhar. ONLY goes before the muqaddam part each time."
+    },
+    {
+      "id": "q10",
+      "text": "Which of these is in the natural order M + K + MBK?",
+      "options": [
+        {
+          "id": "a",
+          "text": "وَعِنْدَهُ مَفَاتِحُ الْغَيْبِ (Al-Anam 6:59)"
+        },
+        {
+          "id": "b",
+          "text": "وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ (Al-Baqarah 2:282)"
+        },
+        {
+          "id": "c",
+          "text": "إِنَّ اللَّهَ عَلِيمٌ بِذَاتِ الصُّدُورِ (Al Imran 3:119)"
+        },
+        {
+          "id": "d",
+          "text": "وَلِلَّهِ الْمَشْرِقُ وَالْمَغْرِبُ (Al-Baqarah 2:115)"
+        }
+      ],
+      "correct": "c",
+      "explanation": "In 3:119, إِنَّ اللَّهَ (M), عَلِيمٌ (K) and بِذَاتِ الصُّدُورِ (MBK) are in their normal places. In 6:59 and 2:115 the MBK is before the Mubtada, and in 2:282 بِكُلِّ شَيْءٍ is before the Khabar."
+    },
+    {
+      "id": "q11",
+      "text": "Which translation fits لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ (At-Taghabun 64:1)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "His is the dominion and the praise of others."
+        },
+        {
+          "id": "b",
+          "text": "ONLY the dominion is His, and ONLY the praise is His."
+        },
+        {
+          "id": "c",
+          "text": "The dominion belongs to Him, and the praise belongs to Him."
+        },
+        {
+          "id": "d",
+          "text": "To Him ONLY belongs the dominion, and to Him ONLY belongs the praise."
+        }
+      ],
+      "correct": "d",
+      "explanation": "In both halves the Jaar Majroor لَهُ comes before the Mubtada (الْمُلْكُ, الْحَمْدُ): MBK muqaddam + M muakkhar. For exclusivity, ONLY goes before the muqaddam part, \"to Him ONLY\"."
+    },
+    {
+      "id": "q12",
+      "text": "What is a double Mubtada?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Two Mubtadas that come before the Khabar"
+        },
+        {
+          "id": "b",
+          "text": "A Mubtada that is repeated after the Khabar"
+        },
+        {
+          "id": "c",
+          "text": "Two Khabars that come after one Mubtada"
+        },
+        {
+          "id": "d",
+          "text": "A Mubtada that has a Muta'allaq bil khabar on both sides"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Sometimes two Mubtadas are used before the Khabar, giving the order M + M + K, as in وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ (Al-Baqarah 2:5)."
+    },
+    {
+      "id": "q13",
+      "text": "Why are two Mubtadas used before the Khabar?",
+      "options": [
+        {
+          "id": "a",
+          "text": "To show that the Khabar is ONLY for the Mubtada"
+        },
+        {
+          "id": "b",
+          "text": "Because a pointing word can never be a Mubtada alone"
+        },
+        {
+          "id": "c",
+          "text": "To create interest or curiosity about the subject"
+        },
+        {
+          "id": "d",
+          "text": "To show that the sentence is a question"
+        }
+      ],
+      "correct": "c",
+      "explanation": "The double Mubtada makes the listener wait for the Khabar, which creates interest or curiosity about the subject: \"Those people, they are the successful ones\". Exclusivity (ONLY) comes from a muqaddam component, not from a double Mubtada."
+    },
+    {
+      "id": "q14",
+      "text": "What is the order of the components in وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ (Al-Baqarah 2:5)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "M + K + MBK"
+        },
+        {
+          "id": "b",
+          "text": "MBK (muqaddam) + M (muakkhar)"
+        },
+        {
+          "id": "c",
+          "text": "M + MBK (muqaddam) + K (muakkhar)"
+        },
+        {
+          "id": "d",
+          "text": "M + M + K"
+        }
+      ],
+      "correct": "d",
+      "explanation": "أُولَٰئِكَ is the first Mubtada and هُمُ is the second; الْمُفْلِحُونَ is the Khabar: M + M + K, \"Those people, they are the successful ones\"."
+    },
+    {
+      "id": "q15",
+      "text": "In إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ (Al-Maidah 5:109), what are the two Mubtadas?",
+      "options": [
+        {
+          "id": "a",
+          "text": "أَنْتَ and عَلَّامُ"
+        },
+        {
+          "id": "b",
+          "text": "إِنَّ and الْغُيُوبِ"
+        },
+        {
+          "id": "c",
+          "text": "إِنَّكَ and أَنْتَ"
+        },
+        {
+          "id": "d",
+          "text": "عَلَّامُ and الْغُيُوبِ"
+        }
+      ],
+      "correct": "c",
+      "explanation": "إِنَّكَ, a harf of Nasb with its ism, is the first Mubtada, and أَنْتَ is the second. عَلَّامُ الْغُيُوبِ, an إِضَافَة, is the Khabar: \"Surely You, You are the Knower of the unseen\"."
+    },
+    {
+      "id": "q16",
+      "text": "Which translation of إِنَّهُ هُوَ التَّوَّابُ الرَّحِيمُ (Al-Baqarah 2:37) shows the double Mubtada?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Surely He, He is the Accepter of repentance, the Merciful."
+        },
+        {
+          "id": "b",
+          "text": "Surely He is the One who accepts repentance, He is Merciful."
+        },
+        {
+          "id": "c",
+          "text": "Surely the Accepter of repentance is He, the Merciful."
+        },
+        {
+          "id": "d",
+          "text": "Surely He accepts repentance ONLY, the Merciful."
+        }
+      ],
+      "correct": "a",
+      "explanation": "إِنَّهُ is the first Mubtada and هُوَ the second, both before the Khabar التَّوَّابُ الرَّحِيمُ. The translation keeps both: \"Surely He, He is...\", which builds curiosity before the Khabar."
+    },
+    {
+      "id": "q17",
+      "text": "Which translation of وَاللَّهُ هُوَ الْغَنِيُّ الْحَمِيدُ (Fatir 35:15) shows the double Mubtada?",
+      "options": [
+        {
+          "id": "a",
+          "text": "And Allah is free of need of Him, the Praiseworthy."
+        },
+        {
+          "id": "b",
+          "text": "And Allah, He is the Free of need, the Praiseworthy."
+        },
+        {
+          "id": "c",
+          "text": "And ONLY to Allah is the Free of need, the Praiseworthy."
+        },
+        {
+          "id": "d",
+          "text": "And He is Allah, free of need and praiseworthy."
+        }
+      ],
+      "correct": "b",
+      "explanation": "اللَّهُ is the first Mubtada and هُوَ the second, so the Khabar الْغَنِيُّ الْحَمِيدُ comes after both: M + M + K, \"Allah, He is the Free of need\"."
+    },
+    {
+      "id": "q18",
+      "text": "Which of these has a double Mubtada?",
+      "options": [
+        {
+          "id": "a",
+          "text": "هُمْ فِيهَا خَالِدُونَ (Al-Baqarah 2:39)"
+        },
+        {
+          "id": "b",
+          "text": "فَلِلَّهِ الْحَمْدُ (Al-Jathiyah 45:36)"
+        },
+        {
+          "id": "c",
+          "text": "وَاللَّهُ عَلِيمٌ بِالظَّالِمِينَ (Al-Baqarah 2:95)"
+        },
+        {
+          "id": "d",
+          "text": "أُولَٰئِكَ هُمُ الْخَاسِرُونَ (Al-Baqarah 2:27)"
+        }
+      ],
+      "correct": "d",
+      "explanation": "In 2:27, أُولَٰئِكَ and هُمُ are two Mubtadas before the Khabar الْخَاسِرُونَ (M + M + K). 2:39 is M + MBK + K, 45:36 is MBK + M, and 2:95 is M + K + MBK, each with one Mubtada."
+    },
+    {
+      "id": "q19",
+      "text": "Which translation of إِنَّ اللَّهَ هُوَ الرَّزَّاقُ (Adh-Dhariyat 51:58) shows the double Mubtada?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Surely Allah is ONLY the Provider."
+        },
+        {
+          "id": "b",
+          "text": "Surely Allah, He is the Provider."
+        },
+        {
+          "id": "c",
+          "text": "Surely the Provider of Allah is He."
+        },
+        {
+          "id": "d",
+          "text": "Surely He is the Provider of Allah."
+        }
+      ],
+      "correct": "b",
+      "explanation": "إِنَّ اللَّهَ, a harf of Nasb with its ism, is the first Mubtada and هُوَ the second; الرَّزَّاقُ is the Khabar: M + M + K, \"Surely Allah, He is the Provider\"."
+    },
+    {
+      "id": "q20",
+      "text": "In إِنَّهُ هُوَ السَّمِيعُ الْبَصِيرُ (Al-Isra 17:1), which word is the second Mubtada?",
+      "options": [
+        {
+          "id": "a",
+          "text": "إِنَّهُ"
+        },
+        {
+          "id": "b",
+          "text": "هُوَ"
+        },
+        {
+          "id": "c",
+          "text": "السَّمِيعُ"
+        },
+        {
+          "id": "d",
+          "text": "الْبَصِيرُ"
+        }
+      ],
+      "correct": "b",
+      "explanation": "إِنَّهُ is the first Mubtada and هُوَ is the second. السَّمِيعُ الْبَصِيرُ is the Khabar that comes after them: \"Surely He, He is the All-Hearing, the All-Seeing\"."
+    }
+  ]
+}
