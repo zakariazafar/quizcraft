@@ -1,0 +1,493 @@
+{
+  "$schema": "../schema/quiz.schema.json",
+  "id": "noun-sentence-abnormally-normal-order-of-components",
+  "version": 1,
+  "active": true,
+  "title": "Noun sentence - abnormally normal order of components",
+  "description": "Sentences with Muta'allaq bil khabar muqaddam + Mubtada muakkhar: which become \"X has ...\" (لِ, عِنْدَ), which become \"There is ...\" (فِي, بَيْنَ), and when the translation needs ONLY. Every example is a Quranic noun sentence with its reference.",
+  "language": "mixed",
+  "createdAt": "2026-11-18",
+  "source": "Owner's lesson notes: Lesson 5, When abnormal sequence becomes normal (possession and existence)",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "When the Mubtada muakkhar is a common word (with tanween), what does the order MBK (muqaddam) + M (muakkhar) mean?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It always adds exclusivity, so ONLY is added"
+        },
+        {
+          "id": "b",
+          "text": "It is the normal way to say \"X has ...\" or \"There is ...\", so no ONLY is added"
+        },
+        {
+          "id": "c",
+          "text": "It is a mistake; the Mubtada must come first"
+        },
+        {
+          "id": "d",
+          "text": "It turns the sentence into a question"
+        }
+      ],
+      "correct": "b",
+      "explanation": "With a common Mubtada, this order is simply how Arabic says that someone has something or that something exists somewhere. The abnormal order has become normal, so it adds no ONLY."
+    },
+    {
+      "id": "q2",
+      "text": "Which two words at the start of the MBK give the \"X has ...\" pattern?",
+      "options": [
+        {
+          "id": "a",
+          "text": "لِ (harf of jar) and عِنْدَ (special mudhaaf)"
+        },
+        {
+          "id": "b",
+          "text": "فِي (harf of jar) and بَيْنَ (special mudhaaf)"
+        },
+        {
+          "id": "c",
+          "text": "لِ (harf of jar) and بَيْنَ (special mudhaaf)"
+        },
+        {
+          "id": "d",
+          "text": "فِي (harf of jar) and عِنْدَ (special mudhaaf)"
+        }
+      ],
+      "correct": "a",
+      "explanation": "MBK with لِ + M = X has ..., and MBK with the special mudhaaf عِنْدَ + M = X has ..."
+    },
+    {
+      "id": "q3",
+      "text": "Which two words at the start of the MBK give the \"There is ...\" pattern?",
+      "options": [
+        {
+          "id": "a",
+          "text": "لِ (harf of jar) and عِنْدَ (special mudhaaf)"
+        },
+        {
+          "id": "b",
+          "text": "فِي (harf of jar) and بَيْنَ (special mudhaaf)"
+        },
+        {
+          "id": "c",
+          "text": "عِنْدَ (special mudhaaf) and بَيْنَ (special mudhaaf)"
+        },
+        {
+          "id": "d",
+          "text": "لِ (harf of jar) and فِي (harf of jar)"
+        }
+      ],
+      "correct": "b",
+      "explanation": "MBK with فِي + M = there is ..., and MBK with the special mudhaaf بَيْنَ + M = there is ... These sentences say that something exists in a certain place."
+    },
+    {
+      "id": "q4",
+      "text": "In a sentence with MBK (muqaddam) + M (muakkhar), when do we add ONLY to the translation?",
+      "options": [
+        {
+          "id": "a",
+          "text": "When the Mubtada muakkhar is common (it has tanween)"
+        },
+        {
+          "id": "b",
+          "text": "Whenever the MBK starts with فِي"
+        },
+        {
+          "id": "c",
+          "text": "Never; this order never adds ONLY"
+        },
+        {
+          "id": "d",
+          "text": "When the Mubtada muakkhar is proper (it has ال, or it is an إِضَافَة such as دِينُكُمْ)"
+        }
+      ],
+      "correct": "d",
+      "explanation": "A proper Mubtada did not have to move back, so moving the MBK forward adds exclusivity and ONLY goes before the muqaddam part. A common Mubtada has to come after, so the order is normal and has no ONLY."
+    },
+    {
+      "id": "q5",
+      "text": "Which translation fits وَلَهُمْ عَذَابٌ أَلِيمٌ (Al-Baqarah 2:10)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "And ONLY they have a painful punishment."
+        },
+        {
+          "id": "b",
+          "text": "And there is a painful punishment between them."
+        },
+        {
+          "id": "c",
+          "text": "And they have a painful punishment."
+        },
+        {
+          "id": "d",
+          "text": "And their punishment is ONLY painful."
+        }
+      ],
+      "correct": "c",
+      "explanation": "لَهُمْ (لِ + owner) is the MBK muqaddam and عَذَابٌ أَلِيمٌ is the Mubtada muakkhar. لِ gives \"X has\", and عَذَابٌ is common (tanween), so there is no ONLY."
+    },
+    {
+      "id": "q6",
+      "text": "Which translation fits فِي قُلُوبِهِمْ مَرَضٌ (Al-Baqarah 2:10)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "In their hearts there is a disease."
+        },
+        {
+          "id": "b",
+          "text": "They have ONLY a disease in their hearts."
+        },
+        {
+          "id": "c",
+          "text": "Their hearts have the disease."
+        },
+        {
+          "id": "d",
+          "text": "ONLY in their hearts is the disease."
+        }
+      ],
+      "correct": "a",
+      "explanation": "فِي قُلُوبِهِمْ is the MBK muqaddam and مَرَضٌ is the Mubtada muakkhar. فِي gives \"There is\", and مَرَضٌ is common (tanween), so there is no ONLY."
+    },
+    {
+      "id": "q7",
+      "text": "Which translation fits وَعِنْدَنَا كِتَابٌ حَفِيظٌ (Qaf 50:4)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "And ONLY We have the preserving record."
+        },
+        {
+          "id": "b",
+          "text": "And there is a record between Us."
+        },
+        {
+          "id": "c",
+          "text": "And We have a preserving record."
+        },
+        {
+          "id": "d",
+          "text": "And Our record is ONLY preserving."
+        }
+      ],
+      "correct": "c",
+      "explanation": "عِنْدَنَا (the special mudhaaf عِنْدَ + owner) gives \"X has\". كِتَابٌ حَفِيظٌ is common (tanween), so the order is normal and there is no ONLY."
+    },
+    {
+      "id": "q8",
+      "text": "Which translation fits وَبَيْنَهُمَا حِجَابٌ (Al-Araf 7:46)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "And the two of them have a barrier."
+        },
+        {
+          "id": "b",
+          "text": "And ONLY between the two of them is the barrier."
+        },
+        {
+          "id": "c",
+          "text": "And between the two of them there is a barrier."
+        },
+        {
+          "id": "d",
+          "text": "And their barrier is between them."
+        }
+      ],
+      "correct": "c",
+      "explanation": "بَيْنَهُمَا (the special mudhaaf بَيْنَ) is the MBK muqaddam and gives \"There is\". حِجَابٌ is common (tanween), so there is no ONLY."
+    },
+    {
+      "id": "q9",
+      "text": "Which translation fits لَهُ الْمُلْكُ (At-Taghabun 64:1)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "He has a kingdom."
+        },
+        {
+          "id": "b",
+          "text": "There is a kingdom for Him."
+        },
+        {
+          "id": "c",
+          "text": "The kingdom ONLY has Him."
+        },
+        {
+          "id": "d",
+          "text": "ONLY He has the kingdom."
+        }
+      ],
+      "correct": "d",
+      "explanation": "لَهُ (لِ + owner) gives \"X has\". الْمُلْكُ is proper (it has ال), so moving لَهُ forward adds exclusivity, and ONLY goes before the muqaddam part: \"ONLY He has the kingdom\"."
+    },
+    {
+      "id": "q10",
+      "text": "Which translation fits وَعِنْدَهُ عِلْمُ السَّاعَةِ (Az-Zukhruf 43:85)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "And He has a knowledge of an hour."
+        },
+        {
+          "id": "b",
+          "text": "And ONLY He has the knowledge of the Hour."
+        },
+        {
+          "id": "c",
+          "text": "And there is the knowledge of the Hour between them."
+        },
+        {
+          "id": "d",
+          "text": "And the knowledge of the Hour has ONLY Him."
+        }
+      ],
+      "correct": "b",
+      "explanation": "عِنْدَهُ gives \"X has\". عِلْمُ السَّاعَةِ is an إِضَافَة ending in a proper word, so it is proper and the translation needs ONLY before the muqaddam part."
+    },
+    {
+      "id": "q11",
+      "text": "Which pattern fits فِيهَا عَيْنٌ جَارِيَةٌ (Al-Ghashiyah 88:12)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "\"There is ...\" with no ONLY: In it there is a flowing spring."
+        },
+        {
+          "id": "b",
+          "text": "\"X has ...\" with no ONLY: It has a flowing spring."
+        },
+        {
+          "id": "c",
+          "text": "\"There is ...\" with ONLY: ONLY in it is a flowing spring."
+        },
+        {
+          "id": "d",
+          "text": "\"X has ...\" with ONLY: ONLY it has the flowing spring."
+        }
+      ],
+      "correct": "a",
+      "explanation": "فِيهَا starts with فِي, which gives \"There is\". عَيْنٌ جَارِيَةٌ is common (tanween), so there is no ONLY."
+    },
+    {
+      "id": "q12",
+      "text": "Which pattern fits وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ (Al-Baqarah 2:7)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "\"X has ...\" with no ONLY: Their eyes have the covering."
+        },
+        {
+          "id": "b",
+          "text": "\"There is ...\" with no ONLY: Over their eyes there is a covering."
+        },
+        {
+          "id": "c",
+          "text": "\"There is ...\" with ONLY: ONLY over their eyes is the covering."
+        },
+        {
+          "id": "d",
+          "text": "\"X has ...\" with ONLY: ONLY they have a covering."
+        }
+      ],
+      "correct": "b",
+      "explanation": "عَلَىٰ أَبْصَارِهِمْ tells us where the covering is, so this is a sentence of existence: \"There is\". غِشَاوَةٌ is common (tanween), so there is no ONLY."
+    },
+    {
+      "id": "q13",
+      "text": "Which translation fits وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ (Yusuf 12:76)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "And every possessor of knowledge has one more knowing."
+        },
+        {
+          "id": "b",
+          "text": "And above every possessor of knowledge there is one more knowing."
+        },
+        {
+          "id": "c",
+          "text": "And ONLY above every possessor of knowledge is the All-Knowing."
+        },
+        {
+          "id": "d",
+          "text": "And the one more knowing is above ONLY some people of knowledge."
+        }
+      ],
+      "correct": "b",
+      "explanation": "فَوْقَ كُلِّ ذِي عِلْمٍ is a place word with its chain, the MBK muqaddam, so it says where something exists: \"There is\". عَلِيمٌ is common (tanween), so there is no ONLY."
+    },
+    {
+      "id": "q14",
+      "text": "Which of these needs ONLY in its translation?",
+      "options": [
+        {
+          "id": "a",
+          "text": "وَلَهُمْ عَذَابٌ عَظِيمٌ (Al-Baqarah 2:7)"
+        },
+        {
+          "id": "b",
+          "text": "فِيهَا سُرُرٌ مَرْفُوعَةٌ (Al-Ghashiyah 88:13)"
+        },
+        {
+          "id": "c",
+          "text": "وَعِنْدَهُ أُمُّ الْكِتَابِ (Ar-Rad 13:39)"
+        },
+        {
+          "id": "d",
+          "text": "بَيْنَهُمَا بَرْزَخٌ (Ar-Rahman 55:20)"
+        }
+      ],
+      "correct": "c",
+      "explanation": "أُمُّ الْكِتَابِ is an إِضَافَة ending in a proper word, so it is proper: \"And ONLY He has the Mother of the Book\". In the others the Mubtada (عَذَابٌ, سُرُرٌ, بَرْزَخٌ) is common, so no ONLY."
+    },
+    {
+      "id": "q15",
+      "text": "Which of these does not need ONLY in its translation?",
+      "options": [
+        {
+          "id": "a",
+          "text": "لَكُمْ دِينُكُمْ (Al-Kafirun 109:6)"
+        },
+        {
+          "id": "b",
+          "text": "فَلِلَّهِ الْحَمْدُ (Al-Jathiyah 45:36)"
+        },
+        {
+          "id": "c",
+          "text": "وَعِنْدَهُ مَفَاتِحُ الْغَيْبِ (Al-Anam 6:59)"
+        },
+        {
+          "id": "d",
+          "text": "فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ (At-Tin 95:6)"
+        }
+      ],
+      "correct": "d",
+      "explanation": "أَجْرٌ is common (tanween), so the order is normal: \"They have a reward never cut off\". The other Mubtadas (دِينُكُمْ, الْحَمْدُ, مَفَاتِحُ الْغَيْبِ) are proper, so they take ONLY."
+    },
+    {
+      "id": "q16",
+      "text": "Which translation fits لَكُمْ دِينُكُمْ وَلِيَ دِينِ (Al-Kafirun 109:6)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "You have a religion, and I have a religion."
+        },
+        {
+          "id": "b",
+          "text": "There is your religion for you, and there is my religion for me."
+        },
+        {
+          "id": "c",
+          "text": "ONLY you have your religion, and ONLY I have my religion."
+        },
+        {
+          "id": "d",
+          "text": "Your religion has ONLY you, and my religion has ONLY me."
+        }
+      ],
+      "correct": "c",
+      "explanation": "Each half is لِ + owner (X has) before a Mubtada joined to a pronoun (دِينُكُمْ, دِينِ), which makes it proper. So both halves need ONLY before the owner."
+    },
+    {
+      "id": "q17",
+      "text": "In بَيْنَهُمَا بَرْزَخٌ (Ar-Rahman 55:20), which part is the Mubtada muakkhar?",
+      "options": [
+        {
+          "id": "a",
+          "text": "بَرْزَخٌ"
+        },
+        {
+          "id": "b",
+          "text": "بَيْنَهُمَا"
+        },
+        {
+          "id": "c",
+          "text": "بَيْنَ"
+        },
+        {
+          "id": "d",
+          "text": "هُمَا"
+        }
+      ],
+      "correct": "a",
+      "explanation": "بَيْنَهُمَا (the special mudhaaf بَيْنَ with its mudhaaf ilaih) is the MBK muqaddam, and بَرْزَخٌ is the Mubtada muakkhar: \"Between the two of them there is a barrier\"."
+    },
+    {
+      "id": "q18",
+      "text": "Why is there no ONLY in the translation of فِيهِمَا فَاكِهَةٌ وَنَخْلٌ وَرُمَّانٌ (Ar-Rahman 55:68)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Because فِيهِمَا is the Mubtada"
+        },
+        {
+          "id": "b",
+          "text": "Because the sentence has a Khabar after the Mubtada"
+        },
+        {
+          "id": "c",
+          "text": "Because فِي can never take ONLY"
+        },
+        {
+          "id": "d",
+          "text": "Because the Mubtada فَاكِهَةٌ is common (tanween), so the order is normal"
+        }
+      ],
+      "correct": "d",
+      "explanation": "فِيهِمَا is the MBK muqaddam and فَاكِهَةٌ وَنَخْلٌ وَرُمَّانٌ is the Mubtada muakkhar. It is common, so the order is normal: \"In both of them there is fruit, date palms and pomegranates\"."
+    },
+    {
+      "id": "q19",
+      "text": "In وَلَهُمْ عَذَابٌ عَظِيمٌ (Al-Baqarah 2:7), which part is the Muta'allaq bil khabar muqaddam?",
+      "options": [
+        {
+          "id": "a",
+          "text": "عَذَابٌ"
+        },
+        {
+          "id": "b",
+          "text": "عَظِيمٌ"
+        },
+        {
+          "id": "c",
+          "text": "عَذَابٌ عَظِيمٌ"
+        },
+        {
+          "id": "d",
+          "text": "لَهُمْ"
+        }
+      ],
+      "correct": "d",
+      "explanation": "لَهُمْ is a Jaar Majroor (لِ + هُمْ), the MBK muqaddam. عَذَابٌ عَظِيمٌ is the Mubtada muakkhar: \"And they have a great punishment\"."
+    },
+    {
+      "id": "q20",
+      "text": "Which pairing of ayah and pattern is right?",
+      "options": [
+        {
+          "id": "a",
+          "text": "وَعِنْدَنَا كِتَابٌ حَفِيظٌ (50:4): \"X has\"; فِيهَا عَيْنٌ جَارِيَةٌ (88:12): \"There is\""
+        },
+        {
+          "id": "b",
+          "text": "وَعِنْدَنَا كِتَابٌ حَفِيظٌ (50:4): \"There is\"; فِيهَا عَيْنٌ جَارِيَةٌ (88:12): \"X has\""
+        },
+        {
+          "id": "c",
+          "text": "وَبَيْنَهُمَا حِجَابٌ (7:46): \"X has\"; وَلَهُمْ عَذَابٌ أَلِيمٌ (2:10): \"There is\""
+        },
+        {
+          "id": "d",
+          "text": "وَبَيْنَهُمَا حِجَابٌ (7:46): \"X has\"; وَلَهُمْ عَذَابٌ أَلِيمٌ (2:10): \"X has\""
+        }
+      ],
+      "correct": "a",
+      "explanation": "عِنْدَ and لِ give \"X has\"; فِي and بَيْنَ give \"There is\". So 50:4 and 2:10 are \"X has\", and 88:12 and 7:46 are \"There is\"."
+    }
+  ]
+}
