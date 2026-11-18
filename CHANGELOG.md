@@ -2,6 +2,10 @@
 
 All notable changes to this project are recorded here, grouped by date (newest first). Every commit adds at least one bullet under its date.
 
+## 2026-11-18
+
+- quiz: add noun-sentence-abnormally-normal-order-of-components (20 questions, mixed English/Arabic) on MBK muqaddam + M muakkhar sentences: لِ and عِنْدَ give "X has ...", فِي and بَيْنَ give "There is ...", and ONLY is added only when the Mubtada muakkhar is proper; every example a verbless Quranic noun sentence with its reference; correct answers spread 5/5/5/5
+
 ## 2026-11-09
 
 - quiz: add noun-sentence-double-mubtada (20 questions, mixed English/Arabic) on the natural order M + K + MBK, the two allowed abnormal orders (muqaddam and muakkhar, with exclusivity), and the double Mubtada (M + M + K) that creates curiosity about the subject; every example a verbless Quranic noun sentence with its reference; correct answers spread 5/5/5/5
